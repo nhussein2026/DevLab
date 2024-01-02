@@ -1,0 +1,28 @@
+#code-editor {
+  width: 100%;
+  border: 1px solid #ccc;
+  overflow-x: hidden;
+}
+
+.editor-parent {
+  margin: 20px;
+  padding: 20px;
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+#language-switch {
+  margin-left: auto;
+}
+
+.editor-outer-theme {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  height: 400px;
+  background-color: #0c1f35; /* Adjusted background color */
+  flex-direction: column;
+}

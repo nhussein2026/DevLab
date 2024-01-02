@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CodeMirror Library -->
+    <link rel="stylesheet" href="./assets/codemirror/lib/codemirror.css">
+    <script src="./assets/codemirror/lib/codemirror.js"></script>
+    <script src="./assets//codemirror/mode/xml/xml.js"></script>
+    <!-- editor theme -->
+    <link rel="stylesheet" href="./assets/codemirror/theme/cobalt.css">
+    <link rel="stylesheet" href="./assets/codemirror/mode/htmlmixed/htmlmixed.js">
 
-        <!-- css -->
+    <!-- auto close tag -->
+    <script src="./assets/codemirror/addon/edit/closetag.js"></script>
+    <!-- display hint while typing -->
+    <script src="./assets/codemirror/addon/hint/show-hint.js"></script>
+    <script src="./assets/codemirror/addon/hint/show-hint.css"></script>
+    <script src="./assets/codemirror/addon/hint/css-hint.js"></script>
+
+
+
+    <!-- Add your custom CSS files -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/codeEditor.css">
     <title>DevLab Code Editor</title>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">
-            <img src="./assets/logo/DevLab.png" height="100px" alt="DevLab">
+            <a href="index.html">
+                <img src="./assets/logo/DevLab.png" height="100px" alt="DevLab">
+            </a>
         </div>
         <ul class="nav-links">
             <li><a href="#editor">Code Editor</a></li>
@@ -25,5 +46,36 @@
         </div>
     </nav>
 
+    <!-- code editor -->
+    <div id="code-editor" class="editor-parent">
+        <div class="editor-outer-theme">
+            <button id="language-switch">Switch Language</button>
+            <textarea name="" id="editor" cols="30" rows="10"><html>this is me</html></textarea>
+        </div>
+    </div>
+
+    <!-- CodeMirror lib -->
+    <script>
+        var editor = CodeMirror.fromTextArea
+            (document.getElementById('editor'), {
+                lineNumbers: true,
+                mode: 'xml', // Initial mode
+                theme: 'cobalt', // Optional theme
+                autofocus: true,
+                autoCloseTags: true,
+                extraKeys: {
+                    "Ctrl-Space": "autocomplete" // Enable autocomplete
+                }
+            });
+
+        editor.setSize("750", "325")
+
+        // choosing programming language code
+        document.getElementById('language-switch').addEventListener('click', function () {
+            var newMode = (editor.getMode().name === 'javascript') ? 'htmlmixed' : 'javascript';
+            editor.setOption('mode', newMode);
+        });
+    </script>
 </body>
+
 </html>
