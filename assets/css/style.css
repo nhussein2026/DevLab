@@ -1,11 +1,17 @@
+html {
+  scroll-behavior: smooth;
+}
 body {
   margin: 0;
   background-color: #f1faee;
   font-family: 'Source Sans 3', sans-serif;
+  font-family: 'Courier New', Courier, monospace;
+
 }
 
 .navbar {
   height: 80px; /* Adjusted height for better responsiveness */
+  width: 100%;
   background-color: #006d77;
   color: #e63946;
   display: flex;
@@ -50,6 +56,61 @@ body {
   text-decoration: none;
 }
 
+/* hero section */
+.hero {
+  background-color: #086375;
+  padding-top: 10px;
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+}
+
+#animate-text {
+  color: #f1faee; 
+  font-family: "Courier";
+  font-size: 20px;
+  margin: 10px 0 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 30em;
+  animation: type 4s steps(60, end); 
+}
+
+#animate-text :nth-child(2){
+  animation: type2 8s steps(60, end);
+}
+
+
+span{
+  animation: blink 1s infinite;
+}
+
+@keyframes type{ 
+  from { width: 0; } 
+} 
+
+@keyframes type2{
+  0%{width: 0;}
+  50%{width: 0;}
+  100%{ width: 100; } 
+} 
+
+@keyframes blink{
+  to{opacity: .0;}
+}
+
+::selection{
+  background: black;
+}
+
+/* tools section */
+#tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .dev-tools ul {
   display: flex;
   flex-wrap: wrap;
@@ -72,20 +133,48 @@ body {
   color: #e1e5f2;
 }
 
-.btn {
+
+/* contributing section */
+.contribution-section {
+  height: 90vh;
+  background-color: #f5f5f5; /* Lighter background for contrast */
+  padding: 40px;
+  text-align: center;
+}
+
+.section-heading {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.section-text {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.contributing-btn {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 15px 30px;
   background-color: #3498db;
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
-.btn:hover {
+.contributing-btn:hover {
   background-color: #2980b9;
 }
 
 footer {
   height: 80px; /* Adjusted height for better responsiveness */
   background-color: #1d3557;
+}
+
+
+/* Responsive design */
+@media only screen and (max-width:480px) {
+  
 }

@@ -27,23 +27,33 @@
                 <img src="./assets/logo/DevLab.png" height="100px" alt="DevLab">
             </a>
         </div>
-        <ul class="nav-links">
-            <li><a href="#editor">Code Editor</a></li>
-            <li><a href="#live-preview">Live Preview</a></li>
-            <li><a href="#code-snippets">Code Snippets</a></li>
-            <li><a href="#tools">Tools</a></li> <!-- New link for tools -->
-        </ul>
+        <div>
+            <ul class="nav-links">
+                <li><a href="#editor">Code Editor</a></li>
+                <li><a href="#live-preview">Live Preview</a></li>
+                <li><a href="#tools">Tools</a></li> <!-- New link for tools -->
+                <li><a href="#code-snippets">DevLab</a></li>
+            </ul>
+        </div>
         <div class="contribute-nav">
             <a href="#contribute" class="contribute-btn">Contribute</a>
         </div>
     </nav>
+
+    <!-- hero section -->
+    <div class="hero" id="hero">
+        <h1 id="animate-text">DevLab!</h1>
+        <p id="animate-text">Streamline web development with an integrated code editor,
+             live preview, API docs, and tools for linting, testing, and performance analysis. Fork, contribute, and help us create the ultimate dev toolkit!</p>
+    </div>
+
 
     <!-- Devloper tools section -->
     <section id="tools">
         <div class="dev-tools">
             <ul>
                 <li><a href="./codeEditor.html">Code Editor</a></li>
-                <li><a href="">Live Preview</a></li>
+                <li><a href="./livePreview.html">Live Preview</a></li>
                 <li><a href="">Code Snippets</a></li>
                 <li><a href="">Version Control Integration</a></li>
                 <li><a href="">API Docomentation viewer</a></li>
@@ -66,12 +76,15 @@
 
 
     <!-- conterbuting section -->
-    <section id="contribute">
-        <h2>Contribute to DevLab</h2>
-        <p>DevLab is an open-source project, and we welcome contributions from the community. Add your own tools and
-            make DevLab even more powerful!</p>
-        <a href="CONTRIBUTING.md" class="btn">Get Started</a>
-    </section>
+    <section id="contribute" class="contribution-section">
+        <div class="container">
+          <h2 class="section-heading">Shape DevLab's Future</h2>
+          <p class="section-text">DevLab is fueled by a passionate community of developers like you. Contribute your ideas, code, and tools to make DevLab even more powerful and versatile.</p>
+          <a href="CONTRIBUTING.md" class="contributing-btn">Start Contributing</a>
+        </div>
+      </section>
+      
+    
 
 
     <!-- footer -->
@@ -91,6 +104,7 @@
 
         </div>
     </footer>
+
 </body>
 
 </html>
