@@ -81,9 +81,6 @@ body {
 }
 
 
-span{
-  animation: blink 1s infinite;
-}
 
 @keyframes type{ 
   from { width: 0; } 
@@ -173,6 +170,25 @@ footer {
   background-color: #1d3557;
 }
 
+/* the sections titles */
+.section-title {
+  margin-top: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+}
+#line-span {
+  width:40%;
+  border: 1px solid #000;
+}
+#tool-title {
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+  width: 18%;
+}
 
 /* Responsive design */
 @media only screen and (max-width:480px) {

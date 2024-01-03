@@ -1,0 +1,18 @@
+.section-title {
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  
+}
+#line-span {
+    width:40%;
+    border: 1px solid #000;
+}
+#tool-title {
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    width: 18%;
+}
