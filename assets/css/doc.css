@@ -1,0 +1,104 @@
+/* Section Styling */
+
+#code-editor,
+#live-preview,
+#code-snippets {
+    margin: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Styling */
+
+h1,
+h2,
+h3 {
+    color: #006d77;
+}
+
+/* Paragraph Styling */
+
+p {
+    color: #555;
+}
+
+/* Code Styling */
+
+code {
+    background-color: #f4f4f4;
+    padding: 2px 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 90%;
+}
+
+
+/* Section Title Styling */
+.section-title {
+    text-align: center;
+    margin-top: 120px;
+    margin-bottom: 50px;
+}
+
+.tool-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #006d77;
+}
+
+.line-span {
+    border-top: 2px solid #006d77;
+    display: inline-block;
+    height: 2px;
+    width: 30px;
+    margin: 0 10px;
+}
+
+/* Section Styling */
+.doc-section {
+    margin: 40px 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Copyable Code Styling */
+
+pre {
+    position: relative;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+    overflow: auto;
+}
+
+.copy-btn {
+    /* position: absolute; */
+    top: 5px;
+    right: 5px;
+    padding: 5px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Responsive Styling */
+
+@media only screen and (max-width: 768px) {
+
+    #code-editor,
+    #live-preview,
+    #code-snippets {
+        margin: 20px;
+        padding: 10px;
+    }
+
+    .section-title {
+        margin-top: 80px;
+    }
+}

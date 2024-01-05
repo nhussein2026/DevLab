@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css -->
     <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/doc.css">
 
 
     <title>DevLab Docomentation</title>
@@ -21,7 +22,7 @@
         </div>
         <div>
             <ul class="nav-links">
-                <li><a href="#">Home</a></li>
+                <li><a href="./index.html">Home</a></li>
                 <li><a href="./Doc.html">Doc</a></li>
                 <li><a href="#tools">Tools</a></li> <!-- New link for tools -->
                 <li><a href="#code-snippets">DevLab</a></li>
@@ -32,12 +33,176 @@
         </div>
     </nav>
 
-    <!-- section title -->
-    <div class="section-title">
-        <span id="line-span"></span>
-        <span id="tool-title"> Docomentation</span>
-        <span id="line-span"></span>
+     <!-- Section Title -->
+     <div class="section-title">
+        <span class="line-span"></span>
+        <span class="tool-title"> Documentation</span>
+        <span class="line-span"></span>
     </div>
+
+
+
+    <!-- Introduction Section -->
+    <section id="introduction" class="doc-section">
+        <h1>DevLab - Web Development Environment</h1>
+        <p>Version: 1.0.0</p>
+        <p>Author: <a href="https://nhussein.io">Nasser Hussein</a></p>
+        <p>License: MIT</p>
+        <p>About: DevLab is a web development environment that provides a suite of tools to enhance your coding
+            experience. This documentation will guide you through the features and functionalities of DevLab.</p>
+    </section>
+
+    <!-- Getting Started Section -->
+    <section id="getting-started" class="doc-section">
+        <h2>Getting Started</h2>
+
+        <!-- Installation Subsection -->
+        <section id="installation">
+            <h3>Installation</h3>
+            <h4>To get started with DevLab, follow these steps:</h4>
+            <ol>
+                <li>Clone the repository:</li>
+                <code id="code-text">git clone https://github.com/yourusername/DevLab.git</code>
+                <li>Navigate to the project directory: <code>cd DevLab</code></li>
+                <li>Open <code id="code-text">index.html</code> in your preferred web browser.</li>
+            </ol>
+            <!-- Add more installation details as needed -->
+        </section>
+
+        <!-- Usage Subsection -->
+        <section id="usage">
+            <h3>Usage</h3>
+            <p>Once DevLab is open in your browser, you'll have access to a variety of tools and features.</p>
+
+            <!-- Add more usage details as needed -->
+        </section>
+    </section>
+
+    <!-- Code Editor Section -->
+    <section id="code-editor">
+        <h2>Code Editor</h2>
+        <p>DevLab includes a powerful code editor with syntax highlighting, line numbering, and code formatting.</p>
+        <pre><code id="code-block">
+        function setupCodeEditor() {
+            // TODO: Add code editor setup code
+        }
+    </code></pre>
+        <button class="copy-btn" onclick="copyCode()">Copy</button>
+    </section>
+
+    <!-- Live Preview Section -->
+    <section id="live-preview">
+        <h2>Live Preview</h2>
+        <p>The live preview feature allows you to see real-time output of your HTML, CSS, and JavaScript code.</p>
+        <pre><code id="live-preview-code">
+        function setupLivePreview() {
+            // TODO: Add live preview setup code
+        }
+    </code></pre>
+        <button class="copy-btn" onclick="copyLivePreviewCode()">Copy</button>
+    </section>
+
+    <!-- Code Snippets Section -->
+    <section id="code-snippets">
+        <h2>Code Snippets</h2>
+        <p>DevLab provides a collection of code snippets for common programming tasks. Users can also add and share
+            their own snippets.</p>
+        <pre><code id="code-snippets-code">
+        function loadCodeSnippets() {
+            // TODO: Add code snippets loading code
+        }
+    </code></pre>
+        <button class="copy-btn" onclick="copyCodeSnippetsCode()">Copy</button>
+    </section>
+
+
+    <!-- Code Editor Section -->
+    <section id="code-editor">
+        <h2>Code Editor</h2>
+        <p>DevLab includes a powerful code editor with syntax highlighting, line numbering, and code formatting.
+            to use the code editor:
+        </p>
+        <ol>
+            <li>Click on the "Code Editor" link in the tools section.</li>
+            <li>Start typing or paste your code into the editor.</li>
+            <li>Switch between programming languages using the language switch button.</li>
+        </ol>
+        <!-- Add more details about the code editor as needed -->
+    </section>
+
+    <!-- Live Preview Section -->
+    <section id="live-preview">
+        <h2>Live Preview</h2>
+        <p>The live preview feature allows you to see real-time output of your HTML, CSS, and JavaScript code.
+            To use live Preview:
+        </p>
+        <ol>
+            <li>Click on the "Live Preview" link in the tools sections.</li>
+            <li>Observe the changes in the preview area as you edit your code</li>
+        </ol>
+        <!-- Add more details about live preview as needed -->
+    </section>
+
+    <!-- Code Snippets Section -->
+    <section id="code-snippets">
+        <h2>Code Snippets</h2>
+        <p>DevLab provides a collection of code snippets for common programming tasks. Users can also add and share
+            their own snippets.
+            To access the code snippets:</p>
+        <ol>
+            <li>Click on the "Code Snippets" link in the navigation bar.</li>
+            <li>Browse and search through the available snippets.</li>
+            <li>Use the "Contribute" button to add your own snippets.</li>
+
+        </ol>
+        <!-- Add more details about code snippets as needed -->
+    </section>
+
+
+   
+    <!-- Code Editor Section -->
+<section id="code-editor">
+    <h2>Code Editor</h2>
+    <p>DevLab includes a powerful code editor with syntax highlighting, line numbering, and code formatting.</p>
+    <pre><code id="code-block">
+        function setupCodeEditor() {
+            // TODO: Add code editor setup code
+        }
+    </code></pre>
+    <button class="copy-btn" onclick="copyCode()">Copy</button>
+</section>
+
+<!-- Live Preview Section -->
+<section id="live-preview">
+    <h2>Live Preview</h2>
+    <p>The live preview feature allows you to see real-time output of your HTML, CSS, and JavaScript code.</p>
+    <pre><code id="live-preview-code">
+        function setupLivePreview() {
+            // TODO: Add live preview setup code
+        }
+    </code></pre>
+    <button class="copy-btn" onclick="copyLivePreviewCode()">Copy</button>
+</section>
+
+<!-- Code Snippets Section -->
+<section id="code-snippets">
+    <h2>Code Snippets</h2>
+    <p>DevLab provides a collection of code snippets for common programming tasks. Users can also add and share their own snippets.</p>
+    <pre><code id="code-snippets-code">
+        function loadCodeSnippets() {
+            // TODO: Add code snippets loading code
+        }
+    </code></pre>
+    <button class="copy-btn" onclick="copyCodeSnippetsCode()">Copy</button>
+</section>
+
+<!-- Continue documenting other sections as needed -->
+
+<script src="script.js"></script>
+
+
+    <!-- JavaScript code  -->
+    <script src="./assets/js/copy.js"></script>
 </body>
 
 </html>

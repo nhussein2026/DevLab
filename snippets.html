@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css -->
     <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/snippet.css">
 
 
     <title>DevLab Snippet</title>
@@ -38,6 +39,21 @@
         <span id="tool-title"> Snippet</span>
         <span id="line-span"></span>
     </div>
+
+    <!-- snippet code -->
+    <section id="code-snippet-generator">
+        <h2>Code Snippet Generator</h2>
+        <div class="snippet-input">
+            <label for="codeInput">Paste Your Code:</label>
+            <textarea id="codeInput" placeholder="Enter your code here..."></textarea>
+            <button onclick="generateSnippet()">Generate Snippet</button>
+        </div>
+        <div class="snippet-output" id="snippetOutput">
+            <!-- The generated code snippet image will be displayed here -->
+        </div>
+    </section>
+    
+    <script src="./assets/js/snippets.js"></script>
 </body>
 
 </html>
