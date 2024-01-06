@@ -12,9 +12,9 @@ Thank you for considering contributing to DevLab! Your involvement is greatly ap
 ```
 3. move to the new created branch
 
-   ```bash
+```bash
    git checkout -b feature/your-contribution
-
+```
 ## Guidelines
 
 Please follow these guidelines when contributing to DevLab:
