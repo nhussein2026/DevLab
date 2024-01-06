@@ -29,12 +29,12 @@
             </ul>
         </div>
         <div class="contribute-nav">
-            <a href="#contribute" class="contribute-btn">Contribute</a>
+            <a href="#contributions" class="contribute-btn">Contribute</a>
         </div>
     </nav>
 
-     <!-- Section Title -->
-     <div class="section-title">
+    <!-- Section Title -->
+    <div class="section-title">
         <span class="line-span"></span>
         <span class="tool-title"> Documentation</span>
         <span class="line-span"></span>
@@ -46,9 +46,9 @@
     <section id="introduction" class="doc-section">
         <h1>DevLab - Web Development Environment</h1>
         <p>Version: 1.0.0</p>
-        <p>Author: <a href="https://nhussein.io">Nasser Hussein</a></p>
+        <p>Author: <a href="https://nhussein.io" id="author">Nhussein</a></p>
         <p>License: MIT</p>
-        <p>About: DevLab is a web development environment that provides a suite of tools to enhance your coding
+        <p>About: <br><br> DevLab is a web development environment that provides a suite of tools to enhance your coding
             experience. This documentation will guide you through the features and functionalities of DevLab.</p>
     </section>
 
@@ -62,7 +62,10 @@
             <h4>To get started with DevLab, follow these steps:</h4>
             <ol>
                 <li>Clone the repository:</li>
-                <code id="code-text">git clone https://github.com/yourusername/DevLab.git</code>
+                <pre><code id="code-block">
+                    git clone https://github.com/nhussein2026/DevLab.git
+                    <button class="copy-btn" onclick="copyCode()">Copy</button>
+                </code></pre>
                 <li>Navigate to the project directory: <code>cd DevLab</code></li>
                 <li>Open <code id="code-text">index.html</code> in your preferred web browser.</li>
             </ol>
@@ -78,42 +81,6 @@
         </section>
     </section>
 
-    <!-- Code Editor Section -->
-    <section id="code-editor">
-        <h2>Code Editor</h2>
-        <p>DevLab includes a powerful code editor with syntax highlighting, line numbering, and code formatting.</p>
-        <pre><code id="code-block">
-        function setupCodeEditor() {
-            // TODO: Add code editor setup code
-        }
-    </code></pre>
-        <button class="copy-btn" onclick="copyCode()">Copy</button>
-    </section>
-
-    <!-- Live Preview Section -->
-    <section id="live-preview">
-        <h2>Live Preview</h2>
-        <p>The live preview feature allows you to see real-time output of your HTML, CSS, and JavaScript code.</p>
-        <pre><code id="live-preview-code">
-        function setupLivePreview() {
-            // TODO: Add live preview setup code
-        }
-    </code></pre>
-        <button class="copy-btn" onclick="copyLivePreviewCode()">Copy</button>
-    </section>
-
-    <!-- Code Snippets Section -->
-    <section id="code-snippets">
-        <h2>Code Snippets</h2>
-        <p>DevLab provides a collection of code snippets for common programming tasks. Users can also add and share
-            their own snippets.</p>
-        <pre><code id="code-snippets-code">
-        function loadCodeSnippets() {
-            // TODO: Add code snippets loading code
-        }
-    </code></pre>
-        <button class="copy-btn" onclick="copyCodeSnippetsCode()">Copy</button>
-    </section>
 
 
     <!-- Code Editor Section -->
@@ -159,46 +126,51 @@
     </section>
 
 
-   
-    <!-- Code Editor Section -->
-<section id="code-editor">
-    <h2>Code Editor</h2>
-    <p>DevLab includes a powerful code editor with syntax highlighting, line numbering, and code formatting.</p>
-    <pre><code id="code-block">
-        function setupCodeEditor() {
-            // TODO: Add code editor setup code
-        }
-    </code></pre>
-    <button class="copy-btn" onclick="copyCode()">Copy</button>
-</section>
+    <!-- Code Snippets Section -->
+    <section id="contributions">
+        <h2>Contributions to DevLab</h2>
+        <p>We welcome and appreciate contributions to enhance the DevLab developer tools platform. Here's how you can
+            contribute:</p>
+        <ol>
+            <li>Bug Reports:
+                <ul>
+                    <li>Report any issues or bugs through our GitHub repository's "Issues" section.</li>
+                </ul>
+            </li>
+            <li>Feature Requests:
+                <ul>
+                    <li>Suggest new features or improvements by creating an issue labeled "Feature Request."</li>
+                </ul>
+            </li>
+            <li>Code Contributions:
+                <ul>
+                    <li>Fork the repository, create a new branch, and submit a pull request with your enhancements.</li>
+                    <li>Ensure code follows our coding standards and test thoroughly.</li>
+                </ul>
+            </li>
+            <li>Documentation:
+                <ul>
+                    <li>Help improve our documentation by submitting pull requests to the "docs" branch.</li>
+                </ul>
+            </li>
+            <li>Testing:
+                <ul>
+                    <li>Test pre-releases and report any issues or feedback to assist in improving stability.</li>
+                </ul>
+            </li>
+        </ol>
+        <h3>Rules of contribution:</h3>
+        <ul>
+            <li>Follow the code of conduct outlined in the repository.</li>
+            <li>Be respectful and inclusive in all interactions.</li>
+            <li>Clearly describe and justify your changes in pull requests.</li>
+            <li>Ensure your contributions align with the project's goals and roadmap.</li>
+        </ul>
+        <!-- Link to Contribution Guidelines -->
+        <p>Ready to contribute? Check out our <a href="CONTRIBUTING.md" style="color: rgb(126, 124, 121); font-weight: 700; font-size: large;">Contribution Guidelines</a> for
+            detailed instructions.</p>
+    </section>
 
-<!-- Live Preview Section -->
-<section id="live-preview">
-    <h2>Live Preview</h2>
-    <p>The live preview feature allows you to see real-time output of your HTML, CSS, and JavaScript code.</p>
-    <pre><code id="live-preview-code">
-        function setupLivePreview() {
-            // TODO: Add live preview setup code
-        }
-    </code></pre>
-    <button class="copy-btn" onclick="copyLivePreviewCode()">Copy</button>
-</section>
-
-<!-- Code Snippets Section -->
-<section id="code-snippets">
-    <h2>Code Snippets</h2>
-    <p>DevLab provides a collection of code snippets for common programming tasks. Users can also add and share their own snippets.</p>
-    <pre><code id="code-snippets-code">
-        function loadCodeSnippets() {
-            // TODO: Add code snippets loading code
-        }
-    </code></pre>
-    <button class="copy-btn" onclick="copyCodeSnippetsCode()">Copy</button>
-</section>
-
-<!-- Continue documenting other sections as needed -->
-
-<script src="script.js"></script>
 
 
     <!-- JavaScript code  -->

@@ -135,7 +135,7 @@ body {
 
 /* contributing section */
 .contribution-section {
-  height: 90vh;
+  height: 50vh;
   background-color: #f5f5f5; /* Lighter background for contrast */
   padding: 40px;
   text-align: center;
@@ -190,6 +190,16 @@ footer {
   font-weight: 700;
   text-align: center;
   width: 18%;
+}
+
+
+/* contribute section */
+#contribute {
+  margin: 40px 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive design */

@@ -1,9 +1,20 @@
+body {
+    overflow-x: hidden;
+}
+#author {
+    font-weight: 700;
+    color: #949494;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 /* Section Styling */
 
 #code-editor,
 #live-preview,
-#code-snippets {
-    margin: 40px;
+#code-snippets,
+#contributions {
+    margin: 20px;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -24,6 +35,10 @@ p {
     color: #555;
 }
 
+ol, ul, li {
+    line-height: 1.5;
+
+}
 /* Code Styling */
 
 code {
@@ -76,7 +91,7 @@ pre {
 }
 
 .copy-btn {
-    /* position: absolute; */
+    position: absolute;
     top: 5px;
     right: 5px;
     padding: 5px;
