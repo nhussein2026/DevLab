@@ -9,7 +9,7 @@ Thank you for considering contributing to DevLab! Your involvement is greatly ap
 
   ```bash
    git branch feature/your-contribution
-
+```
 3. move to the new created branch
 
    ```bash
