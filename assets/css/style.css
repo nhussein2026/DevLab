@@ -109,7 +109,7 @@ body::-webkit-scrollbar-thumb {
 .darkThemeBtn label svg.sun {
   width: 20px;
   opacity: 0;
-  fill: #fff;
+  fill: #FCE570 ;
 }
 
 .darkThemeBtn label svg.moon {
@@ -117,7 +117,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .darkThemeBtn input:checked+label {
-  background: #4a6cf7;
+  background: #dadee770;
 }
 
 .darkThemeBtn input:checked+label svg.sun {
@@ -157,10 +157,9 @@ body::-webkit-scrollbar-thumb {
   font-family: "Courier";
   font-size: 20px;
   margin: 10px 0 0 10px;
-  white-space: nowrap;
   overflow: hidden;
   width: 30em;
-  /* animation: type 4s steps(60, end);  */
+  animation: type 4s steps(60, end); 
 }
 
 #animate-text :nth-child(2) {
@@ -337,6 +336,7 @@ footer {
     display: flex;
   }
 
+  /* theme */
   .theme-btn {
     margin-right: 28px;
   }
@@ -344,6 +344,17 @@ footer {
   .darkThemeBtn label {
     height: 36px;
     width: 36px;
+  }
+
+  /* hero */
+  #devlab-hero {
+    margin-left: 15px;
+    font-weight: 700;
+    font-size: 50px;
+  }  
+
+  #animate-text {
+    width: 18em;
   }
 }
 
