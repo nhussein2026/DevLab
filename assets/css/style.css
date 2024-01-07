@@ -4,16 +4,30 @@ html {
 }
 
 body {
+  padding: 0;
   margin: 0;
   background-color: #111F41;
   font-family: 'Source Sans 3', sans-serif;
   font-family: 'Courier New', Courier, monospace;
   color: #6bd6ea;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   --sb-track-color: #232E33;
   --sb-thumb-color: #6bd6ea;
   --sb-size: 3px;
+
+  /* Dark and light mode colors */
+  /* bg-colors */
+  --bg-light-color: #f9f9f9;
+  --bg-dark-color: #111f41;
+
+  /* sections colors */
+  --bg-section-light: #ffffff;
+  --bg-section-dark: rgb(7 16 45);
+
+
+
   scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+
 }
 
 /* Scroll bar setting  */
@@ -40,6 +54,7 @@ body::-webkit-scrollbar-thumb {
   justify-content: space-between;
   padding: 0 20px;
   width: 100%;
+  overflow-x: hidden;
   z-index: 1000;
 }
 
@@ -157,9 +172,9 @@ body::-webkit-scrollbar-thumb {
   font-family: "Courier";
   font-size: 20px;
   margin: 10px 0 0 10px;
-  overflow: hidden;
-  width: 30em;
-  animation: type 4s steps(60, end); 
+  /* overflow: hidden; */
+  /* width: 30em; */
+  /* animation: type 4s steps(60, end);  */
 }
 
 #animate-text :nth-child(2) {
@@ -195,7 +210,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 ::selection {
-  background: black;
+  background: rgb(41, 146, 114);
 }
 
 /* tools section */
@@ -313,7 +328,6 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
     width: 100%;
   }
 
@@ -355,6 +369,12 @@ footer {
 
   #animate-text {
     width: 18em;
+  }
+
+
+  /* tools */
+  #tools {
+    height: auto;
   }
 }
 
