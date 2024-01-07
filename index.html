@@ -29,14 +29,32 @@
         </div>
         <div>
             <ul class="nav-links">
-                <li><a href="#">Home</a></li>
+                <li><a href="#hero-section">DevLab</a></li>
                 <li><a href="./Doc.html">Doc</a></li>
                 <li><a href="#tools">Tools</a></li> <!-- New link for tools -->
-                <li><a href="#code-snippets">DevLab</a></li>
+                <li><a href="#contribute">Contribute</a></li>
             </ul>
         </div>
-        <div class="contribute-nav">
-            <a href="#contribute" class="contribute-btn">Contribute</a>
+
+            <!-- Dark and Light theme  -->
+        <div class="light-dark-theme">
+            <label for="theme" class="theme">
+                <span class="theme__toggle-wrap">
+                    <input id="theme" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
+                    <span class="theme__fill"></span>
+                    <span class="theme__icon">
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                    </span>
+                </span>
+            </label>
         </div>
     </nav>
 
@@ -44,13 +62,14 @@
     <div class="hero-section">
         <p id="devlab-hero">DevLab><span>_</span></p>
         <div class="hero" id="hero">
-            <p id="animate-text">Streamline web development with an integrated code editor,live preview, API docs, and tools
+            <p id="animate-text" onload="typeWriter()">Streamline web development with an integrated code editor,live
+                preview, API docs, and tools
                 for linting, testing, and performance analysis. Fork, contribute, and help us create the ultimate dev
                 toolkit!</p>
         </div>
-    
+
     </div>
-   
+
 
     <!-- Devloper tools section -->
     <section id="tools">
@@ -74,6 +93,10 @@
                 <li><a href="">CSS Grid and Flexbox Generators</a></li>
                 <li><a href="">Code Minifiers and Beautifiers</a></li>
                 <li><a href="">Performance Testing</a></li>
+                <li><a href="">Create Resume</a></li>
+                <li><a href="">Convert My Resume to Portfolio</a></li>
+                <li><a href="">Create Your linktree</a></li>
+
             </ul>
         </div>
     </section>
@@ -110,6 +133,7 @@
 
         </div>
     </footer>
+
 
 </body>
 
