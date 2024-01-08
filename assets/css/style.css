@@ -3,31 +3,37 @@ html {
   min-width: 100%;
 }
 
-body {
-  padding: 0;
-  margin: 0;
-  background-color: #111F41;
-  font-family: 'Source Sans 3', sans-serif;
-  font-family: 'Courier New', Courier, monospace;
-  color: #6bd6ea;
-  /* overflow-x: hidden; */
-  --sb-track-color: #232E33;
-  --sb-thumb-color: #6bd6ea;
-  --sb-size: 3px;
-
-  /* Dark and light mode colors */
+:root {
+   /* Dark and light mode colors */
   /* bg-colors */
   --bg-light-color: #f9f9f9;
   --bg-dark-color: #111f41;
+  --dark-font-color: #6bd6ea;
+  --light-font-color: #000;
 
   /* sections colors */
   --bg-section-light: #ffffff;
   --bg-section-dark: rgb(7 16 45);
 
-
-
+}
+body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--bg-light-color);
+  font-family: 'Source Sans 3', sans-serif;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--light-font-color);
+  /* overflow-x: hidden; */
+  --sb-track-color: #232E33;
+  --sb-thumb-color: #6bd6ea;
+  --sb-size: 3px;
   scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
 
+}
+
+body.dark-mode {
+  background: var(--bg-dark-color);
+  color: var(--dark-font-color);
 }
 
 /* Scroll bar setting  */
@@ -81,6 +87,12 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* light & dark theme */
+
+body.dark-mode {
+  background-color: var(--bg-dark-color);
+  /* color: var(--text-color-dark); */
+}
+
 .theme-btn {
   margin-right: 50px;
 }
@@ -254,6 +266,10 @@ body::-webkit-scrollbar-thumb {
   text-align: center;
 }
 
+.contribution-section.dark-mode {
+  background-color: var(--bg-section-dark);
+
+}
 .section-heading {
   font-size: 30px;
   margin-bottom: 20px;
