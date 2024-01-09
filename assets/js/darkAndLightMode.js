@@ -16,7 +16,7 @@
 const darkModeToggle = document.querySelector('#darkmode-toggle');
 
 darkModeToggle.addEventListener('change', () => {
-    const bodyAndNavbar = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section');
+    const bodyAndNavbar = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section, footer, .cta-button');
 
     if (darkModeToggle.checked) {
         bodyAndNavbar.forEach(element => {

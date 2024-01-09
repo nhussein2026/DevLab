@@ -6,7 +6,9 @@ html {
 :root {
   /* Dark and light mode colors */
   /* bg-colors */
-  --bg-light-color: #f4f2ee;
+  --background-light: #f6f8fa; /* Your chosen light background color */
+  --text-light: #333333; /* Your chosen light text color */
+  --accent-light: #6bd6ea; /* Your chosen light accent color */
   --bg-dark-color: #111f41;
   --dark-font-color: #6bd6ea;
   --light-font-color: #000;
@@ -20,6 +22,9 @@ html {
   --font-light-hover-nav:  #ade719;
   --font-dark-nav:  #6bd7eae1;
   --font-dark-hover-nav:  #00d9ffd0;
+
+  /* hero section */
+  --bg-hero: #e8f0f9; 
 
   /* sections colors */
   --bg-section-light: #ffffff;
@@ -89,15 +94,13 @@ body::-webkit-scrollbar-thumb {
 
 /* Navbar Styling */
 .navbar {
-  height: 100px;
-  background-color: var(--bg-light-nav);
+  background-color: var(--background-light);
+  color: var(--text-light);
   display: flex;
-  color: var(--font-light-nav);
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 0 20px;
-  width: 100%;
   overflow-x: hidden;
   z-index: 1000;
 }
@@ -107,7 +110,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .nav-links a {
-  color: var(--font-light-nav);
+  color: var(--text-light);
   text-decoration: none;
   margin: 12px;
   font-weight: 600;
@@ -115,7 +118,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .nav-links a:hover {
-  color: var(--font-light-hover-nav);
+  color: var(--accent-light);
+  /* color: var(--font-light-hover-nav); */
 }
 
 
@@ -193,8 +197,8 @@ body::-webkit-scrollbar-thumb {
 
 /* hero section */
 .hero-section {
-  background: #7baa6c7c; 
-  color: #fff; /* Text color */
+  background: var(--bg-hero); 
+  color: var(--text-light); /* Text color */
   text-align: center;
   padding: 100px 20px; /* Adjust padding as needed */
 }
@@ -224,42 +228,87 @@ body::-webkit-scrollbar-thumb {
   border-radius: 5px;
   transition: background 0.3s, color 0.3s;
 }
+.cta-button {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  /* Light mode styles */
+  background-color: #6bd6ea; /* Light mode background */
+  color: #333; /* Light mode text color */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Light mode shadow */
+}
 
 .cta-button:hover {
-  background: #0056b3; /* Hover background color */
-  color: #fff; /* Hover text color */
+  background-color: #0056b3; /* Hover background color for both modes */
+  color: #fff; /* Hover text color for both modes */
+}
+
+.cta-button.dark-mode  {
+  /* Dark mode styles */
+  background-color: #3a456b; /* Slightly lighter blue for contrast */
+  color: var(--background-light);
+  box-shadow: none;
+}
+
+.cta-button.dark-mode:hover {
+  background-color: #283555; /* Darker blue on hover */
+  color: var(--font-dark-hover-nav);
+
 }
 
 /* tools section */
 #tools {
-  display: flex;
+  /* display: flex; */
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
 }
-
 .dev-tools ul {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid; /* Consider grid layout */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust grid columns as needed */
+  gap: 10px;
 }
 
 .dev-tools ul li {
+  pointer-events: all;
   display: flex;
   align-items: center;
-  height: 20px;
+  height: 40px; /* Increase height for better readability */
   width: auto;
-  margin: 10px;
-  padding: 10px;
+  margin: 5px; /* Reduce margin */
+  padding: 10px 15px; /* Adjust padding */
   list-style: none;
-  border-radius: 100px;
+  border-radius: 8px; /* Reduce border-radius for a cleaner look */
+  background-color: #f5f5f5; /* Add subtle background */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 .dev-tools ul li a {
+  display: block;
+  width: 100%;
   text-decoration: none;
-  color: #e1e5f2;
+  color: #333; /* Darker text color */
+  font-size: 16px; /* Increase font size */
+  line-height: 1.5; /* Increase line height */
 }
 
+.dev-tools ul li:hover {
+  background-color: #e1e5f2; /* Hover effect */
+  color: #111; /* Adjust text color on hover */
+  cursor: pointer;
+}
+
+
+.dev-tools ul li a:hover {
+  background-color: #e1e5f2; /* Hover effect */
+  color: #111; /* Adjust text color on hover */
+}
 .navigationLink.dark-mode {
   color: var(--font-dark-tool);
   background: var(--bg-dark-tool);
@@ -318,10 +367,17 @@ body::-webkit-scrollbar-thumb {
 footer {
   height: 80px;
   /* Adjusted height for better responsiveness */
-  background-color: transparent;
+  background-color: var(--background-light);
+  color: var(--text-light);
+  &:hover {
+    color: var(--accent-light);
+  }
   min-width: 100%;
 }
 
+footer.dark-mode {
+  background: var(--bg-dark-color);
+}
 /* the sections titles */
 .section-title {
   margin-top: 60px;
