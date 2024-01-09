@@ -29,10 +29,10 @@
         </div>
         <div>
             <ul class="nav-links">
-                <li><a href="#hero-section">DevLab</a></li>
-                <li><a href="./Doc.html">Doc</a></li>
-                <li><a href="#tools">Tools</a></li> <!-- New link for tools -->
-                <li><a href="#contribute">Contribute</a></li>
+                <li><a class="nav-link" href="">DevLab</a></li>
+                <li><a href="./Doc.html" class="nav-link">Doc</a></li>
+                <li><a class="nav-link" href="#tools">Tools</a></li> <!-- New link for tools -->
+                <li><a href="#contribute" class="nav-link">Contribute</a></li>
             </ul>
         </div>
 
@@ -41,7 +41,7 @@
             <div class="darkThemeBtn">
                 <input id="darkmode-toggle" type="checkbox">
                 <label for="darkmode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="moon" >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="moon">
                         <g transform="translate(0 512) scale(.1 -.1)">
                             <path
                                 d="m2513 5105c-59-25-63-46-63-320 0-266 4-288 54-315 33-17 79-17 112 0 50 27 54 49 54 315 0 275-4 295-65 321-42 17-51 17-92-1z">
@@ -72,7 +72,7 @@
                             </path>
                         </g>
                     </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"  class="sun">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="sun">
                         <g transform="translate(0 512) scale(.1 -.1)">
                             <path
                                 d="m2090 5105c-248-51-443-118-659-226-514-256-909-652-1161-1163-94-191-139-311-185-490-127-500-110-999 51-1468 133-389 331-706 624-998 403-404 875-642 1460-736 147-24 529-24 693 0 539 78 981 283 1390 644 362 319 647 793 766 1270 46 186 56 256 42 299-22 71-80 116-151 117-73 1-104-19-181-116-307-390-733-627-1233-689-119-14-385-7-501 15-582 106-1066 469-1321 991-120 246-171 452-181 731-21 586 230 1126 695 1493 96 75 117 107 117 177 0 85-67 155-153 160-26 1-76-3-112-11zm110-149c0-2-26-23-57-47-81-60-254-230-325-318-213-264-353-573-415-916-22-126-25-508-5-625 62-346 195-651 395-910 72-93 228-250 327-329 266-213 571-349 930-413 117-20 499-17 625 5 343 62 652 202 916 415 88 71 258 244 318 325 24 32 46 56 48 54s-8-60-23-128c-127-606-501-1155-1027-1505-780-521-1798-535-2602-36-295 183-594 482-777 777-335 539-445 1180-308 1795 138 621 515 1158 1060 1511 136 88 374 201 530 253 148 49 390 106 390 92z">
@@ -87,40 +87,50 @@
 
     <!-- hero section -->
     <div class="hero-section">
-        <p id="devlab-hero">DevLab><span>_</span></p>
-        <div class="hero" id="hero">
-            <p id="animate-text">Streamline web development with an integrated code editor,live
-                preview, API docs, and tools
-                for linting, testing, and performance analysis. Fork, contribute, and help us create the ultimate dev
-                toolkit!</p>
-        </div>
-
+        <h1>Welcome to DevLab</h1>
+        <p>Your Ultimate Web Development Environment</p>
+        <a href="./about.html" class="cta-button">Learn More</a>
     </div>
+
 
 
     <!-- Devloper tools section -->
     <section id="tools">
         <div class="dev-tools">
             <ul>
-                <li><a href="./codeEditor.html">Code Editor</a></li>
-                <li><a href="./livePreview.html">Live Preview</a></li>
-                <li><a href="./snippets.html">Code Snippets</a></li>
-                <li><a href="./versionControl.html">Version Control Integration</a></li>
-                <li><a href="./apiViewer.html">API Docomentation viewer</a></li>
-                <li><a href="./errorChecking.html">Linting and Error Checking</a></li>
-                <li><a href="./responsive.html">Responsive Design Testing</a></li>
-                <li><a href="./performance.html">Performance Analysis</a></li>
-                <li><a href="./debuggingTool.html">Debugging Tools</a></li>
-                <li><a href="./htmlToJsx.html">HTML-to-JSX</a></li>
-                <li><a href="./validator.html">HTML, CSS, and JavaScript Validators</a></li>
-                <li><a href="./colorsPicker.html">Color Picker and Character Encoding</a></li>
-                <li><a href="./flexGeneratore.html">CSS Grid and Flexbox Generators</a></li>
-                <li><a href="./codeMinifiers.html">Code Minifiers and Beautifiers</a></li>
-                <li><a href="./performanceTesting.html">Performance Testing</a></li>
-                <li><a href="./createResume.html">Create Resume</a></li>
-                <li><a href="./convertResumeToProtfolio.html">Convert My Resume to Portfolio</a></li>
-                <li><a href="./createLinkTree.html">Create Your linktree</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./codeEditor.html">Code Editor</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./livePreview.html">Live Preview</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./snippets.html">Code Snippets</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./versionControl.html">Version Control
+                        Integration</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./apiViewer.html">API Docomentation
+                        viewer</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./errorChecking.html">Linting and Error
+                        Checking</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./responsive.html">Responsive Design
+                        Testing</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./performance.html">Performance Analysis</a>
+                </li>
+                <li class="navigationLink"><a class="navigationLink" href="./debuggingTool.html">Debugging Tools</a>
+                </li>
+                <li class="navigationLink"><a class="navigationLink" href="./htmlToJsx.html">HTML-to-JSX</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./validator.html">HTML, CSS, and JavaScript
+                        Validators</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./colorsPicker.html">Color Picker and
+                        Character Encoding</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./flexGeneratore.html">CSS Grid and Flexbox
+                        Generators</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./codeMinifiers.html">Code Minifiers and
+                        Beautifiers</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./performanceTesting.html">Performance
+                        Testing</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./createResume.html">Create Resume</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./convertResumeToProtfolio.html">Convert My
+                        Resume to Portfolio</a></li>
+                <li class="navigationLink"><a class="navigationLink" href="./createLinkTree.html">Create Your
+                        linktree</a></li>
             </ul>
+
         </div>
     </section>
 

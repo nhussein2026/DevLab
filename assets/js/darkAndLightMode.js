@@ -1,23 +1,45 @@
-const darkModeToggle = document.getElementById('darkmode-toggle');
-const body = document.body;
+// const darkModeToggle = document.getElementById('darkmode-toggle');
+// const body = document.body;
+// const sectionsToToggleDarkMode = document.querySelectorAll('.dark-mode-toggle-section');
+// const navbar = document.querySelector('.navbar');
+// const hero = document.querySelector('.hero');
+// // Add more elements as needed
+
+// darkModeToggle.addEventListener('change', () => {
+//     body.classList.toggle('dark-mode', darkModeToggle.checked);
+
+//     sectionsToToggleDarkMode.forEach(section => {
+//         section.classList.toggle('dark-mode', darkModeToggle.checked);
+//     });
+
+
+const darkModeToggle = document.querySelector('#darkmode-toggle');
 
 darkModeToggle.addEventListener('change', () => {
-    body.classList.toggle('dark-mode', darkModeToggle.checked);
+    const bodyAndNavbar = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section');
 
     if (darkModeToggle.checked) {
-        // Dark mode
-        document.documentElement.style.setProperty('--bg-light-color', '#111f41');
-        document.documentElement.style.setProperty('--dark-font-color', '#ffffff');
-        document.documentElement.style.setProperty('--light-font-color', '#000');
-        document.documentElement.style.setProperty('--bg-section-light', 'rgb(7 16 45)');
+        bodyAndNavbar.forEach(element => {
+            element.classList.add('dark-mode');
+        });
     } else {
-        // Light mode
-        document.documentElement.style.setProperty('--bg-light-color', '#f9f9f9');
-        document.documentElement.style.setProperty('--dark-font-color', '#6bd6ea');
-        document.documentElement.style.setProperty('--light-font-color', '#000');
-        document.documentElement.style.setProperty('--bg-section-light', '#ffffff');
+        bodyAndNavbar.forEach(element => {
+            element.classList.remove('dark-mode');
+        });
     }
 });
+
+
+
+
+
+    // Toggle dark mode for specific elements like navbar and hero
+    // navbar.classList.toggle('dark-mode', darkModeToggle.checked);
+    // hero.classList.toggle('dark-mode', darkModeToggle.checked);
+    // Add more toggles for other elements as needed
+// });
+
+
 
 
 // Check if user has a preference stored

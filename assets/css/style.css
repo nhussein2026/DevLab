@@ -4,36 +4,72 @@ html {
 }
 
 :root {
-   /* Dark and light mode colors */
+  /* Dark and light mode colors */
   /* bg-colors */
-  --bg-light-color: #f9f9f9;
+  --bg-light-color: #f4f2ee;
   --bg-dark-color: #111f41;
   --dark-font-color: #6bd6ea;
   --light-font-color: #000;
+  --bg-dark-section: rgb(7 16 45);
+  --bg-light-section: #ffffff;
+
+  /* nav styleing */
+  --bg-dark-nav: rgba(11, 24, 68, 0.808);
+  --bg-light-nav: #f3f3f3b7;
+  --font-light-nav: #819c42;
+  --font-light-hover-nav:  #ade719;
+  --font-dark-nav:  #6bd7eae1;
+  --font-dark-hover-nav:  #00d9ffd0;
 
   /* sections colors */
   --bg-section-light: #ffffff;
   --bg-section-dark: rgb(7 16 45);
 
+  /* tools */
+  --bg-dark-tool: #1a3064;
+  --font-dark-tool: #00d7ff;
+
 }
+
+
+/* light & dark theme */
+
+
+/* dark mode */
+body.dark-mode {
+  background-color: var(--bg-dark-color);
+  color: var(--dark-font-color);
+}
+
+.navbar.dark-mode {
+  background-color: var(--bg-dark-nav);
+  color: var(--dark-font-color);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.nav-link.dark-mode {
+  color: var(--dark-font-color);
+
+}
+
+.nav-link.dark-mode:hover {
+  color: var(--font-dark-hover-nav);
+
+}
+/* light mode */
 body {
   padding: 0;
   margin: 0;
-  background-color: var(--bg-light-color);
+  /* background-color: var(--bg-light-color); */
   font-family: 'Source Sans 3', sans-serif;
   font-family: 'Courier New', Courier, monospace;
-  color: var(--light-font-color);
+  /* color: var(--light-font-color); */
   /* overflow-x: hidden; */
   --sb-track-color: #232E33;
   --sb-thumb-color: #6bd6ea;
   --sb-size: 3px;
   scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
 
-}
-
-body.dark-mode {
-  background: var(--bg-dark-color);
-  color: var(--dark-font-color);
 }
 
 /* Scroll bar setting  */
@@ -54,10 +90,12 @@ body::-webkit-scrollbar-thumb {
 /* Navbar Styling */
 .navbar {
   height: 100px;
-  background-color: rgba(11, 24, 68, 0.808);
+  background-color: var(--bg-light-nav);
   display: flex;
+  color: var(--font-light-nav);
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 0 20px;
   width: 100%;
   overflow-x: hidden;
@@ -69,7 +107,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .nav-links a {
-  color: #f1faee;
+  color: var(--font-light-nav);
   text-decoration: none;
   margin: 12px;
   font-weight: 600;
@@ -77,7 +115,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .nav-links a:hover {
-  color: #6bd6ea;
+  color: var(--font-light-hover-nav);
 }
 
 
@@ -86,12 +124,6 @@ body::-webkit-scrollbar-thumb {
   text-decoration: none;
 }
 
-/* light & dark theme */
-
-body.dark-mode {
-  background-color: var(--bg-dark-color);
-  /* color: var(--text-color-dark); */
-}
 
 .theme-btn {
   margin-right: 50px;
@@ -136,7 +168,7 @@ body.dark-mode {
 .darkThemeBtn label svg.sun {
   width: 20px;
   opacity: 0;
-  fill: #FCE570 ;
+  fill: #FCE570;
 }
 
 .darkThemeBtn label svg.moon {
@@ -161,68 +193,41 @@ body.dark-mode {
 
 /* hero section */
 .hero-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  background: #7baa6c7c; 
+  color: #fff; /* Text color */
+  text-align: center;
+  padding: 100px 20px; /* Adjust padding as needed */
 }
 
-#devlab-hero {
-  margin-top: 150px;
-  margin-left: 150px;
-  font-weight: 700;
-  font-size: 100px;
+.hero-section.dark-mode {
+  background-color: var(--bg-dark-color);
+  color: var(--dark-font-color);
 }
 
-.hero {
-  display: grid;
-  place-content: center;
+.hero-section h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
 }
 
-#animate-text {
-  color: #f1faee;
-  font-family: "Courier";
-  font-size: 20px;
-  margin: 10px 0 0 10px;
-  /* overflow: hidden; */
-  /* width: 30em; */
-  /* animation: type 4s steps(60, end);  */
+.hero-section p {
+  font-size: 1.2em;
+  margin-bottom: 40px;
 }
 
-#animate-text :nth-child(2) {
-  animation: type2 8s steps(60, end);
+.cta-button {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  text-decoration: none;
+  color: #007bff; /* Button text color */
+  background: #fff; /* Button background color */
+  border-radius: 5px;
+  transition: background 0.3s, color 0.3s;
 }
 
-
-
-@keyframes type {
-  from {
-    width: 0;
-  }
-}
-
-@keyframes type2 {
-  0% {
-    width: 0;
-  }
-
-  50% {
-    width: 0;
-  }
-
-  100% {
-    width: 100;
-  }
-}
-
-@keyframes blink {
-  to {
-    opacity: .0;
-  }
-}
-
-::selection {
-  background: rgb(41, 146, 114);
+.cta-button:hover {
+  background: #0056b3; /* Hover background color */
+  color: #fff; /* Hover text color */
 }
 
 /* tools section */
@@ -247,7 +252,6 @@ body.dark-mode {
   margin: 10px;
   padding: 10px;
   list-style: none;
-  background-color: #086375;
   border-radius: 100px;
 }
 
@@ -256,26 +260,41 @@ body.dark-mode {
   color: #e1e5f2;
 }
 
+.navigationLink.dark-mode {
+  color: var(--font-dark-tool);
+  background: var(--bg-dark-tool);
+}
 
 /* contributing section */
 .contribution-section {
-  height: 50vh;
+  height: 80vh;
   background-color: #f5f5f5;
-  /* Lighter background for contrast */
   padding: 40px;
   text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  box-shadow: rgb(0,0,0.1);
 }
 
+/* contribute section dark mode */
+.contribution-section.dark-mode {
+  background-color: var(--bg-dark-section);
+}
 .contribution-section.dark-mode {
   background-color: var(--bg-section-dark);
 
 }
+
 .section-heading {
   font-size: 30px;
   margin-bottom: 20px;
 }
 
 .section-text {
+  width: 580px;
+  margin: 45px;
   font-size: 18px;
   line-height: 1.5;
 }
@@ -330,9 +349,9 @@ footer {
 #contribute {
   margin: 40px 20px;
   padding: 20px;
-  background-color: rgb(7 16 45);
+  /* background-color: rgb(7 16 45); */
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 /* Responsive design */
@@ -381,7 +400,7 @@ footer {
     margin-left: 15px;
     font-weight: 700;
     font-size: 50px;
-  }  
+  }
 
   #animate-text {
     width: 18em;
