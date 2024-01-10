@@ -97,7 +97,6 @@ body::-webkit-scrollbar-thumb {
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 0 20px;
   z-index: 1000;
 }
 
@@ -130,7 +129,7 @@ body::-webkit-scrollbar-thumb {
 
 
 .theme-btn {
-  margin-right: 50px;
+  /* margin-right: 50px; */
 }
 
 .darkThemeBtn * {
@@ -166,13 +165,13 @@ body::-webkit-scrollbar-thumb {
   width: 16px;
   transition: 0.3s;
   z-index: 1;
-  fill: #000;
+  fill: #dacd1f;
 }
 
 .darkThemeBtn label svg.sun {
   width: 20px;
   opacity: 0;
-  fill: #FCE570;
+  fill: #333128;
 }
 
 .darkThemeBtn label svg.moon {
