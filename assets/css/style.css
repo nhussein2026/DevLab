@@ -339,7 +339,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 .section-text {
-  width: 580px;
   margin: 45px;
   font-size: 18px;
   line-height: 1.5;
@@ -416,7 +415,6 @@ footer.dark-mode {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
   }
 
   .nav-links a {
