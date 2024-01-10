@@ -16,7 +16,7 @@
 const darkModeToggle = document.querySelector('#darkmode-toggle');
 
 darkModeToggle.addEventListener('change', () => {
-    const bodyAndNavbar = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section, footer, .cta-button');
+    const bodyAndNavbar = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section, footer, .cta-button, .doc-section, #code-editor, #live-preview, #code-snippets, #contributions, code, pre, #code-block, #author, .tool-title, .line-span ');
 
     if (darkModeToggle.checked) {
         bodyAndNavbar.forEach(element => {

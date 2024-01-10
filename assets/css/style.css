@@ -26,7 +26,6 @@ html {
 
   /* sections colors */
   --bg-section-light: #ffffff;
-  --bg-section-dark: rgb(7 16 45);
 
   /* tools */
   --bg-dark-tool: #1a3064;
@@ -332,10 +331,7 @@ body::-webkit-scrollbar-thumb {
 .contribution-section.dark-mode {
   background-color: var(--bg-dark-section);
 }
-.contribution-section.dark-mode {
-  background-color: var(--bg-section-dark);
 
-}
 
 .section-heading {
   font-size: 30px;
