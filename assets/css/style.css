@@ -18,8 +18,6 @@ html {
   /* nav styleing */
   --bg-dark-nav: rgba(11, 24, 68, 0.808);
   --bg-light-nav: #f3f3f3b7;
-  --font-light-nav: #819c42;
-  --font-light-hover-nav:  #ade719;
   --font-dark-nav:  #6bd7eae1;
   --font-dark-hover-nav:  #00d9ffd0;
 
@@ -101,12 +99,15 @@ body::-webkit-scrollbar-thumb {
   justify-content: space-between;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 0 20px;
-  overflow-x: hidden;
   z-index: 1000;
 }
 
+.nav-links {
+  display: flex;
+}
 .nav-links li {
   margin: 10px;
+  list-style: none;
 }
 
 .nav-links a {
@@ -486,9 +487,13 @@ footer.dark-mode {
     padding: 0;
     margin: 0;
     list-style: none;
+    text-decoration: none;
     display: flex;
   }
-
+  .nav-links li{
+    list-style: none;
+    text-decoration: none;
+  } 
 
   .light-dark-theme {
     margin: 10px;
