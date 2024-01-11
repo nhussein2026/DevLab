@@ -18,16 +18,12 @@
   justify-content: center;
 }
 
-#language-switch {
-  margin-left: auto;
-}
 
 .editor-outer-theme {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* width: 800px;
-  height: 400px; */
+  width: 800px;
   flex-direction: column;
 }
 
@@ -174,6 +170,14 @@
   .editor-parent {
     margin: 0;
     padding: 0;
+  }
+  .editor-parent {
+    margin: 40px 5px 0 8px;
+    padding: 0;
+    width: 80%;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: start;
   }
 
 }
