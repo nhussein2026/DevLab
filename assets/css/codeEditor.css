@@ -46,6 +46,11 @@
   background: #111827;
 }
 
+.terminal_toolbar.dark-mode {
+  background-color: #1a6b78e6;
+  color: #2ed8f7;
+}
+
 .butt {
   display: flex;
   align-items: center;
@@ -94,9 +99,11 @@
 }
 
 .user {
-  color: #d5d0ce;
+  color: #2ed8f7;
   margin-left: 6px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 700;
+
   line-height: 15px;
 }
 
@@ -128,6 +135,11 @@
 
 .terminal_bling {
   color: #dddddd;
+}
+
+.CodeMirror-gutters {
+  background-color: transparent;
+
 }
 
 .terminal_cursor {
@@ -171,6 +183,7 @@
     margin: 0;
     padding: 0;
   }
+
   .editor-parent {
     margin: 40px 5px 0 8px;
     padding: 0;
@@ -181,4 +194,3 @@
   }
 
 }
-

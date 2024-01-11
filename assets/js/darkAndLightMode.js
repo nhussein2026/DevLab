@@ -1,6 +1,6 @@
 const darkModeToggle = document.querySelector('#dark-mode-toggle');
 const body = document.body;
-const dark = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section, footer, .cta-button, .doc-section, #code-editor, #live-preview, #code-snippets, #contributions, code, pre, #code-block, #author, .tool-title, .line-span ');
+const dark = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section, footer, .cta-button, .doc-section, #code-editor, #live-preview, #code-snippets, #contributions, code, pre, #code-block, #author, .tool-title, .line-span, .terminal_toolbar');
 
 // Function to apply dark mode based on user preference
 function applyDarkModePreference() {
