@@ -1,4 +1,4 @@
-const darkModeToggle = document.querySelector('#theme');
+const darkModeToggle = document.querySelector('#dark-mode-toggle');
 
 darkModeToggle.addEventListener('change', () => {
     const bodyAndNavbar = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section, footer, .cta-button, .doc-section, #code-editor, #live-preview, #code-snippets, #contributions, code, pre, #code-block, #author, .tool-title, .line-span ');
