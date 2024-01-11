@@ -1,19 +1,4 @@
-// const darkModeToggle = document.getElementById('darkmode-toggle');
-// const body = document.body;
-// const sectionsToToggleDarkMode = document.querySelectorAll('.dark-mode-toggle-section');
-// const navbar = document.querySelector('.navbar');
-// const hero = document.querySelector('.hero');
-// // Add more elements as needed
-
-// darkModeToggle.addEventListener('change', () => {
-//     body.classList.toggle('dark-mode', darkModeToggle.checked);
-
-//     sectionsToToggleDarkMode.forEach(section => {
-//         section.classList.toggle('dark-mode', darkModeToggle.checked);
-//     });
-
-
-const darkModeToggle = document.querySelector('#darkmode-toggle');
+const darkModeToggle = document.querySelector('#theme');
 
 darkModeToggle.addEventListener('change', () => {
     const bodyAndNavbar = document.querySelectorAll('body, .navbar, .nav-link, .contribution-section, .navigationLink, .hero-section, footer, .cta-button, .doc-section, #code-editor, #live-preview, #code-snippets, #contributions, code, pre, #code-block, #author, .tool-title, .line-span ');
