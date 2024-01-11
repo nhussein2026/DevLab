@@ -1,6 +1,7 @@
 html {
   scroll-behavior: smooth;
   min-width: 100%;
+  overflow-x: hidden;
 }
 
 :root {
@@ -62,11 +63,8 @@ body.dark-mode {
 body {
   padding: 0;
   margin: 0;
-  /* background-color: var(--bg-light-color); */
   font-family: 'Source Sans 3', sans-serif;
   font-family: 'Courier New', Courier, monospace;
-  /* color: var(--light-font-color); */
-  /* overflow-x: hidden; */
   --sb-track-color: #232E33;
   --sb-thumb-color: #6bd6ea;
   --sb-size: 3px;
@@ -122,6 +120,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* dark-light-theme design */
+.dark-light-mode-theme {
+  padding: 10px;
+}
 .switch {
   font-size: 17px;
   position: relative;
@@ -143,7 +144,7 @@ body::-webkit-scrollbar-thumb {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #73C0FC;
+  background-color: #99bcd7;
   transition: .4s;
   border-radius: 30px;
 }
@@ -232,10 +233,10 @@ body::-webkit-scrollbar-thumb {
 
 /* hero section */
 .hero-section {
-  background: var(--bg-hero); 
-  color: var(--text-light); /* Text color */
+  background: rgba(11, 24, 68, 0.808);
+  color: #ffffff;
   text-align: center;
-  padding: 100px 20px; /* Adjust padding as needed */
+  padding: 100px 20px;
 }
 
 .hero-section.dark-mode {
@@ -273,13 +274,13 @@ body::-webkit-scrollbar-thumb {
   border: none;
   border-radius: 5px;
   /* Light mode styles */
-  background-color: #6bd6ea; /* Light mode background */
+  background-color: #d58ab5; /* Light mode background */
   color: #333; /* Light mode text color */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Light mode shadow */
 }
 
 .cta-button:hover {
-  background-color: #0056b3; /* Hover background color for both modes */
+  background-color: #91687e; /* Hover background color for both modes */
   color: #fff; /* Hover text color for both modes */
 }
 
@@ -321,7 +322,7 @@ body::-webkit-scrollbar-thumb {
   padding: 10px 15px; /* Adjust padding */
   list-style: none;
   border-radius: 8px; /* Reduce border-radius for a cleaner look */
-  background-color: #f5f5f5; /* Add subtle background */
+  background-color: #e1e5f2; /* Add subtle background */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
@@ -353,7 +354,7 @@ body::-webkit-scrollbar-thumb {
 /* contributing section */
 .contribution-section {
   height: 80vh;
-  background-color: #f5f5f5;
+  background-color: #EBEFF2;
   padding: 40px;
   text-align: center;
   align-items: center;
@@ -383,7 +384,7 @@ body::-webkit-scrollbar-thumb {
 .contributing-btn {
   display: inline-block;
   padding: 15px 30px;
-  background-color: #3498db;
+  background: rgba(11, 24, 68, 0.808);
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
@@ -393,18 +394,23 @@ body::-webkit-scrollbar-thumb {
 }
 
 .contributing-btn:hover {
-  background-color: #2980b9;
+  background: rgba(148, 161, 201, 0.808);/* Hover background color for both modes */
+  color: #fff;
 }
 
 footer {
-  height: 80px;
-  /* Adjusted height for better responsiveness */
-  background-color: var(--background-light);
+  height: 104px;
+  background-color: #384568;
+  text-align: center;
   color: var(--text-light);
   &:hover {
     color: var(--accent-light);
   }
   min-width: 100%;
+}
+.footer-logo{
+  margin:0 auto;
+
 }
 
 footer.dark-mode {
