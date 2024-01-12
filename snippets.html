@@ -55,7 +55,8 @@
     <meta name="keywords"
         content="web development, coding, coding environment, DevLab, developer tools, code editor, live preview, code snippets, version control integration, API documentation viewer, linting, error checking, responsive design testing, performance analysis, debugging tools, HTML-to-JSX converter, validators, color picker, character encoding, CSS grid generator, flexbox generator, code minifiers, code beautifiers, performance testing, resume creator, portfolio conversion, linktree creation">
 
-
+    <!-- Include html2canvas library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -108,8 +109,30 @@
     <section id="code-snippet-generator">
         <h2>Code Snippet Generator</h2>
         <div class="snippet-input">
-            <label for="codeInput">Paste Your Code:</label>
-            <textarea id="codeInput" placeholder="Enter your code here..."></textarea>
+            <div class="live-preview-card">
+                <div class="tools-parent">
+                    <div class="tools-place">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+
+                    </div>
+                    <div class="title">
+                        <h2>Paste Your Code</h2>
+                    </div>
+                </div>
+
+
+                <div class="card__content">
+                    <textarea id="codeInput" placeholder="Enter your code here..."></textarea>
+                </div>
+            </div>
             <button onclick="generateSnippet()">Generate Snippet</button>
         </div>
         <div class="snippet-output" id="snippetOutput">
