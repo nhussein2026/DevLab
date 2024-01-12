@@ -29,6 +29,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/colorsPickers.css">
 
     <!-- js -->
     <script src="./assets/js/darkAndLightMode.js" defer></script>
@@ -109,6 +110,31 @@
         <span class="tool-title">DevLab Colors Pickers</span>
         <span class="line-span"></span>
     </div>
+
+    <!-- Color Picker and Character Encoding -->
+
+    <div class="color-pickers">
+        <section class="color-picker">
+            <h2>Color Picker</h2>
+    
+            <label for="colorInput">Choose a color:</label>
+            <input type="color" id="colorInput" onchange="updateColor()">
+    
+            <div id="colorDisplay">Selected Color: #000000</div>
+        </section>
+    
+        <section id="char-encoding" class="color-picker">
+            <h2>Character Encoding</h2>
+    
+            <label for="textInput">Enter text:</label>
+            <textarea id="textInput" rows="2" cols="25" oninput="convertText()"></textarea>
+    
+            <div id="encodedText">Encoded Text: </div>
+        </section>
+    </div>
+
+    <!-- js -->
+    <script src="./assets/js/colorsPickers.js"></script>
 </body>
 
 </html>

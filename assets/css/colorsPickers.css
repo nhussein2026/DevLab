@@ -1,0 +1,13 @@
+.color-pickers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.color-picker {
+    margin: 3rem;
+}
+#colorDisplay, #encodedText {
+    margin-top: 10px;
+    font-weight: bold;
+}
