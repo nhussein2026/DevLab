@@ -101,6 +101,28 @@
         <span id="tool-title"> Version Control Integration</span>
         <span id="line-span"></span>
     </div>
+
+    <!-- version control -->
+    <section id="version-control">
+        <h2>Version Control</h2>
+
+        <form id="versionControlForm">
+            <label for="projectName">Project Name:</label>
+            <input type="text" id="projectName" name="projectName" required>
+
+            <label for="repositoryURL">Repository URL:</label>
+            <input type="text" id="repositoryURL" name="repositoryURL" required>
+
+            <button type="button" onclick="initializeRepository()">Initialize Repository</button>
+            <button type="button" onclick="cloneRepository()">Clone Repository</button>
+        </form>
+
+        <!-- Display area for version control logs and other information -->
+        <div id="versionControlInfo"></div>
+    </section>
+
+
+    <script src="./assets/js/versionControl.js"></script>
 </body>
 
 </html>

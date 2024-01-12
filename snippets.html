@@ -57,6 +57,11 @@
 
     <!-- Include html2canvas library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+    <!-- for formating code -->
+    <script src="https://cdn.jsdelivr.net/npm/prettier/2.4.1/dist/prettier.min.js"></script>
+
+
 </head>
 
 <body>
@@ -121,17 +126,15 @@
                         <div class="circle">
                             <span class="green box"></span>
                         </div>
-
                     </div>
                     <div class="title">
                         <h2>Paste Your Code</h2>
                     </div>
                 </div>
-
-
                 <div class="card__content">
                     <textarea id="codeInput" placeholder="Enter your code here..."></textarea>
                 </div>
+                <button onclick="formatCode()">Format Code</button>
             </div>
             <button onclick="generateSnippet()">Generate Snippet</button>
         </div>
