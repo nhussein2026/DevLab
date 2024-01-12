@@ -299,11 +299,10 @@ body::-webkit-scrollbar-thumb {
 
 /* tools section */
 #tools {
-  /* display: flex; */
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
+
 }
 .dev-tools ul {
   display: grid; /* Consider grid layout */
@@ -337,7 +336,7 @@ body::-webkit-scrollbar-thumb {
 
 .dev-tools ul li:hover {
   background-color: #e1e5f2; /* Hover effect */
-  color: #111; /* Adjust text color on hover */
+  color: #111; 
   cursor: pointer;
 }
 
