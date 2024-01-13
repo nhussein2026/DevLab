@@ -22,7 +22,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
-
+    <link rel="stylesheet" href="./assets/css/linting.css">
     <!-- js -->
     <script src="./assets/js/darkAndLightMode.js" defer></script>
 
@@ -102,6 +102,31 @@
         <span id="tool-title"> Linting and Error Checking</span>
         <span id="line-span"></span>
     </div>
+
+    <!-- Linting and Error Checking -->
+
+    <!-- Linting and Error Checking -->
+    <section id="linting">
+        <h2>Linting and Error Checking</h2>
+
+        <label class="code-label" for="codeInput">Enter your code:</label>
+        <textarea class="code-textarea" id="codeInput" rows="10" cols="50"></textarea>
+
+        <button onclick="lintCode()" class="lint-button">Lint Code</button>
+
+        <div id="lintResults"></div>
+    </section>
+
+    <!-- js files -->
+<!-- Include ESLint library (Browser version) -->
+<script defer src="https://cdn.jsdelivr.net/npm/eslint@8.3.0/dist/eslint.js"></script>
+
+<!-- Include ESLint HTML Plugin -->
+<script defer src="https://cdn.jsdelivr.net/npm/eslint-plugin-html@7.0.1/dist/index.js"></script>
+
+<!-- Include your script with linting code -->
+<script defer src="./assets/js/lintCode.js"></script>
+
 </body>
 
 </html>

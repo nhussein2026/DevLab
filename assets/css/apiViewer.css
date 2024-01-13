@@ -1,0 +1,83 @@
+
+
+/* Section styles */
+.api-viewer {
+    max-width: 800px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* API Selector dropdown styles */
+.api-input {
+    background-color: #48484b77;
+    color: #070808;
+    font-size: 16px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.api-input.dark-mode {
+    font-size: 16px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: #295a69ad;
+    color: #00fff5;
+}
+
+/* Documentation container styles */
+#documentationContainer {
+    border: 1px solid #78bcd1;
+    padding: 20px;
+}
+
+/* Handle loading state for documentation container */
+#documentationContainer:empty::before {
+    content: 'Loading API documentation...';
+    color: #888;
+}
+
+.loadApiButton {
+    width: 50%;
+    align-self: center;
+    margin-top: 2rem;
+    background-color: #e1e5f2;
+    height: 2.5rem;
+    margin-bottom: 2rem;
+    color: #35393a;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    border: none;
+
+    &:hover {
+        background-color: #b0b9dac9;
+        color: #fffffff1;
+
+    }
+}
+
+.loadApiButton.dark-mode {
+    background-color: #9099b9c9;
+    color: #ffffffda;
+
+    &:hover {
+        background-color: #b0b9dac9;
+        color: #fffffff1;
+
+    }
+}
+
+
+.tool-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #006d77;
+}
+
+.tool-title.dark-mode {
+    color: #17c9e9;
+}

@@ -426,7 +426,7 @@ footer.dark-mode {
 }
 
 #line-span {
-  width: 40%;
+  width: 30%;
   border: 1px solid #000;
 }
 
@@ -434,7 +434,7 @@ footer.dark-mode {
   font-size: 25px;
   font-weight: 700;
   text-align: center;
-  width: 18%;
+  width: 30%;
 }
 
 

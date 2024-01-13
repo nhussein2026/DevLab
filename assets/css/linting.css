@@ -1,0 +1,70 @@
+/* Add this CSS to your existing style.css or create a new one */
+
+/* Linting Section Styles */
+#linting {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #333f4e82;
+}
+
+#linting h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.code-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.code-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace;
+    background-color: transparent;
+    color: aqua;
+}
+
+.lint-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.lint-button:hover {
+    background-color: #0056b3;
+}
+
+#lintResults {
+    margin-top: 20px;
+}
+
+/* Lint Results Styles */
+.lint-error, .lint-warning {
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+}
+
+.lint-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.lint-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
