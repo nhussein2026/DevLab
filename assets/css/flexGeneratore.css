@@ -1,0 +1,59 @@
+   /* Flexbox Generator Styles */
+.flexbox-generator {
+    padding: 2rem;
+    background-color: #dfdede81; /* Flexbox Generator background color */
+    margin: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Flexbox Generator box shadow */
+}
+
+/* Dark Mode Styles for Flexbox Generator */
+.flexbox-generator.dark-mode {
+    background-color: #07102d; /* Dark mode Flexbox Generator background color */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Dark mode Flexbox Generator box shadow */
+}
+
+/* Flexbox Settings Styles */
+.flexbox-settings {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+/* Flexbox Preview Styles */
+.flexbox-preview {
+    display: flex;
+    background-color: #f6f8fa; /* Flexbox Preview background color */
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+/* Dark Mode Styles for Flexbox Preview */
+.flexbox-preview.dark-mode {
+    background-color: #111f41; /* Dark mode Flexbox Preview background color */
+}
+
+/* Flex Item Styles */
+.flex-item {
+    padding: 1rem;
+    margin: 0.5rem;
+    width: 4rem;
+    border: 1px solid #ccc;
+    text-align: center;
+    order: 0; /* Initial order */
+}
+
+/* Dark Mode Styles for Flex Item */
+.flex-item.dark-mode {
+    border-color: #6bd7eae1; /* Dark mode Flex Item border color */
+}
+
+.user-inputs {
+    margin: 1rem;
+    height: 1.5rem;
+    background-color: #efeeee;
+}
+
+.user-inputs.dark-mode {
+    background-color: #183153;
+    color: aquamarine;
+}

@@ -7,6 +7,7 @@
 
     <!-- css -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/flexGeneratore.css">
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +23,7 @@
         content="Unlock the potential of DevLab, your comprehensive web development environment. Enjoy features like an integrated code editor, live preview, API documentation, and a suite of tools for seamless coding. Any developer can leverage our tools, and if the desired tool isn't available, contribute to add it! Join our community, contribute, and shape the ultimate web development toolkit.">
 
     <link rel="canonical" href="https://devlab.nhussein.io" />
+    <link rel="stylesheet" href="./assets/css/doc.css">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo/DevLab.png">
@@ -29,6 +31,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/flexGeneratore.css">
 
     <!-- js -->
     <script src="./assets/js/darkAndLightMode.js" defer></script>
@@ -60,7 +63,20 @@
     <!-- Meta Keywords (Optional): Skip or use sparingly -->
     <meta name="keywords"
         content="web development, coding, coding environment, DevLab, developer tools, code editor, live preview, code snippets, version control integration, API documentation viewer, linting, error checking, responsive design testing, performance analysis, debugging tools, HTML-to-JSX converter, validators, color picker, character encoding, CSS grid generator, flexbox generator, code minifiers, code beautifiers, performance testing, resume creator, portfolio conversion, linktree creation">
+    <style>
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
+        .flex-item {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #000;
+            order: 0;
+            /* Initial order */
+        }
+    </style>
 
 </head>
 
@@ -103,13 +119,71 @@
         </div>
     </nav>
 
-    <!-- Section Title -->
+    <!-- section title -->
     <div class="section-title">
-        <span class="line-span"></span>
-        <span class="tool-title">DevLab Flexbox Generators</span>
-        <span class="line-span"></span>
+        <span id="line-span"></span>
+        <span id="tool-title"> DevLab Flexbox Generators </span>
+        <span id="line-span"></span>
     </div>
 
+    <div class="flexbox-generator">
+        <section class="user-flexbox-settings">
+            <h3>Flexbox Settings</h3>
+            <label for="numOfItems">Number of Items:</label>
+            <input class="user-inputs" type="number" id="numOfItems" placeholder="Enter the number of items">
+            <button id="generateDivsBtn">Generate Divs</button>
+        </section>
+
+        <section class="flex-container" id="flexContainer">
+            <!-- Dynamically generated divs will be placed here -->
+        </section>
+
+        <section>
+            <div class="flexbox-settings">
+                <label for="flexDirection">Flex Direction:</label>
+                <select class="user-inputs" id="flexDirection">
+                    <option value="row">Row</option>
+                    <option value="row-reverse">Row Reverse</option>
+                    <option value="column">Column</option>
+                    <option value="column-reverse">Column Reverse</option>
+                </select>
+
+                <label for="justifyContent">Justify Content:</label>
+                <select class="user-inputs" id="justifyContent">
+                    <option value="flex-start">Flex Start</option>
+                    <option value="flex-end">Flex End</option>
+                    <option value="center">Center</option>
+                    <option value="space-between">Space Between</option>
+                    <option value="space-around">Space Around</option>
+                </select>
+
+                <label for="alignItems">Align Items:</label>
+                <select class="user-inputs" id="alignItems">
+                    <option value="flex-start">Flex Start</option>
+                    <option value="flex-end">Flex End</option>
+                    <option value="center">Center</option>
+                    <option value="baseline">Baseline</option>
+                    <option value="stretch">Stretch</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="generated-code">
+            <h3>Generated Code</h3>
+            <pre id="code-block"><div  id="generatedCode">
+                
+                
+            </div>
+            <button class="copy-btn" onclick="copyCode()">Copy</button></pre>
+        </section>
+    </div>
+
+
+
+
+    <!-- JavaScript -->
+    <script src="./assets/js/flexgenerator.js"></script>
+    <script src="./assets/js/copy.js"></script>
 </body>
 
 </html>
