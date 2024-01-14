@@ -58,9 +58,9 @@
     <!-- Include html2canvas library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 
-    <!-- for formating code -->
+    <!-- Include html2canvas and Prettier libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prettier/2.4.1/dist/prettier.min.js"></script>
-
 
 </head>
 
@@ -106,14 +106,13 @@
     <!-- section title -->
     <div class="section-title">
         <span id="line-span"></span>
-        <span id="tool-title"> Snippet</span>
+        <span id="tool-title"> Snippet Generator</span>
         <span id="line-span"></span>
     </div>
 
     <!-- snippet code -->
     <section id="code-snippet-generator">
-        <h2>Code Snippet Generator</h2>
-        <div class="snippet-input">
+        <div class="snippet-input" id="snippet-input">
             <div class="live-preview-card">
                 <div class="tools-parent">
                     <div class="tools-place">
@@ -128,21 +127,28 @@
                         </div>
                     </div>
                     <div class="title">
-                        <h2>Paste Your Code</h2>
+                        <input type="text" id="snippetTitle" placeholder="Enter snippet title...">
                     </div>
                 </div>
                 <div class="card__content">
                     <textarea id="codeInput" placeholder="Enter your code here..."></textarea>
                 </div>
-                <button onclick="formatCode()">Format Code</button>
+                <!-- <button id="formatCodeButton" onclick="formatCode()">Format Code</button> -->
             </div>
-            <button onclick="generateSnippet()">Generate Snippet</button>
         </div>
+        <button onclick="generateSnippet()" id="downloadButton">Generate Snippet</button>
+        
         <div class="snippet-output" id="snippetOutput">
-            <!-- The generated code snippet image will be displayed here -->
+            <div class="snippet-container">
+                <!-- The generated code snippet image will be displayed here -->
+                <img id="snippetImage" alt="Code Snippet">
+            </div>
+            <button id="downloadButton" onclick="downloadImage()">Download Image</button>
         </div>
+        
     </section>
 
+    <script src="./assets/js/darkAndLightMode.js"></script>
     <script src="./assets/js/snippets.js"></script>
 </body>
 

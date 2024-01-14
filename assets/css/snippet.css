@@ -1,4 +1,8 @@
 #code-snippet-generator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 40px;
 }
 
@@ -13,11 +17,12 @@
 }
 
 .snippet-output {
-    border: 1px solid #ddd;
+    border: none;
     border-radius: 8px;
     padding: 20px;
     text-align: center;
-    display: none; /* Initially hide the output */
+    display: none;
+    /* Initially hide the output */
 }
 
 .snippet-output img {
@@ -83,13 +88,48 @@
 .green {
     background-color: #00ca4e;
 }
+
 #codeInput {
     height: 233px;
     width: 95%;
     color: #60c69d;
     background-color: transparent;
     border: none;
+
     &:focus {
         outline: none;
     }
+}
+
+#downloadButton {
+    margin-top: 10px;
+    /* Adjust margin as needed */
+    padding: 10px;
+    /* Adjust padding as needed */
+    background-color: #344266;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+        background-color: #8c98b9;
+        /* Adjust hover color as needed */
+    }
+}
+.snippet-container {
+    width: 550px;
+    height: 504px;
+    overflow: hidden; /* Ensure the background covers the entire container */
+}
+.title input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #dddddd04;
+    border-radius: 4px;
+}
+
+#snippetTitle{
+    background-color: transparent;
+    color: #60c69d;
 }
