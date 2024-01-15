@@ -47,7 +47,7 @@
   }
   
   .tool {
-    flex-basis: 30%; /* Adjust width as needed */
+    flex-basis: 40%; /* Adjust width as needed */
     text-decoration: none;
     margin-bottom: 10px;
   }
@@ -55,4 +55,10 @@
   .tool h3 {
     font-weight: bold;
     margin-bottom: 5px;
+  }
+  @media only screen and (max-width: 768px) {
+
+    .tool {
+      flex-basis: 80%; /* Adjust width as needed */
+    }
   }
