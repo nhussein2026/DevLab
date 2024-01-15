@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/snippet.css">
+
+
+    <title>DevLab - Code Snippets Library</title>
+
+    <!-- Meta Description: Accurately reflects the content of each page -->
+    <meta name="description"
+        content="Unlock the potential of DevLab, your comprehensive web development environment. Enjoy features like an integrated code editor, live preview, API documentation, and a suite of tools for seamless coding. Any developer can leverage our tools, and if the desired tool isn't available, contribute to add it! Join our community, contribute, and shape the ultimate web development toolkit.">
+
+    <link rel="canonical" href="https://devlab.nhussein.io" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo/DevLab.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/logo/DevLab.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/recommandedd.css">
+
+    <!-- js -->
+    <script src="./assets/js/darkAndLightMode.js" defer></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&family=Source+Sans+3:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://devlab.nhussein.io">
+    <meta property="og:title" content="DevLab - Web Development Environment">
+    <meta property="og:description"
+        content="Explore the features and functionalities of DevLab, a web development environment that enhances your coding experience.">
+    <meta property="og:image" content="./assets/logo/DevLab.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://devlab.nhussein.io">
+    <meta name="twitter:title" content="DevLab - Web Development Environment">
+    <meta name="twitter:description"
+        content="Explore the features and functionalities of DevLab, a web development environment that enhances your coding experience.">
+    <meta name="twitter:image" content="./assets/logo/DevLab.png">
+
+    <!-- Additional tags for SEO (if needed) -->
+    <!-- Meta Keywords (Optional): Skip or use sparingly -->
+    <meta name="keywords"
+        content="web development, coding, coding environment, DevLab, developer tools, code editor, live preview, code snippets, version control integration, API documentation viewer, linting, error checking, responsive design testing, performance analysis, debugging tools, HTML-to-JSX converter, validators, color picker, character encoding, CSS grid generator, flexbox generator, code minifiers, code beautifiers, performance testing, resume creator, portfolio conversion, linktree creation">
+
+    <!-- Include html2canvas library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+    <!-- Include html2canvas and Prettier libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prettier/2.4.1/dist/prettier.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="./assets/logo/DevLab.png" height="100px" alt="DevLab">
+            </a>
+        </div>
+        <div>
+            <ul class="nav-links">
+                <li><a class="nav-link" href="/index.html">DevLab</a></li>
+                <li><a href="./Doc.html" class="nav-link">Doc</a></li>
+                <li><a class="nav-link" href="index.html">Tools</a></li> <!-- New link for tools -->
+                <li><a href="index.html#contribute" class="nav-link">Contribute</a></li>
+            </ul>
+        </div>
+
+        <!-- Dark and Light theme  -->
+        <div class="dark-light-mode-theme">
+            <label class="switch">
+                <span class="sun"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g fill="#ffd43b">
+                            <circle r="5" cy="12" cx="12"></circle>
+                            <path
+                                d="m21 13h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm-17 0h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm13.66-5.66a1 1 0 0 1 -.66-.29 1 1 0 0 1 0-1.41l.71-.71a1 1 0 1 1 1.41 1.41l-.71.71a1 1 0 0 1 -.75.29zm-12.02 12.02a1 1 0 0 1 -.71-.29 1 1 0 0 1 0-1.41l.71-.66a1 1 0 0 1 1.41 1.41l-.71.71a1 1 0 0 1 -.7.24zm6.36-14.36a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm0 17a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm-5.66-14.66a1 1 0 0 1 -.7-.29l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.29zm12.02 12.02a1 1 0 0 1 -.7-.29l-.66-.71a1 1 0 0 1 1.36-1.36l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.24z">
+                            </path>
+                        </g>
+                    </svg></span>
+                <span class="moon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path
+                            d="m223.5 32c-123.5 0-223.5 100.3-223.5 224s100 224 223.5 224c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z">
+                        </path>
+                    </svg></span>
+                <input id="dark-mode-toggle" type="checkbox" class="input">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </nav>
+
+    <!-- section title -->
+    <div class="section-title">
+        <span id="line-span"></span>
+        <span id="tool-title"> Recommended Tools</span>
+        <span id="line-span"></span>
+    </div>
+
+    <!-- PageSpeed Insights Section -->
+    <section id="pagespeed">
+        <div class="tool-list">
+            <a href="https://pagespeed.web.dev/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>PageSpeed Insights</h3>
+                <p>Measure your website's performance and get suggestions for improvement.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Lighthouse Section -->
+    <section id="lighthouse">
+        <div class="tool-list">
+            <a href="https://developers.google.com/web/tools/lighthouse" class="tool" target="_blank"
+                rel="noopener noreferrer">
+                <h3>Lighthouse</h3>
+                <p>An open-source, automated tool for improving the quality of web pages. It has audits for performance,
+                    accessibility, progressive web apps, SEO, and more.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Google Analytics Section -->
+    <section id="google-analytics">
+        <div class="tool-list">
+            <a href="https://analytics.google.com/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>Google Analytics</h3>
+                <p>A web analytics service offered by Google that tracks and reports website traffic.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- BrowserStack Section -->
+    <section id="browserstack">
+        <div class="tool-list">
+            <a href="https://www.browserstack.com/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>BrowserStack</h3>
+                <p>Cross-browser testing tool that allows you to test your website on various browsers and devices.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- W3C Markup Validation Service Section -->
+    <section id="w3c-markup-validator">
+        <div class="tool-list">
+            <a href="https://validator.w3.org/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>W3C Markup Validation Service</h3>
+                <p>Check the markup (HTML, XHTML, etc.) of web documents for correctness.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- W3C CSS Validator Section -->
+    <section id="w3c-css-validator">
+        <div class="tool-list">
+            <a href="https://jigsaw.w3.org/css-validator/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>W3C CSS Validator</h3>
+                <p>Check the validity of CSS code.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- WebAIM's WAVE Section -->
+    <section id="wave">
+        <div class="tool-list">
+            <a href="https://wave.webaim.org/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>WebAIM's WAVE</h3>
+                <p>Evaluate web content for accessibility issues directly within your browser.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Pingdom Section -->
+    <section id="pingdom">
+        <div class="tool-list">
+            <a href="https://www.pingdom.com/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>Pingdom</h3>
+                <p>Website performance monitoring tool that provides insights into website speed and performance.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- GTmetrix Section -->
+    <section id="gtmetrix">
+        <div class="tool-list">
+            <a href="https://gtmetrix.com/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>GTmetrix</h3>
+                <p>Analyze your site's speed and make it faster. It offers a comprehensive set of performance testing
+                    tools.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Selenium Section -->
+    <section id="selenium">
+        <div class="tool-list">
+            <a href="https://www.selenium.dev/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>Selenium</h3>
+                <p>A suite of tools to automate web browsers, providing a way for users to write test scripts in various
+                    programming languages.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Can I Use Section -->
+    <section id="can-i-use">
+        <div class="tool-list">
+            <a href="https://caniuse.com/" class="tool" target="_blank" rel="noopener noreferrer">
+                <h3>Can I Use</h3>
+                <p>Provides up-to-date browser support tables for support of front-end web technologies.</p>
+                <span class="link-text">Click to visit the tool</span>
+            </a>
+        </div>
+    </section>
+
+
+
+    <script src="./assets/js/darkAndLightMode.js"></script>
+    <script src="./assets/js/recommanded.js"></script>
+</body>
+
+</html>

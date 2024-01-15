@@ -1,17 +1,29 @@
+function initializeRepository(projectName) {
+    if (!projectName) {
+        alert('Please enter a project name.');
+        return;
+    }
 
-
-function initializeRepository() {
-    const projectName = document.getElementById('projectName').value;
     const versionControlInfo = document.getElementById('versionControlInfo');
-
-    // Perform actions to initialize a new repository (simulated in this example)
     versionControlInfo.innerHTML = `<p>Initialized repository for "${projectName}".</p>`;
 }
 
-function cloneRepository() {
-    const repositoryURL = document.getElementById('repositoryURL').value;
-    const versionControlInfo = document.getElementById('versionControlInfo');
+function cloneRepository(repositoryURL) {
+    if (!repositoryURL) {
+        alert('Please enter a repository URL.');
+        return;
+    }
 
-    // Perform actions to clone an existing repository (simulated in this example)
+    const versionControlInfo = document.getElementById('versionControlInfo');
     versionControlInfo.innerHTML = `<p>Cloned repository from "${repositoryURL}".</p>`;
 }
+
+document.getElementById('initializeButton').addEventListener('click', function () {
+    const projectName = document.getElementById('projectName').value;
+    initializeRepository(projectName);
+});
+
+document.getElementById('cloneButton').addEventListener('click', function () {
+    const repositoryURL = document.getElementById('repositoryURL').value;
+    cloneRepository(repositoryURL);
+});

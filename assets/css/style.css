@@ -306,7 +306,7 @@ body::-webkit-scrollbar-thumb {
 }
 .dev-tools ul {
   display: grid; /* Consider grid layout */
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust grid columns as needed */
+  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr)); /* Adjust grid columns as needed */
   gap: 10px;
   padding: 10px;
 }

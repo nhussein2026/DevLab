@@ -1,0 +1,58 @@
+#pagespeed,
+#lighthouse,
+#google-analytics,
+#browserstack,
+#w3c-markup-validator,
+#w3c-css-validator,
+#wave,
+#pingdom,
+#gtmetrix,
+#selenium,
+#can-i-use {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* dark-mode for doc sections */
+#pagespeed.dark-mode,
+#lighthouse.dark-mode,
+#google-analytics.dark-mode,
+#browserstack.dark-mode,
+#w3c-markup-validator.dark-mode,
+#w3c-css-validator.dark-mode,
+#wave.dark-mode,
+#pingdom.dark-mode,
+#gtmetrix.dark-mode,
+#selenium.dark-mode,
+#can-i-use.dark-mode 
+{
+  background-color: var(--bg-dark-section);
+
+}
+
+
+.tool-list {
+    display: flex;
+    flex-wrap: wrap; /* Allow tools to wrap onto multiple lines */
+    justify-content: space-between; /* Space tools evenly */
+  }
+  .tool-list a {
+    color: #6bd6ea;
+    &:hover {
+        color: #aaf2ff;
+    }
+  }
+  
+  .tool {
+    flex-basis: 30%; /* Adjust width as needed */
+    text-decoration: none;
+    margin-bottom: 10px;
+  }
+  
+  .tool h3 {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
