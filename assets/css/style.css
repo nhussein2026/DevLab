@@ -305,8 +305,8 @@ body::-webkit-scrollbar-thumb {
 
 }
 .dev-tools ul {
-  display: grid; /* Consider grid layout */
-  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr)); /* Adjust grid columns as needed */
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr)); 
   gap: 10px;
   padding: 10px;
 }
@@ -448,9 +448,9 @@ footer.dark-mode {
 }
 
 /* Responsive design */
+  /* For mobile phones: */
 @media only screen and (max-width: 768px) {
 
-  /* For mobile phones: */
   .navbar {
     height: 80px;
     display: flex;
@@ -504,15 +504,15 @@ footer.dark-mode {
     height: auto;
   }
 }
-
+ /* For tablets: */
 @media only screen and (min-width: 769px) {
-  /* For tablets: */
+ 
 
 }
 
+/* For desktop: */
 @media only screen and (min-width: 992px) {
-  /* For desktop: */
-
+  
   /* navbar */
   .navbar .logo img {
     height: 101px;
