@@ -4,6 +4,16 @@ function copyCode() {
     copyToClipboard(document.getElementById('code-block').innerText);
 }
 
+//to copy css code
+function copyCssCode() {
+    copyToClipboard(document.getElementById('generatedCode').innerText);
+}
+
+//copy html code
+function copyHtmlCode() {
+    copyToClipboard(document.getElementById('generatedHtmlCode').innerText);
+}
+
 // Function to copy the content of the live preview code to the clipboard
 function copyLivePreviewCode() {
     // Calls the copyToClipboard function with the inner text of the element with id 'live-preview-code'
