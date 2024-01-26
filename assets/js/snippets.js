@@ -1,7 +1,7 @@
 // Use addEventListener for better separation of concerns
-document.getElementById('formatCodeButton').addEventListener('click', formatCode);
+document.getElementById('downloadButton').addEventListener('click', generateSnippet);
 
-// error handling
+// Function to format code using Prettier
 function formatCode() {
     try {
         const codeInput = document.getElementById('codeInput');
@@ -12,14 +12,12 @@ function formatCode() {
     }
 }
 
-// Use addEventListener for better separation of concerns
-document.getElementById('formatCodeButton').addEventListener('click', formatCode);
-
 function generateSnippet() {
+    formatCode();
     // Get the user's input code and snippet title
     const codeInput = document.getElementById('codeInput').value;
     const snippetTitle = document.getElementById('snippetTitle').value;
-
+       
     // Create HTML structure for the snippet
     const snippetHTML = `
         <div class="snippet-input">
@@ -49,11 +47,24 @@ function generateSnippet() {
         </div>
     `;
 
+    // Append the snippetHTML to a temporary container to measure its height
+    const tempContainer = document.createElement('div');
+    tempContainer.innerHTML = snippetHTML;
+    document.body.appendChild(tempContainer);
+
+    // Get the height of the generated content
+    const snippetHeight = tempContainer.offsetHeight;
+
+    // Remove the temporary container
+    document.body.removeChild(tempContainer);
+
+    // Set the height of the #snippet-input container
+    const snippetInputContainer = document.getElementById('snippet-input');
+    snippetInputContainer.style.height = `${snippetHeight}px`;
+
+
     // Use html2canvas to convert the styled code to an image
-    html2canvas(document.getElementById('code-snippet-generator'), {
-        width: document.getElementById('snippet-input').scrollWidth,
-        height: document.getElementById('snippet-input').scrollHeight,
-    }).then(canvas => {
+    html2canvas(snippetInputContainer).then(canvas => {
         // Convert the canvas to a data URL
         const imageUrl = canvas.toDataURL();
 
