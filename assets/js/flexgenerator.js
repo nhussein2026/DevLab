@@ -1,15 +1,26 @@
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('generateDivsBtn').addEventListener('click', generateDivs);
-    document.getElementById('generateCodeBtn').addEventListener('click', generateCode);
+
+    // Event listeners for immediate updates as the user changes the options
+    document.getElementById('flexDirection').addEventListener('change', function () {
+        updateFlexboxStyles();
+        generateCode();
+    });
+    document.getElementById('justifyContent').addEventListener('change', function () {
+        updateFlexboxStyles();
+        generateCode();
+    });
+    document.getElementById('alignItems').addEventListener('change', function () {
+        updateFlexboxStyles();
+        generateCode();
+    });
 
     function generateDivs() {
         const numOfItems = parseInt(document.getElementById('numOfItems').value, 10);
         const flexContainer = document.getElementById('flexContainer');
-        const generatedCode = document.getElementById('generatedCode');
 
         // Clear previous content
         flexContainer.innerHTML = '';
-        generatedCode.innerText = '';
 
         // Generate the specified number of divs
         for (let i = 1; i <= numOfItems; i++) {
@@ -31,9 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const justifyContent = document.getElementById('justifyContent').value;
         const alignItems = document.getElementById('alignItems').value;
 
-        // Apply flex settings to each generated div
-        updateFlexboxStyles();
-
         // Generate the CSS code
         const cssCode = `
             .flex-container {
@@ -48,13 +56,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 /* Add individual item styles here */
                 margin: 5px;
                 padding: 10px;
-                border: 1px solid #000;
+                border: 1px solid #06e8f9;
                 order: 0; /* Initial order */
             }
         `;
+        // Generate the HTML structure representation
+        const numOfItems = parseInt(document.getElementById('numOfItems').value, 10);
+        const htmlStructure = `
+            <div class="flex-container">
+                ${Array.from({ length: numOfItems }, (_, i) => `
+                <div class="flex-item">Item ${i + 1}</div>`).join('\n')}
+            </div>
+        `;
 
-        // Display the generated code
+        // Display the generated css code
         document.getElementById('generatedCode').innerText = cssCode;
+
+      // Display the generated html code
+      document.getElementById('generatedHtmlCode').innerText = htmlStructure;
+  
     }
 
     function updateFlexboxStyles() {
@@ -63,30 +83,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const alignItems = document.getElementById('alignItems').value;
     
         const flexContainer = document.getElementById('flexContainer');
-        const flexItems = document.getElementsByClassName('flex-item');
     
         flexContainer.style.flexDirection = flexDirection;
         flexContainer.style.justifyContent = justifyContent;
         flexContainer.style.alignItems = alignItems;
-    
-        // Apply order based on position (if needed)
-        for (let i = 0; i < flexItems.length; i++) {
-            flexItems[i].style.order = i;
-        }
     }
-    
-
-    // Event listeners to trigger updates as the user changes the options
-    document.getElementById('flexDirection').addEventListener('change', function () {
-        updateFlexboxStyles();
-        generateCode();
-    });
-    document.getElementById('justifyContent').addEventListener('change', function () {
-        updateFlexboxStyles();
-        generateCode();
-    });
-    document.getElementById('alignItems').addEventListener('change', function () {
-        updateFlexboxStyles();
-        generateCode();
-    });
 });

@@ -73,7 +73,7 @@ function downloadImage() {
 
     const link = document.createElement('a');
     link.href = imageURL;
-    link.download = 'code-snippet.png'; // Adjust filename as needed
+    link.download = 'devLab-code-snippet.png'; // Adjust filename as needed
     link.click();
 }
 

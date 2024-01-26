@@ -57,3 +57,17 @@
     background-color: #183153;
     color: aquamarine;
 }
+
+.user-flexbox-settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.generated-html-css-code {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}

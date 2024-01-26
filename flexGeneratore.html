@@ -131,7 +131,7 @@
             <h3>Flexbox Settings</h3>
             <label for="numOfItems">Number of Items:</label>
             <input class="user-inputs" type="number" id="numOfItems" placeholder="Enter the number of items">
-            <button id="generateDivsBtn">Generate Divs</button>
+            <button id="generateDivsBtn" class="contributing-btn">Generate Divs</button>
         </section>
 
         <section class="flex-container" id="flexContainer">
@@ -167,14 +167,24 @@
                 </select>
             </div>
         </section>
-
-        <section class="generated-code">
-            <h3>Generated Code</h3>
-            <pre id="code-block"><div  id="generatedCode">
-                
-                
+        <section class="generated-html-css-code">
+            <div class="generated-code">
+                <h3>Generated css Code</h3>
+                <pre id="code-block"><div  id="generatedCode">
+                    
+                    
+                </div>
+                <button class="copy-btn" onclick="copyCode()">Copy</button></pre>
             </div>
-            <button class="copy-btn" onclick="copyCode()">Copy</button></pre>
+            <div class="generated-code">
+                <h3>Generated html Code</h3>
+                <pre id="code-block"><div  id="generatedHtmlCode">
+                    
+                    
+                </div>
+                <button class="copy-btn" onclick="copyCode()">Copy</button></pre>
+            </div>
+           
         </section>
     </div>
 

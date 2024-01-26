@@ -117,8 +117,11 @@
     }
 }
 .snippet-container {
-    width: 550px;
-    height: 504px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
     overflow: hidden; /* Ensure the background covers the entire container */
 }
 .title input {
@@ -132,4 +135,11 @@
 #snippetTitle{
     background-color: transparent;
     color: #60c69d;
+}
+
+#snippetImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: auto;
 }
