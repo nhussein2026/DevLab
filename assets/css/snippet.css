@@ -3,7 +3,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px;
+    padding: 20px;
+
+    @media (max-width: 768) {
+        padding: 40px;
+    }
 }
 
 .snippet-input {
@@ -89,7 +93,7 @@
 #codeInput {
     max-height: 45rem;
     height: 15rem;
-    width: 95%;
+    width: 100%;
     color: #60c69d;
     background-color: transparent;
     border: none;
@@ -148,4 +152,23 @@
 #snippet-input {
     max-width: 100%;
     height: auto;
+}
+
+
+@media (max-width: 768px) {
+    .snippet-input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .live-preview-card {
+        width: 325px;
+        height: 313px;
+        margin: 0; /* Remove margin for larger screens */
+    }
+
+    #codeInput {
+        width: 70%; /* Adjust width for larger screens */
+    }
 }

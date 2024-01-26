@@ -430,6 +430,10 @@ footer.dark-mode {
   border: 1px solid #000;
 }
 
+#line-span.dark-mode {
+  border: 1px solid #6bd6ea;
+}
+
 #tool-title {
   font-size: 25px;
   font-weight: 700;
