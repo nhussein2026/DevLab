@@ -32,6 +32,9 @@ html {
   --bg-dark-tool: #1a3064;
   --font-dark-tool: #00d7ff;
 
+  --sb-track-color: #0c1a43;
+  --sb-thumb-color: #6bd6ea;
+  --sb-size: 3px;
 }
 
 
@@ -65,26 +68,30 @@ body {
   margin: 0;
   font-family: 'Source Sans 3', sans-serif;
   font-family: 'Courier New', Courier, monospace;
-  --sb-track-color: #232E33;
-  --sb-thumb-color: #6bd6ea;
-  --sb-size: 3px;
   scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
 
 }
 
-/* Scroll bar setting  */
 body::-webkit-scrollbar {
   width: var(--sb-size);
 }
 
 body::-webkit-scrollbar-track {
   background: var(--sb-track-color);
-  border-radius: 10px;
+  border-radius: 21px;
 }
 
 body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
-  border-radius: 10px;
+  border-radius: 21px;
+  border: 1px solid #232E33;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+      scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
+  }
 }
 
 /* Navbar Styling */
