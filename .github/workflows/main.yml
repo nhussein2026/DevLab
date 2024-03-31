@@ -1,0 +1,32 @@
+name: Update Visitor Count
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_visitor_count:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Read current count
+        id: read-count
+        run: echo "::set-output name=count::$(jq '.count' /assets/js/visitor-count.json)"  # Update path
+
+      - name: Increment count
+        id: increment-count
+        run: echo "::set-output name=new_count::$((${{ steps.read-count.outputs.count }} + 1))"
+
+      - name: Update count in JSON file
+        run: echo "{\"count\":${{ steps.increment-count.outputs.new_count }}}\" > /assets/json/visitor-count.json"  # Update path
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add /assets/js/visitor-count.json  # Update path
+          git commit -m "Update visitor count" || exit 0
+          git push
