@@ -21,13 +21,13 @@ jobs:
         run: echo "::set-output name=new_count::$((${{ steps.read-count.outputs.count }} + 1))"
 
       - name: Update count in JSON file
-        run: echo "{\"count\":${{ steps.increment-count.outputs.new_count }}}\" > /assets/json/visitor-count.json"  # Update path
+        run: echo "{\"count\":${{ steps.increment-count.outputs.new_count }}}\" > assets/json/visitor-count.json"  # Update path
 
       - name: Commit and push changes
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add /assets/json/visitor-count.json  # Update path
+          git add assets/json/visitor-count.json  # Update path
           git commit -m "Update visitor count" || exit 0
           git push https://$GH_TOKEN@github.com/nhussein2026/DevLab.git
           env:
