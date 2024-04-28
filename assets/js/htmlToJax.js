@@ -23,6 +23,8 @@ function convertToJSX() {
     // Convert class to className
     jsxCode = jsxCode.replace(/(<img[^>]+)>/g, '$1 />'); // Closing tag for <img>
     jsxCode = jsxCode.replace(/ class=/g, ' className='); // Convert class to className
+    // Handle HTML comments
+     jsxCode = jsxCode.replace(/<!--([\s\S]*?)-->/g, '{/*$1*/}');
 
     // Set the converted JSX code to the second textarea
     jsxTextarea.value = jsxCode;
