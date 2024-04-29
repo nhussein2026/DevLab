@@ -405,7 +405,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 footer {
-  height: 104px;
   background-color: #384568;
   text-align: center;
   color: var(--text-light);

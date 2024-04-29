@@ -99,14 +99,26 @@ pre.dark-mode {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.seperator-section {
+    text-align: center;
+    margin: 40px 20px;
+    padding: 20px;
+    background-color: #9bd4d583;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.seperator-section.dark-mode {
+    background-color: rgb(3, 10, 32);
+
+}
 
 /* dark-mode for doc sections */
 .doc-section.dark-mode,
 #code-editor.dark-mode,
 #live-preview.dark-mode,
 #code-snippets.dark-mode,
-#contributions.dark-mode
-{
+#contributions.dark-mode,
+.seperator-section.dark-mode{
   background-color: var(--bg-dark-section);
 
 }
