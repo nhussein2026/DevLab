@@ -26,6 +26,13 @@ function copyCodeSnippetsCode() {
     copyToClipboard(document.getElementById('code-snippets-code').innerText);
 }
 
+// copy jsx generated code 
+function copyJSXCode() {
+    copyToClipboard(document.querySelector('.jsxTextarea').value);
+}
+
+
+
 // Function to copy the given text to the clipboard
 function copyToClipboard(text) {
     // Creates a new textarea element

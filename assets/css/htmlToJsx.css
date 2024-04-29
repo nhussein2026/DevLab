@@ -30,12 +30,28 @@
     color: #00ffb3;
 
   }
-  
+  #jsx-terminal {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .terminal_toolbar.dark-mode {
     background-color: #1a6b78e6;
     color: #2ed8f7;
   }
   
+  .copy-btn {
+    top: 5px;
+    right: 5px;
+    padding: 5px;
+    background-color: #2ed8f7;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+
   .butt {
     display: flex;
     align-items: center;

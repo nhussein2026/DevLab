@@ -144,23 +144,24 @@
 
                     <div class="code-container">
                         <div class="container_terminal"></div>
-                        <div class="terminal_toolbar">
+                        <div class="terminal_toolbar" id="jsx-terminal">
                             <div class="butt">
                                 <button class="btn red"></button>
                                 <button class="btn green"></button>
                                 <button class="btn yellow"></button>
                             </div>
                             <p class="user">JSX code</p>
+                         <button class="copy-btn" onclick="copyJSXCode()">Copy</button></pre>
                         </div>
                         <div class="terminal_body">
                             <div class="terminal_promt">
                                 <form>
                                     <textarea class="jsxTextarea" name="" id="editor"></textarea>
                                 </form>
+                                
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -173,6 +174,7 @@
 
 
     <script src="/assets/js/htmlToJax.js"></script>
+    <script src="./assets/js/copy.js"></script>
 </body>
 
 </html>
