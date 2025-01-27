@@ -5,7 +5,7 @@
     <!-- Primary Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevLab - Web Development Environment</title>
+    <title>DevLab - Convert Link to QR code</title>
     <!-- Meta Description: Accurately reflects the content of each page -->
     <meta name="description"
         content="Unlock the potential of DevLab, your comprehensive web development environment. Enjoy features like an integrated code editor, live preview, API documentation, and a suite of tools for seamless coding. Any developer can leverage our tools, and if the desired tool isn't available, contribute to add it! Join our community, contribute, and shape the ultimate web development toolkit.">
@@ -54,9 +54,11 @@
 
     <!-- Bing seo -->
     <meta name="msvalidate.01" content="EAF6DD69779938E2DDB4D64554B1E975" />
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/qrcodegen.css">
 </head>
-
 
 <body>
     <!-- Navbar -->
@@ -71,7 +73,7 @@
             <ul class="nav-links">
                 <li><a class="nav-link" href="">DevLab</a></li>
                 <li><a href="./Doc.html" class="nav-link">Doc</a></li>
-                <li><a class="nav-link" href="#tools">Tools</a></li>
+                <!-- <li><a class="nav-link" href="#tools">Tools</a></li> -->
                 <li><a href="#contribute" class="nav-link">Contribute</a></li>
             </ul>
         </div>
@@ -99,82 +101,42 @@
         </div>
     </nav>
 
-    <!-- hero section -->
-    <div class="hero-section" id="hero">
-        <h1>Welcome to DevLab</h1>
-        <p>Your Ultimate Web Development Environment</p>
-        <a href="./about.html" class="cta-button">Learn More</a>
+    <!-- QR Code code -->
+    <div class="qrg-container">
+        <main class="qrg-main">
+            <h1 class="qrg-title">QR Code Customizer</h1>
+            <input type="text" class="qrg-input" id="urlInput" placeholder="Enter URL or text...">
+
+            <div class="qrg-controls">
+                <div class="qrg-control-group">
+                    <label>Dot Color</label>
+                    <input type="color" class="qrg-color-picker" id="dotColor" value="#ffffff">
+                </div>
+
+                <div class="qrg-control-group">
+                    <label>Background Color</label>
+                    <input type="color" class="qrg-color-picker" id="bgColor" value="#0d1117">
+                </div>
+
+                <div class="qrg-control-group">
+                    <label>Size</label>
+                    <input type="range" class="qrg-range" id="qrSize" min="100" max="500" value="256">
+                    <span id="sizeValue">256px</span>
+                </div>
+            </div>
+
+            <div class="qrg-button-group">
+                <button class="qrg-generate-btn" onclick="generateCustomQR()">
+                    Generate QR
+                </button>
+                <button class="qrg-download-btn qrg-generate-btn" id="downloadBtn" onclick="downloadQR()">
+                    Download
+                </button>
+            </div>
+
+            <div class="qrcode-display" id="qrcode"></div>
+        </main>
     </div>
-
-
-
-    <!-- Devloper tools section -->
-    <section id="tools">
-        <div class="dev-tools">
-            <ul>
-                <li><a href="./codeEditor.html">Code Editor</a></li>
-                <li><a href="./livePreview.html">Live Preview</a></li>
-                <li><a href="./htmlToJsx.html">HTML-to-JSX</a></li>
-                <li>
-                    <a href="./apiViewer.html">API Endpoints Viewer</a>
-                </li>
-                <li><a href="./flexGeneratore.html">CSS Grid and Flexbox
-                        Generators</a></li>
-                <li><a href="./colorsPicker.html">Color Picker and Character Encoding</a></li>
-
-
-                <li><a href="./snippets.html">Code Snippets</a></li>
-                <!-- <li><a href="./versionControl.html">Version Control Integration</a></li> -->
-                <li>
-                    <a href="./linkToQRCode.html">Convert Link to QR code</a>
-                </li>
-                <li>
-                    <a href="./recommandedTools.html">Recommended Tools</a>
-                </li>
-                <!-- <li>
-                    <a href="./errorChecking.html">Linting and Error Checking</a>
-                </li> -->
-                <!-- <li><a href="./responsive.html">Responsive Design
-                        Testing</a></li>
-                <li><a href="./performance.html">Performance Analysis</a>
-                </li>
-                <li><a href="./debuggingTool.html">Debugging Tools</a>
-                </li>
-                <li><a href="./validator.html">HTML, CSS, and JavaScript
-                        Validators</a></li>
-                <li><a href="./codeMinifiers.html">Code Minifiers and
-                        Beautifiers</a></li>
-                <li><a href="./performanceTesting.html">Performance
-                        Testing</a></li>
-                <li>
-                    <a href="./createResume.html">Create Resume</a>
-                </li>
-                <li>
-                    <a href="./convertResumeToProtfolio.html">Convert My Resume to Portfolio</a>
-                </li>
-                <li>
-                    <a href="./createLinkTree.html">Create Yourlinktree</a>
-                </li>
-                 -->
-            </ul>
-
-        </div>
-    </section>
-
-
-
-    <!-- conterbuting section -->
-    <section id="contribute" class="contribution-section">
-        <div class="container">
-            <h2 class="section-heading">Shape DevLab's Future</h2>
-            <p class="section-text">DevLab is fueled by a passionate community of developers like you. Contribute your
-                ideas, code, and tools to make DevLab even more powerful and versatile.</p>
-            <a href="CONTRIBUTING.md" class="contributing-btn">Start Contributing</a>
-        </div>
-    </section>
-
-
-
 
     <!-- footer -->
     <footer>
@@ -198,6 +160,7 @@
 
     <script src="./assets/js/darkAndLightMode.js"></script>
     <script src="./assets/js/viewerCounter.js"></script>
+    <script src="./assets/js/generateQRCode.js"></script>
 
 </body>
 

@@ -7,9 +7,12 @@ html {
 :root {
   /* Dark and light mode colors */
   /* bg-colors */
-  --background-light: #f6f8fa; /* Your chosen light background color */
-  --text-light: #333333; /* Your chosen light text color */
-  --accent-light: #6bd6ea; /* Your chosen light accent color */
+  --background-light: #f6f8fa;
+  /* Your chosen light background color */
+  --text-light: #333333;
+  /* Your chosen light text color */
+  --accent-light: #6bd6ea;
+  /* Your chosen light accent color */
   --bg-dark-color: #111f41;
   --dark-font-color: #6bd6ea;
   --light-font-color: #000;
@@ -19,11 +22,11 @@ html {
   /* nav styleing */
   --bg-dark-nav: rgba(11, 24, 68, 0.808);
   --bg-light-nav: #f3f3f3b7;
-  --font-dark-nav:  #6bd7eae1;
-  --font-dark-hover-nav:  #00d9ffd0;
+  --font-dark-nav: #6bd7eae1;
+  --font-dark-hover-nav: #00d9ffd0;
 
   /* hero section */
-  --bg-hero: #e8f0f9; 
+  --bg-hero: #e8f0f9;
 
   /* sections colors */
   --bg-section-light: #ffffff;
@@ -62,6 +65,7 @@ body.dark-mode {
   color: var(--font-dark-hover-nav);
 
 }
+
 /* light mode */
 body {
   padding: 0;
@@ -89,8 +93,7 @@ body::-webkit-scrollbar-thumb {
 
 @supports not selector(::-webkit-scrollbar) {
   body {
-      scrollbar-color: var(--sb-thumb-color)
-                     var(--sb-track-color);
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
 }
 
@@ -108,6 +111,7 @@ body::-webkit-scrollbar-thumb {
 .nav-links {
   display: flex;
 }
+
 .nav-links li {
   margin: 10px;
   list-style: none;
@@ -130,6 +134,7 @@ body::-webkit-scrollbar-thumb {
 .dark-light-mode-theme {
   padding: 10px;
 }
+
 .switch {
   font-size: 17px;
   position: relative;
@@ -188,12 +193,13 @@ body::-webkit-scrollbar-thumb {
   height: 24px;
 }
 
-/* .switch:hover */.sun svg {
+/* .switch:hover */
+.sun svg {
   animation: rotate 15s linear infinite;
 }
 
 @keyframes rotate {
- 
+
   0% {
     transform: rotate(0);
   }
@@ -203,12 +209,13 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-/* .switch:hover */.moon svg {
+/* .switch:hover */
+.moon svg {
   animation: tilt 5s linear infinite;
 }
 
 @keyframes tilt {
- 
+
   0% {
     transform: rotate(0deg);
   }
@@ -226,15 +233,15 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-.input:checked + .slider {
+.input:checked+.slider {
   background-color: #183153;
 }
 
-.input:focus + .slider {
+.input:focus+.slider {
   box-shadow: 0 0 1px #183153;
 }
 
-.input:checked + .slider:before {
+.input:checked+.slider:before {
   transform: translateX(30px);
 }
 
@@ -266,11 +273,14 @@ body::-webkit-scrollbar-thumb {
   padding: 15px 30px;
   font-size: 1.2em;
   text-decoration: none;
-  color: #007bff; /* Button text color */
-  background: #fff; /* Button background color */
+  color: #007bff;
+  /* Button text color */
+  background: #fff;
+  /* Button background color */
   border-radius: 5px;
   transition: background 0.3s, color 0.3s;
 }
+
 .cta-button {
   display: inline-block;
   padding: 12px 20px;
@@ -281,25 +291,32 @@ body::-webkit-scrollbar-thumb {
   border: none;
   border-radius: 5px;
   /* Light mode styles */
-  background-color: #d58ab5; /* Light mode background */
-  color: #333; /* Light mode text color */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Light mode shadow */
+  background-color: #d58ab5;
+  /* Light mode background */
+  color: #333;
+  /* Light mode text color */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  /* Light mode shadow */
 }
 
 .cta-button:hover {
-  background-color: #91687e; /* Hover background color for both modes */
-  color: #fff; /* Hover text color for both modes */
+  background-color: #91687e;
+  /* Hover background color for both modes */
+  color: #fff;
+  /* Hover text color for both modes */
 }
 
-.cta-button.dark-mode  {
+.cta-button.dark-mode {
   /* Dark mode styles */
-  background-color: #3a456b; /* Slightly lighter blue for contrast */
+  background-color: #3a456b;
+  /* Slightly lighter blue for contrast */
   color: var(--background-light);
   box-shadow: none;
 }
 
 .cta-button.dark-mode:hover {
-  background-color: #283555; /* Darker blue on hover */
+  background-color: #283555;
+  /* Darker blue on hover */
   color: var(--font-dark-hover-nav);
 
 }
@@ -311,9 +328,10 @@ body::-webkit-scrollbar-thumb {
   align-items: center;
 
 }
+
 .dev-tools ul {
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr)); 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
   gap: 10px;
   padding: 10px;
 }
@@ -322,36 +340,49 @@ body::-webkit-scrollbar-thumb {
   pointer-events: all;
   display: flex;
   align-items: center;
-  height: 40px; /* Increase height for better readability */
+  height: 40px;
+  /* Increase height for better readability */
   width: auto;
-  margin: 5px; /* Reduce margin */
-  padding: 10px 15px; /* Adjust padding */
+  margin: 5px;
+  /* Reduce margin */
+  padding: 10px 15px;
+  /* Adjust padding */
   list-style: none;
-  border-radius: 8px; /* Reduce border-radius for a cleaner look */
-  background-color: #e1e5f2; /* Add subtle background */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  border-radius: 8px;
+  /* Reduce border-radius for a cleaner look */
+  background-color: #e1e5f2;
+  /* Add subtle background */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  /* Add subtle shadow */
 }
 
 .dev-tools ul li a {
   display: block;
   width: 100%;
   text-decoration: none;
-  color: #333; /* Darker text color */
-  font-size: 16px; /* Increase font size */
-  line-height: 1.5; /* Increase line height */
+  color: #333;
+  /* Darker text color */
+  font-size: 16px;
+  /* Increase font size */
+  line-height: 1.5;
+  /* Increase line height */
 }
 
 .dev-tools ul li:hover {
-  background-color: #e1e5f2; /* Hover effect */
-  color: #111; 
+  background-color: #e1e5f2;
+  /* Hover effect */
+  color: #111;
   cursor: pointer;
 }
 
 
 .dev-tools ul li a:hover {
-  background-color: #e1e5f2; /* Hover effect */
-  color: #111; /* Adjust text color on hover */
+  background-color: #e1e5f2;
+  /* Hover effect */
+  color: #111;
+  /* Adjust text color on hover */
 }
+
 .navigationLink.dark-mode {
   color: var(--font-dark-tool);
   background: var(--bg-dark-tool);
@@ -366,8 +397,8 @@ body::-webkit-scrollbar-thumb {
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  box-shadow: rgb(0,0,0.1);
+  justify-content: center;
+  box-shadow: rgb(0, 0, 0.1);
 }
 
 /* contribute section dark mode */
@@ -400,27 +431,34 @@ body::-webkit-scrollbar-thumb {
 }
 
 .contributing-btn:hover {
-  background: rgba(148, 161, 201, 0.808);/* Hover background color for both modes */
+  background: rgba(148, 161, 201, 0.808);
+  /* Hover background color for both modes */
   color: #fff;
 }
 
 footer {
+  position: fixed;
+  bottom: 0;
   background-color: #384568;
   text-align: center;
   color: var(--text-light);
+
   &:hover {
     color: var(--accent-light);
   }
+
   min-width: 100%;
 }
-.footer-logo{
-  margin:0 auto;
+
+.footer-logo {
+  margin: 0 auto;
 
 }
 
 footer.dark-mode {
   background: var(--bg-dark-color);
 }
+
 /* the sections titles */
 .section-title {
   margin-top: 60px;
@@ -458,7 +496,7 @@ footer.dark-mode {
 }
 
 /* Responsive design */
-  /* For mobile phones: */
+/* For mobile phones: */
 @media only screen and (max-width: 768px) {
 
   .navbar {
@@ -514,15 +552,13 @@ footer.dark-mode {
     height: auto;
   }
 }
- /* For tablets: */
-@media only screen and (min-width: 769px) {
- 
 
-}
+/* For tablets: */
+@media only screen and (min-width: 769px) {}
 
 /* For desktop: */
 @media only screen and (min-width: 992px) {
-  
+
   /* navbar */
   .navbar .logo img {
     height: 101px;
@@ -535,10 +571,11 @@ footer.dark-mode {
     text-decoration: none;
     display: flex;
   }
-  .nav-links li{
+
+  .nav-links li {
     list-style: none;
     text-decoration: none;
-  } 
+  }
 
   .light-dark-theme {
     margin: 10px;
@@ -553,20 +590,25 @@ footer.dark-mode {
 
 /* Dark mode styles */
 .dark-mode .dev-tools ul li {
-  background-color: #3a456b; /* Dark mode background color */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  background-color: #3a456b;
+  /* Dark mode background color */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  /* Add subtle shadow */
 }
 
 .dark-mode .dev-tools ul li a {
-  color: #f6f8fa; /* Dark mode font color */
+  color: #f6f8fa;
+  /* Dark mode font color */
 }
 
 .dark-mode .dev-tools ul li:hover {
-  background-color: #53629c; /* Dark mode hover effect */
+  background-color: #53629c;
+  /* Dark mode hover effect */
   color: var(--accent-light);
 }
 
 .dark-mode .dev-tools ul li a:hover {
   background-color: #53629c;
-  color: var(--accent-light); /* Dark mode hover font color */
+  color: var(--accent-light);
+  /* Dark mode hover font color */
 }
