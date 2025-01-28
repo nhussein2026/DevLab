@@ -105,27 +105,30 @@
 }
 
 #downloadButton {
-    margin-top: 10px;
-    /* Adjust margin as needed */
-    padding: 10px;
+    margin: 1rem 5rem;
+    /* padding: 10px; */
     /* Adjust padding as needed */
     background-color: #344266;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+
     &:hover {
         background-color: #8c98b9;
         /* Adjust hover color as needed */
     }
 }
+
 .snippet-container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    overflow: hidden; /* Ensure the background covers the entire container */
+    overflow: hidden;
+    /* Ensure the background covers the entire container */
 }
+
 .title input {
     width: 100%;
     padding: 8px;
@@ -134,7 +137,7 @@
     border-radius: 4px;
 }
 
-#snippetTitle{
+#snippetTitle {
     background-color: transparent;
     color: #60c69d;
 }
@@ -147,7 +150,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-} 
+}
 
 #snippet-input {
     max-width: 100%;
@@ -165,10 +168,12 @@
     .live-preview-card {
         width: 325px;
         height: 313px;
-        margin: 0; /* Remove margin for larger screens */
+        margin: 0;
+        /* Remove margin for larger screens */
     }
 
     #codeInput {
-        width: 70%; /* Adjust width for larger screens */
+        width: 70%;
+        /* Adjust width for larger screens */
     }
 }
