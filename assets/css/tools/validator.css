@@ -1,0 +1,122 @@
+/* Validator Styles */
+#validators {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.validator-container {
+    background-color: rgba(51, 79, 78, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.validator-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.validator-container p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.validator-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tab-btn:hover {
+    background-color: #0056b3;
+}
+
+.tab-btn.active {
+    background-color: #28a745;
+}
+
+.validator-content {
+    display: none;
+}
+
+.validator-content.active {
+    display: block;
+}
+
+.validator-content textarea {
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+    color: aqua;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 15px;
+}
+
+.validate-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.validate-btn:hover {
+    background-color: #218838;
+}
+
+.results-container {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    min-height: 50px;
+}
+
+.validating {
+    text-align: center;
+    color: #007bff;
+    font-style: italic;
+}
+
+.validation-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.validation-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.results-container ul {
+    margin: 10px 0 0 20px;
+}
+
+.results-container li {
+    margin-bottom: 5px;
+}

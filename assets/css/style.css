@@ -5,39 +5,21 @@ html {
 }
 
 :root {
-  /* Dark and light mode colors */
-  /* bg-colors */
-  --background-light: #f6f8fa;
-  /* Your chosen light background color */
-  --text-light: #333333;
-  /* Your chosen light text color */
-  --accent-light: #6bd6ea;
-  /* Your chosen light accent color */
-  --bg-dark-color: #111f41;
-  --dark-font-color: #6bd6ea;
-  --light-font-color: #000;
-  --bg-dark-section: rgb(7 16 45);
-  --bg-light-section: #ffffff;
-
-  /* nav styleing */
-  --bg-dark-nav: rgba(11, 24, 68, 0.808);
-  --bg-light-nav: #f3f3f3b7;
-  --font-dark-nav: #6bd7eae1;
-  --font-dark-hover-nav: #00d9ffd0;
-
-  /* hero section */
-  --bg-hero: #e8f0f9;
-
-  /* sections colors */
-  --bg-section-light: #ffffff;
-
-  /* tools */
-  --bg-dark-tool: #1a3064;
-  --font-dark-tool: #00d7ff;
-
-  --sb-track-color: #0c1a43;
-  --sb-thumb-color: #6bd6ea;
-  --sb-size: 3px;
+  /* Premium Dark/Light Palette */
+  --bg-light: #f1f5f9; /* Slightly darker light bg */
+  --bg-dark: #020617; /* Deeper dark bg */
+  --text-light: #0f172a;
+  --text-dark: #f8fafc;
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --card-bg-light: #ffffff;
+  --card-bg-dark: #1e293b;
+  --nav-bg-light: rgba(255, 255, 255, 0.8);
+  --nav-bg-dark: rgba(15, 23, 42, 0.8);
+  
+  /* Layout */
+  --header-height: 80px;
+  --footer-height: 120px;
 }
 
 
@@ -45,35 +27,21 @@ html {
 
 
 /* dark mode */
-body.dark-mode {
-  background-color: var(--bg-dark-color);
-  color: var(--dark-font-color);
-}
-
-.navbar.dark-mode {
-  background-color: var(--bg-dark-nav);
-  color: var(--dark-font-color);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.nav-link.dark-mode {
-  color: var(--dark-font-color);
-
-}
-
-.nav-link.dark-mode:hover {
-  color: var(--font-dark-hover-nav);
-
-}
-
-/* light mode */
 body {
   padding: 0;
   margin: 0;
   font-family: 'Source Sans 3', sans-serif;
-  font-family: 'Courier New', Courier, monospace;
-  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s, color 0.3s;
+}
 
+body.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
 }
 
 body::-webkit-scrollbar {
@@ -99,13 +67,24 @@ body::-webkit-scrollbar-thumb {
 
 /* Navbar Styling */
 .navbar {
-  background-color: var(--background-light);
+  background-color: var(--nav-bg-light);
+  backdrop-filter: blur(10px);
   color: var(--text-light);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 0 2rem;
+  height: var(--header-height);
+  position: sticky;
+  top: 0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+body.dark-mode .navbar {
+  background-color: var(--nav-bg-dark);
+  color: var(--text-dark);
 }
 
 .nav-links {
@@ -122,12 +101,16 @@ body::-webkit-scrollbar-thumb {
   text-decoration: none;
   margin: 12px;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 1.25rem;
+  transition: color 0.3s;
+}
+
+body.dark-mode .nav-links a {
+  color: var(--text-dark);
 }
 
 .nav-links a:hover {
-  color: var(--accent-light);
-  /* color: var(--font-light-hover-nav); */
+  color: var(--accent);
 }
 
 /* dark-light-theme design */
@@ -323,64 +306,50 @@ body::-webkit-scrollbar-thumb {
 
 /* tools section */
 #tools {
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .dev-tools ul {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
-  gap: 10px;
-  padding: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+  width: 100%;
 }
 
 .dev-tools ul li {
-  pointer-events: all;
-  display: flex;
-  align-items: center;
-  height: 40px;
-  /* Increase height for better readability */
-  width: auto;
-  margin: 5px;
-  /* Reduce margin */
-  padding: 10px 15px;
-  /* Adjust padding */
-  list-style: none;
-  border-radius: 8px;
-  /* Reduce border-radius for a cleaner look */
-  background-color: #e1e5f2;
-  /* Add subtle background */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  /* Add subtle shadow */
+  background-color: var(--card-bg-light);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+body.dark-mode .dev-tools ul li {
+  background-color: var(--card-bg-dark);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.dev-tools ul li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .dev-tools ul li a {
   display: block;
-  width: 100%;
+  padding: 1.5rem;
   text-decoration: none;
-  color: #333;
-  /* Darker text color */
-  font-size: 16px;
-  /* Increase font size */
-  line-height: 1.5;
-  /* Increase line height */
+  color: inherit;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-align: center;
 }
-
-.dev-tools ul li:hover {
-  background-color: #e1e5f2;
-  /* Hover effect */
-  color: #111;
-  cursor: pointer;
-}
-
 
 .dev-tools ul li a:hover {
-  background-color: #e1e5f2;
-  /* Hover effect */
-  color: #111;
-  /* Adjust text color on hover */
+  color: var(--accent);
 }
 
 .navigationLink.dark-mode {
@@ -437,26 +406,37 @@ body::-webkit-scrollbar-thumb {
 }
 
 footer {
-  position: fixed;
-  bottom: 0;
-  background-color: #384568;
+  background-color: #1e293b;
+  padding: 3rem 1rem;
   text-align: center;
-  color: var(--text-light);
-
-  &:hover {
-    color: var(--accent-light);
-  }
-
-  min-width: 100%;
+  color: #f1f5f9;
+  margin-top: auto;
 }
 
-.footer-logo {
-  margin: 0 auto;
-
+body.dark-mode footer {
+  background-color: #020617;
 }
 
-footer.dark-mode {
-  background: var(--bg-dark-color);
+footer .footer-logo img {
+  max-height: 100px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+footer .footer-logo img:hover {
+  transform: scale(1.05);
+}
+
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: white;
+  text-decoration: underline;
 }
 
 /* the sections titles */
@@ -583,32 +563,82 @@ footer.dark-mode {
   }
 }
 
-
-
-
-
-
-/* Dark mode styles */
-.dark-mode .dev-tools ul li {
-  background-color: #3a456b;
-  /* Dark mode background color */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  /* Add subtle shadow */
+/* Responsive overrides for tool grids */
+@media only screen and (min-width: 768px) {
+  .dev-tools ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.dark-mode .dev-tools ul li a {
-  color: #f6f8fa;
-  /* Dark mode font color */
+@media only screen and (min-width: 1024px) {
+  .dev-tools ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.dark-mode .dev-tools ul li:hover {
-  background-color: #53629c;
-  /* Dark mode hover effect */
-  color: var(--accent-light);
+/* Card styles for about page */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
 }
 
-.dark-mode .dev-tools ul li a:hover {
-  background-color: #53629c;
-  color: var(--accent-light);
-  /* Dark mode hover font color */
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background-color: var(--card-bg-light);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+body.dark-mode .card {
+  background-color: var(--card-bg-dark);
+  border-color: rgba(255,255,255,0.05);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.75rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.card p {
+  flex-grow: 1;
+  line-height: 1.7;
+  color: inherit;
+  opacity: 0.85;
+  font-size: 1.1rem;
+}
+
+.card a {
+  margin-top: 1.5rem;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.card a:hover {
+  background-color: var(--accent-hover);
 }

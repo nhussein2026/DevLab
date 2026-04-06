@@ -1,0 +1,94 @@
+/* Responsive Testing Styles */
+#responsive-testing {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.responsive-container {
+    background-color: rgba(51, 79, 78, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.responsive-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.responsive-container p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.device-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.device-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.device-btn:hover {
+    background-color: #0056b3;
+}
+
+.device-btn.active {
+    background-color: #28a745;
+}
+
+.url-input {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.url-input input {
+    flex: 1;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+    color: aqua;
+}
+
+.load-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.load-btn:hover {
+    background-color: #218838;
+}
+
+.preview-container {
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white;
+}
+
+#responsiveFrame {
+    border: none;
+    display: block;
+    margin: 0 auto;
+}

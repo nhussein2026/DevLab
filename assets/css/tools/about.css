@@ -1,0 +1,9 @@
+/* about.css - Refactored to use DevLab design system */
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+/* Redundant styles removed to favor style.css core definitions */

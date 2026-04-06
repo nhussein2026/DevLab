@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css -->
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/tools/performance.css">
 
     <title>DevLab - Performance Analysis Tools</title>
 
@@ -20,10 +21,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/logo/DevLab.png">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
 
     <!-- js -->
-    <script src="./assets/js/darkAndLightMode.js" defer></script>
+    <script src="./assets/js/core/dark-mode.js" defer></script>
+    <script src="./assets/js/tools/performance.js" defer></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,7 +67,7 @@
         </div>
         <div>
             <ul class="nav-links">
-                <li><a class="nav-link" href="/index.html">DevLab</a></li>
+                <li><a class="nav-link" href="./index.html">DevLab</a></li>
                 <li><a href="./Doc.html" class="nav-link">Doc</a></li>
                 <!-- <li><a class="nav-link" href="index.html">Tools</a></li> -->
                 <li><a href="index.html#contribute" class="nav-link">Contribute</a></li>
@@ -101,12 +102,48 @@
         <span id="line-span"></span>
     </div>
 
+    <!-- Performance Analysis Section -->
+    <section id="performance-analysis">
+        <div class="performance-container">
+            <h2>Website Performance Analyzer</h2>
+            <p>Analyze loading times, resource usage, and performance metrics</p>
+
+            <div class="analysis-controls">
+                <input type="url" id="analysisUrl" placeholder="Enter website URL" value="https://devlab.nhussein.io">
+                <button onclick="analyzePerformance()" class="analyze-btn">Analyze Performance</button>
+            </div>
+
+            <div id="performanceResults" class="results-container">
+                <div class="metric-card">
+                    <h3>Loading Time</h3>
+                    <div id="loadTime">-</div>
+                </div>
+                <div class="metric-card">
+                    <h3>Page Size</h3>
+                    <div id="pageSize">-</div>
+                </div>
+                <div class="metric-card">
+                    <h3>Requests</h3>
+                    <div id="requests">-</div>
+                </div>
+                <div class="metric-card">
+                    <h3>Score</h3>
+                    <div id="performanceScore">-</div>
+                </div>
+            </div>
+
+            <div id="detailedResults" class="detailed-results">
+                <!-- Detailed results will be populated here -->
+            </div>
+        </div>
+    </section>
+
     <!-- footer -->
     <footer>
         <div class="footer-upper">
             <div class="footer-logo">
                 <a href="#hero"><img class="footer-logo"
-                        src="https://github.com/nhussein2026/DevLab/blob/main/assets/logo/DevLab.png?raw=true"
+                        src="./assets/logo/DevLab.png"
                         height="100px" alt="DevLab"></a>
             </div>
         </div>
@@ -123,3 +160,4 @@
 </body>
 
 </html>
+

@@ -7,6 +7,7 @@
 
     <!-- css -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/tools/validator.css">
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,10 +30,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/logo/DevLab.png">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
 
     <!-- js -->
-    <script src="./assets/js/darkAndLightMode.js" defer></script>
+    <script src="./assets/js/core/dark-mode.js" defer></script>
+    <script src="./assets/js/tools/validator.js" defer></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,7 +76,7 @@
         </div>
         <div>
             <ul class="nav-links">
-                <li><a class="nav-link" href="/index.html">DevLab</a></li>
+                <li><a class="nav-link" href="./index.html">DevLab</a></li>
                 <li><a href="./Doc.html" class="nav-link">Doc</a></li>
                 <!-- <li><a class="nav-link" href="index.html">Tools</a></li> -->
                 <li><a href="index.html#contribute" class="nav-link">Contribute</a></li>
@@ -111,12 +112,64 @@
         <span class="line-span"></span>
     </div>
 
+    <!-- Validators Section -->
+    <section id="validators">
+        <div class="validator-container">
+            <h2>Code Validators</h2>
+            <p>Validate your HTML, CSS, and JavaScript code</p>
+
+            <div class="validator-tabs">
+                <button onclick="showValidator('html')" class="tab-btn active">HTML</button>
+                <button onclick="showValidator('css')" class="tab-btn">CSS</button>
+                <button onclick="showValidator('js')" class="tab-btn">JavaScript</button>
+            </div>
+
+            <div id="html-validator" class="validator-content active">
+                <textarea id="htmlCode" placeholder="Enter your HTML code here..."><!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+</body>
+</html></textarea>
+                <button onclick="validateHTML()" class="validate-btn">Validate HTML</button>
+            </div>
+
+            <div id="css-validator" class="validator-content">
+                <textarea id="cssCode" placeholder="Enter your CSS code here...">body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    color: blue;
+}</textarea>
+                <button onclick="validateCSS()" class="validate-btn">Validate CSS</button>
+            </div>
+
+            <div id="js-validator" class="validator-content">
+                <textarea id="jsCode" placeholder="Enter your JavaScript code here...">function hello() {
+    console.log('Hello World!');
+}
+
+hello();</textarea>
+                <button onclick="validateJS()" class="validate-btn">Validate JavaScript</button>
+            </div>
+
+            <div id="validationResults" class="results-container">
+                <!-- Validation results will appear here -->
+            </div>
+        </div>
+    </section>
+
     <!-- footer -->
     <footer>
         <div class="footer-upper">
             <div class="footer-logo">
                 <a href="#hero"><img class="footer-logo"
-                        src="https://github.com/nhussein2026/DevLab/blob/main/assets/logo/DevLab.png?raw=true"
+                        src="./assets/logo/DevLab.png"
                         height="100px" alt="DevLab"></a>
             </div>
         </div>
@@ -134,3 +187,4 @@
 </body>
 
 </html>
+

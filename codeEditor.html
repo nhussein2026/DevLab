@@ -7,24 +7,24 @@
     <!-- CodeMirror Library -->
     <link rel="stylesheet" href="./assets/codemirror/lib/codemirror.css">
     <script src="./assets/codemirror/lib/codemirror.js"></script>
-    <script src="./assets//codemirror/mode/xml/xml.js"></script>
+    <script src="./assets/codemirror/mode/xml/xml.js"></script>
     <!-- editor theme -->
     <link rel="stylesheet" href="./assets/codemirror/theme/cobalt.css">
-    <link rel="stylesheet" href="./assets/codemirror/mode/htmlmixed/htmlmixed.js">
+    <script src="./assets/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 
     <!-- auto close tag -->
     <script src="./assets/codemirror/addon/edit/closetag.js"></script>
     <!-- display hint while typing -->
     <script src="./assets/codemirror/addon/hint/show-hint.js"></script>
-    <script src="./assets/codemirror/addon/hint/show-hint.css"></script>
+    <link rel="stylesheet" href="./assets/codemirror/addon/hint/show-hint.css">
     <script src="./assets/codemirror/addon/hint/css-hint.js"></script>
 
     <!-- js files -->
-    <script src="./assets/js/darkAndLightMode.js" defer></script>
+    <script src="./assets/js/core/dark-mode.js" defer></script>
 
     <!-- Add your custom CSS files -->
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/codeEditor.css">
+    <link rel="stylesheet" href="./assets/css/tools/code-editor.css">
 
 
     <title>DevLab - Code Editor Features</title>
@@ -39,8 +39,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo/DevLab.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/logo/DevLab.png">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,7 +81,7 @@
         </div>
         <div>
             <ul class="nav-links">
-                <li><a class="nav-link" href="/index.html">DevLab</a></li>
+                <li><a class="nav-link" href="./index.html">DevLab</a></li>
                 <li><a href="./Doc.html" class="nav-link">Doc</a></li>
                 <!-- <li><a class="nav-link" href="index.html">Tools</a></li> -->
                 <li><a href="index.html#contribute" class="nav-link">Contribute</a></li>
@@ -152,7 +150,7 @@
         <div class="footer-upper">
             <div class="footer-logo">
                 <a href="#hero"><img class="footer-logo"
-                        src="https://github.com/nhussein2026/DevLab/blob/main/assets/logo/DevLab.png?raw=true"
+                        src="./assets/logo/DevLab.png"
                         height="100px" alt="DevLab"></a>
             </div>
         </div>
@@ -167,28 +165,9 @@
 
     </footer>
 
-    <!-- CodeMirror lib -->
-    <script>
-        var editor = CodeMirror.fromTextArea
-            (document.getElementById('editor'), {
-                lineNumbers: true,
-                mode: 'xml', // Initial mode
-                theme: 'cobalt', // Optional theme
-                autofocus: true,
-                autoCloseTags: true,
-                extraKeys: {
-                    "Ctrl-Space": "autocomplete" // Enable autocomplete
-                }
-            });
-
-        editor.setSize("750", "325")
-
-        // choosing programming language code
-        document.getElementById('language-switch').addEventListener('click', function () {
-            var newMode = (editor.getMode().name === 'javascript') ? 'htmlmixed' : 'javascript';
-            editor.setOption('mode', newMode);
-        });
-    </script>
+    <!-- CodeMirror initialization -->
+    <script src="./assets/js/tools/code-editor.js"></script>
 </body>
 
 </html>
+

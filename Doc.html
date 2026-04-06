@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css -->
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/doc.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/tools/doc.css">
 
 
     <title>DevLab - Docomentation</title>
@@ -22,10 +22,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/logo/DevLab.png">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
 
     <!-- js -->
-    <script src="./assets/js/darkAndLightMode.js" defer></script>
+    <script src="./assets/js/core/dark-mode.js" defer></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,7 +67,7 @@
         </div>
         <div>
             <ul class="nav-links">
-                <li><a class="nav-link" href="/index.html">DevLab</a></li>
+                <li><a class="nav-link" href="./index.html">DevLab</a></li>
                 <li><a href="./Doc.html" class="nav-link">Doc</a></li>
                 <!-- <li><a class="nav-link" href="index.html">Tools</a></li> -->
                 <li><a href="index.html#contribute" class="nav-link">Contribute</a></li>
@@ -191,18 +190,38 @@
     </section>
 
     <!-- Code Snippets Section -->
-    <section id="code-snippets">
+    <section id="code-snippets" class="doc-section">
         <h2>Code Snippets</h2>
         <p>DevLab provides a collection of code snippets for common programming tasks. Users can also add and share
             their own snippets.
             To access the code snippets:</p>
         <ol>
-            <li>Click on the "Code Snippets" link in the navigation bar.</li>
+            <li>Click on the "Code Snippets" link in the tools section.</li>
             <li>Browse and search through the available snippets.</li>
             <li>Use the "Contribute" button to add your own snippets.</li>
-
         </ol>
-        <!-- Add more details about code snippets as needed -->
+    </section>
+
+    <!-- API Viewer Section -->
+    <section id="api-viewer" class="doc-section">
+        <h2>API Endpoints Viewer</h2>
+        <p>Explore and test API endpoints directly within DevLab. To use the API Viewer:</p>
+        <ol>
+            <li>Enter the API endpoint URL in the input field.</li>
+            <li>Click "Fetch Data" to retrieve the response.</li>
+            <li>View the formatted JSON response and check headers/status.</li>
+        </ol>
+    </section>
+
+    <!-- HTML-to-JSX Section -->
+    <section id="html-to-jsx" class="doc-section">
+        <h2>HTML-to-JSX Converter</h2>
+        <p>Easily convert standard HTML into JSX for use in React components.</p>
+        <ol>
+            <li>Paste your HTML code into the input editor.</li>
+            <li>Click the "Convert to JSX" button.</li>
+            <li>Copy the resulting JSX code from the output editor.</li>
+        </ol>
     </section>
 
 
@@ -255,8 +274,9 @@
 
 
     <!-- JavaScript code  -->
-    <script src="./assets/js/copy.js"></script>
-    <script src="./assets/js/darkAndLightMode.js"></script>
+    <script src="./assets/js/core/copy.js"></script>
+    <script src="./assets/js/core/dark-mode.js"></script>
 </body>
 
 </html>
+
