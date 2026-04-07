@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevLab - CSV to Dashboard</title>
+
+    <!-- Meta Description -->
+    <meta name="description"
+        content="Convert your CSV files into dynamic, interactive dashboards with DevLab. Visualize data with charts and export as PDF.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo/DevLab.png">
+
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/tools/csv-dashboard.css">
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Core JS -->
+    <script src="./assets/js/core/dark-mode.js" defer></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="./assets/logo/DevLab.png" height="100px" alt="DevLab">
+            </a>
+        </div>
+        <div>
+            <ul class="nav-links">
+                <li><a class="nav-link" href="index.html">DevLab</a></li>
+                <li><a href="./Doc.html" class="nav-link">Doc</a></li>
+                <li><a href="index.html#contribute" class="nav-link">Contribute</a></li>
+            </ul>
+        </div>
+        <div class="dark-light-mode-theme">
+            <label class="switch">
+                <span class="sun"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g fill="#ffd43b">
+                            <circle r="5" cy="12" cx="12"></circle>
+                            <path
+                                d="m21 13h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm-17 0h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm13.66-5.66a1 1 0 0 1 -.66-.29 1 1 0 0 1 0-1.41l.71-.71a1 1 0 1 1 1.41 1.41l-.71.71a1 1 0 0 1 -.75.29zm-12.02 12.02a1 1 0 0 1 -.71-.29 1 1 0 0 1 0-1.41l.71-.66a1 1 0 0 1 1.41 1.41l-.71.71a1 1 0 0 1 -.7.24zm6.36-14.36a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm0 17a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm-5.66-14.66a1 1 0 0 1 -.7-.29l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.29zm12.02 12.02a1 1 0 0 1 -.7-.29l-.66-.71a1 1 0 0 1 1.36-1.36l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.24z">
+                            </path>
+                        </g>
+                    </svg></span>
+                <span class="moon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path
+                            d="m223.5 32c-123.5 0-223.5 100.3-223.5 224s100 224 223.5 224c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z">
+                        </path>
+                    </svg></span>
+
+                <input id="dark-mode-toggle" type="checkbox" class="input">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Title -->
+        <div class="section-title">
+            <span class="line-span"></span>
+            <span class="tool-title"> CSV / Excel to Dashboard</span>
+            <span class="line-span"></span>
+        </div>
+
+        <!-- Upload Section -->
+        <section id="upload-section" class="upload-area">
+            <div class="upload-box" id="drop-zone">
+                <div class="upload-icon">📁</div>
+                <h2>Drag & Drop CSV or Excel File</h2>
+                <p>or Click to Browse</p>
+                <input type="file" id="file-input" accept=".csv,.xls,.xlsx" hidden>
+            </div>
+        </section>
+
+        <!-- Dashboard Section (Hidden by Default) -->
+        <section id="dashboard-section" class="dashboard-container" style="display: none;">
+            <div class="dashboard-header">
+                <div class="header-copy">
+                    <h2>📊 Data Dashboard</h2>
+                    <div id="data-language-status" class="language-status" style="display:none;"></div>
+                </div>
+                <div class="actions">
+                    <button id="export-pdf" class="cta-button">Export PDF</button>
+                    <button id="reset-tool" class="cta-button secondary">New Analysis</button>
+                </div>
+            </div>
+
+            <!-- Primary Executive Scorecards -->
+                <div class="stats-grid primary">
+                    <!-- Base Currency Scorecards -->
+                    <div id="base-currency-cards" style="display: contents;"></div>
+                    <!-- Specialized Financing Scorecard -->
+                    <div id="financing-hero-card" class="stat-card hero financing" style="display: none;">
+                        <div class="card-inner">
+                            <span class="stat-label">Total Financing requests (طلبات التمويل)</span>
+                            <span class="stat-value" id="financing-total-value">0</span>
+                            <div class="card-footer">
+                                <span class="trend positive">Strategic Asset Growth</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Executive Summary Card -->
+            <div id="summary-card" class="summary-card" style="display: none;">
+                <div class="summary-header">
+                    <span class="icon">📊</span>
+                    <h3>Executive Summary</h3>
+                </div>
+                <div id="data-summary" class="summary-text"></div>
+            </div>
+
+            <!-- Secondary Metrics -->
+            <div class="stats-grid secondary">
+                <div class="stat-card mini">
+                    <span class="stat-label">Transactions Analyzed</span>
+                    <span class="stat-value small" id="count-rows">0</span>
+                </div>
+                <div class="stat-card mini">
+                    <span class="stat-label">Currency Count</span>
+                    <span class="stat-value small" id="count-cols">0</span>
+                </div>
+                <div class="stat-card mini" id="achievement-card">
+                    <span class="stat-label">Core Asset Group</span>
+                    <span class="stat-value small" id="top-category-name">-</span>
+                </div>
+            </div>
+
+            <!-- Visualizations -->
+            <div class="visuals-grid">
+                <div class="visual-card">
+                    <div class="card-header">
+                        <h3>Liquidity Distribution</h3>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="chart-distribution"></canvas>
+                    </div>
+                </div>
+                <div class="visual-card">
+                    <div class="card-header">
+                        <h3>Volume Trends by Category</h3>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="chart-trends"></canvas>
+                    </div>
+                </div>
+                <!-- Support for Specialized Remittance Analytics -->
+                <div class="visual-card full-width" id="remittance-analytics-card" style="display:none;">
+                    <div class="card-header highlight">
+                        <h3><span class="icon">💸</span> Remittance Insights (حوالات)</h3>
+                    </div>
+                    <div class="canvas-container large">
+                        <canvas id="chart-remittances"></canvas>
+                    </div>
+                </div>
+                <!-- Support for Financing Analytics -->
+                <div class="visual-card" id="financing-analytics-card" style="display:none;">
+                    <div class="card-header finance-highlight">
+                        <h3><span class="icon">🏛️</span> Financing Requests Breakdown</h3>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="chart-financing"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table Preview -->
+            <div class="table-card">
+                <div class="table-header-flex">
+                    <h3>Detailed Record Audit</h3>
+                    <div class="search-container">
+                        <input type="text" id="table-search" placeholder="Search audit trail..." class="search-input">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="preview-table">
+                        <thead id="table-head"></thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-upper">
+            <div class="footer-logo">
+                <a href="index.html"><img class="footer-logo" src="./assets/logo/DevLab.png" height="100px"
+                        alt="DevLab"></a>
+            </div>
+        </div>
+        <p style="color: aliceblue; margin: 0;">
+            Developed with passion by
+            <a href="https://nhussein.io" style="font-weight: bold; color: aliceblue;" target="_blank"
+                rel="noopener noreferrer">Nhussein</a>
+        </p>
+    </footer>
+
+    <!-- Tool Script -->
+    <script src="./assets/js/tools/csv-dashboard.js" defer></script>
+</body>
+
+</html>
