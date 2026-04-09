@@ -122,16 +122,91 @@
                 <span class="filter-label">نوع الحساب | Account:</span>
                 <div id="account-type-slicer" class="slicer-group" role="group">
                     <button type="button" class="slicer-btn slicer-start active" data-value="ALL">الكل</button>
-                    <button type="button" class="slicer-btn slicer-mid" data-value="جاري">جاري</button>
+                    <button type="button" class="slicer-btn slicer-mid" data-value="مرابحة">مرابحة</button>
                     <button type="button" class="slicer-btn slicer-mid" data-value="توفير">توفير</button>
-                    <button type="button" class="slicer-btn slicer-mid" data-value="استثماري">استثماري</button>
-                    <button type="button" class="slicer-btn slicer-mid" data-value="شركات">شركات</button>
-                    <button type="button" class="slicer-btn slicer-end" data-value="شباب">شباب</button>
+                    <button type="button" class="slicer-btn slicer-mid" data-value="جاري">جاري</button>
+                    <button type="button" class="slicer-btn slicer-end" data-value="استثمار">استثمار</button>
                 </div>
             </div>
         </div>
 
-        <div class="kpi-grid">
+        <div class="kpi-grid" id="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">إجمالي العمليات (يمني) | YER Total</span>
+                    <div class="kpi-icon kpi-icon-blue">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="kpi-yer-total" class="kpi-value">0</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">إجمالي العمليات (سعودي) | SAR Total</span>
+                    <div class="kpi-icon kpi-icon-green">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="kpi-sar-total" class="kpi-value">0</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">إجمالي العمليات (دولار) | USD Total</span>
+                    <div class="kpi-icon kpi-icon-amber">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="kpi-usd-total" class="kpi-value">0</div>
+            </div>
+
+            <!-- Treasury Liquidity Row -->
+            <div class="kpi-card kpi-card-liquidity">
+                <div class="kpi-header">
+                    <span class="kpi-title">سيولة الخزينة (يمني) | YER Liquidity</span>
+                    <div class="kpi-icon" style="background-color: rgba(63, 169, 245, 0.15);">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="stroke: #3FA9F5;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="kpi-liquidity-yer" class="kpi-value" style="color: #3FA9F5;">0</div>
+                <div class="kpi-subtext">السيولة النقدية المتاحة</div>
+            </div>
+
+            <div class="kpi-card kpi-card-liquidity">
+                <div class="kpi-header">
+                    <span class="kpi-title">سيولة الخزينة (سعودي) | SAR Liquidity</span>
+                    <div class="kpi-icon" style="background-color: rgba(34, 197, 94, 0.15);">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="stroke: #22C55E;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="kpi-liquidity-sar" class="kpi-value" style="color: #22C55E;">0</div>
+                <div class="kpi-subtext">السيولة النقدية المتاحة</div>
+            </div>
+
+            <div class="kpi-card kpi-card-liquidity">
+                <div class="kpi-header">
+                    <span class="kpi-title">سيولة الخزينة (دولار) | USD Liquidity</span>
+                    <div class="kpi-icon" style="background-color: rgba(245, 158, 11, 0.15);">
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="stroke: #F59E0B;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="kpi-liquidity-usd" class="kpi-value" style="color: #F59E0B;">0</div>
+                <div class="kpi-subtext">السيولة النقدية المتاحة</div>
+            </div>
+
             <div class="kpi-card">
                 <div class="kpi-header">
                     <span class="kpi-title">إجمالي الإيداعات | Total Deposits</span>
@@ -160,7 +235,7 @@
 
             <div class="kpi-card">
                 <div class="kpi-header">
-                    <span class="kpi-title">إجمالي التمويلات | Total Financing</span>
+                    <span class="kpi-title">تمويل مرابحة | Murabaha</span>
                     <div class="kpi-icon kpi-icon-green">
                         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -186,7 +261,7 @@
 
             <div class="kpi-card">
                 <div class="kpi-header">
-                    <span class="kpi-title">حسابات الأفراد | Personal Accounts</span>
+                    <span class="kpi-title">حساب توفير | Savings</span>
                     <div class="kpi-icon">
                         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -194,12 +269,12 @@
                         </svg>
                     </div>
                 </div>
-                <div id="kpi-personal-accounts" class="kpi-value">0</div>
+                <div id="kpi-savings-accounts" class="kpi-value">0</div>
             </div>
 
             <div class="kpi-card">
                 <div class="kpi-header">
-                    <span class="kpi-title">حسابات الشركات | Corporate Accounts</span>
+                    <span class="kpi-title">حساب جاري | Current</span>
                     <div class="kpi-icon">
                         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -207,12 +282,12 @@
                         </svg>
                     </div>
                 </div>
-                <div id="kpi-corporate-accounts" class="kpi-value">0</div>
+                <div id="kpi-current-accounts" class="kpi-value">0</div>
             </div>
 
             <div class="kpi-card">
                 <div class="kpi-header">
-                    <span class="kpi-title">الودائع الاستثمارية | Investment Deposits</span>
+                    <span class="kpi-title">ودائع استثمار مطلقة | Investment</span>
                     <div class="kpi-icon">
                         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -265,12 +340,38 @@
             </div>
         </div>
 
+        <div id="findings-section" class="findings-section hidden">
+            <div class="section-header">
+                <div class="header-with-icon">
+                    <svg class="h-6 w-6 text-bank-light-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h2>نتائج تحليل البيانات | Key Findings from Your Data</h2>
+                </div>
+            </div>
+            <div id="findings-container" class="findings-grid">
+                <!-- Dynamic Findings Cards will be injected here -->
+            </div>
+        </div>
+
         <div class="charts-grid">
             <div class="chart-card">
                 <div class="chart-header">
-                    <h2>النشاط اليومي | Daily Activity</h2>
+                    <h2>إنجاز الموظفين (المبالغ) | Financial Achievement</h2>
                 </div>
-                <canvas id="dailyLineChart"></canvas>
+                <canvas id="employeeAmountChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2>إنجاز الموظفين (العمليات) | Operational Achievement</h2>
+                </div>
+                <canvas id="employeeCountChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2>عمليات القنوات | Channel Operations</h2>
+                </div>
+                <canvas id="digitalChart"></canvas>
             </div>
             <div class="chart-card">
                 <div class="chart-header">
@@ -290,7 +391,52 @@
                 </div>
                 <div class="chart-wrapper"><canvas id="cardsDonutChart"></canvas></div>
             </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2>قنوات التنفيذ | Operation Channels</h2>
+                </div>
+                <div class="chart-wrapper"><canvas id="opsChannelsChart"></canvas></div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2>حجم العمليات حسب النوع | Volume by Operation</h2>
+                </div>
+                <canvas id="opVolumeChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2>مبالغ العمليات حسب النوع | Amount by Operation</h2>
+                </div>
+                <canvas id="opAmountChart"></canvas>
+            </div>
         </div>
+
+        <div id="summary-section" class="summary-section hidden">
+            <div class="section-header">
+                <h2>جدول ملخص العمليات | Operations Summary Table</h2>
+            </div>
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table class="summary-table">
+                        <thead>
+                            <tr>
+                                <th>نوع العملية | Operation</th>
+                                <th>عدد العمليات | Transactions</th>
+                                <th>الإجمالي (يمني) | YER Total</th>
+                                <th>الإجمالي (سعودي) | SAR Total</th>
+                                <th>الإجمالي (دولار) | USD Total</th>
+                                <th>نسبة الإنجاز | Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summary-table-body">
+                            <!-- Injected by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <div id="data-entry-modal" class="modal-overlay hidden">

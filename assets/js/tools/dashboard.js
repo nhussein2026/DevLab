@@ -8,9 +8,7 @@
    ============================================================ */
 const STATE = {
     files: [],
-    operationRows: [],
-    accountRows: [],
-    cardRows: [],
+    unifiedMatrix: null,
     filters: { period: 'Monthly', currency: 'ALL', accountType: 'ALL' },
     charts: {}
 };
@@ -44,8 +42,14 @@ function detectReportType(sheetNames, headers, fileName) {
     // Sheet name hints
     if (sheetNames.some(s => s.includes('المستخدمين') || s.includes('عمليات'))) opsScore += 5;
 
-    console.log(`[Detect] File "${fileName}" — ops:${opsScore}, acct:${acctScore}, cards:${cardScore}`);
+    const currencyKeywords = ['ريال يمني', 'يمني', 'سعودي', 'دولار امريكي', 'العملة'];
+    let currencyScore = 0;
+    for (const kw of currencyKeywords) { if (allText.includes(kw)) currencyScore += 3; }
+    if (fileNameLower.includes('currency') || fileNameLower.includes('عملة') || fileNameLower.includes('تفصيلي')) currencyScore += 5;
 
+    console.log(`[Detect] File "${fileName}" — ops:${opsScore}, acct:${acctScore}, cards:${cardScore}, curr:${currencyScore}`);
+
+    if (currencyScore > acctScore && currencyScore > opsScore && currencyScore > cardScore) return 'currency';
     if (cardScore > acctScore && cardScore > opsScore) return 'cards';
     if (acctScore > opsScore && acctScore > cardScore) return 'accounts';
     if (opsScore > 0) return 'operations';
@@ -59,104 +63,19 @@ function detectReportType(sheetNames, headers, fileName) {
 
 function parseExcelBuffer(buffer, fileName) {
     const wb = XLSX.read(buffer, { type: 'array', cellDates: true });
-    let allRows = [];
-    let allHeaders = [];
     let meta = { fileName, sheets: [] };
 
     for (const sheetName of wb.SheetNames) {
         const ws = wb.Sheets[sheetName];
         const json = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
-        if (!json.length) continue;
+        if (!json || json.length === 0) continue;
 
-        // State sheets contain metadata
-        if (sheetName.startsWith('State_') || sheetName.startsWith('state_')) {
-            meta.sheets.push({ name: sheetName, data: json });
-            for (const row of json) {
-                const rowStr = Array.isArray(row) ? row.map(String).join(' ') : '';
-                if (rowStr.includes('الفرع') || rowStr.includes('Branch')) {
-                    meta.branch = row[1] || row[0];
-                }
-                for (const cell of row) {
-                    if (cell instanceof Date && !isNaN(cell)) {
-                        if (!meta.startDate) meta.startDate = cell;
-                        else meta.endDate = cell;
-                    } else if (typeof cell === 'string' && /\d{1,2}\/\d{1,2}\/\d{4}/.test(cell)) {
-                        const d = parseArabicDate(cell);
-                        if (d) {
-                            if (!meta.startDate) meta.startDate = d;
-                            else meta.endDate = d;
-                        }
-                    }
-                }
-            }
-            continue;
-        }
-
-        // Data sheet — find the REAL header row.
-        // Excel reports often have: row 0 = merged branch name, row 1 = sub-headers, row 2 = actual column headers.
-        // Strategy: find the row with the most UNIQUE non-empty string values (not numbers, not same value repeated).
-        let headerRowIdx = 0;
-        let bestUniqueCount = 0;
-
-        for (let i = 0; i < Math.min(json.length, 10); i++) {
-            const row = json[i];
-            if (!row) continue;
-
-            const nonEmpty = row
-                .map(c => String(c).trim())
-                .filter(c => c !== '' && c !== 'undefined' && c !== 'null');
-            if (nonEmpty.length < 2) continue;
-
-            // Count unique values
-            const uniqueVals = new Set(nonEmpty);
-
-            // Prefer rows where values are diverse (not same branch name repeated)
-            // Also prefer rows with known keywords
-            const knownWords = ['عدد', 'مجموع', 'إجمالي', 'Total', 'توفير', 'جاري', 'مرابحة', 'استثمار', 'حساب', 'تمويل', 'عمليات', 'المعادل', 'Grand'];
-            const hasKnown = knownWords.some(kw => nonEmpty.some(v => v.includes(kw)));
-
-            let score = uniqueVals.size;
-            if (hasKnown) score += 10; // Strong boost for rows with known keywords
-
-            // Penalize rows where all cells are the same (branch name rows)
-            if (uniqueVals.size === 1) score = 0;
-
-            if (score > bestUniqueCount) {
-                bestUniqueCount = score;
-                headerRowIdx = i;
-            }
-        }
-
-        const rawHeaders = json[headerRowIdx].map(h => String(h).trim());
-        allHeaders = [...allHeaders, ...rawHeaders.filter(h => h !== '')];
-        meta.sheets.push({ name: sheetName, rowCount: json.length - headerRowIdx - 1, headers: rawHeaders });
-
-        console.log(`[Parse] Sheet "${sheetName}" headers:`, rawHeaders);
-
-        // Parse data rows (everything after header)
-        for (let i = headerRowIdx + 1; i < json.length; i++) {
-            const row = json[i];
-            if (!row || row.every(c => c === '' || c === null || c === undefined)) continue;
-
-            const obj = {};
-            rawHeaders.forEach((h, idx) => {
-                if (h) obj[h] = row[idx] !== undefined ? row[idx] : '';
-            });
-            obj._sheet = sheetName;
-            obj._file = fileName;
-            allRows.push(obj);
+        if ((fileName || '').toLowerCase().includes('branch') || sheetName.toLowerCase().includes('branch')) {
+            console.log(`[Parse] Unified Matrix Detected! -> ${sheetName}`);
+            return { type: 'unified', matrix: json, meta, rows: [] };
         }
     }
-
-    const type = detectReportType(wb.SheetNames, allHeaders, fileName);
-    console.log(`[Parse] File "${fileName}" → type: ${type}, rows: ${allRows.length}, headers:`, allHeaders);
-
-    // Log first row for debugging
-    if (allRows.length > 0) {
-        console.log(`[Parse] Sample row:`, JSON.stringify(allRows[0]));
-    }
-
-    return { type, rows: allRows, meta, headers: allHeaders };
+    return { type: 'unknown', rows: [], meta, headers: [] };
 }
 
 function parseArabicDate(str) {
@@ -172,151 +91,140 @@ function parseArabicDate(str) {
    3. DATA AGGREGATION
    ============================================================ */
 
-function aggregateData() {
-    const ops = STATE.operationRows;
-    const accts = STATE.accountRows;
-    const cards = STATE.cardRows;
-
-    console.log(`[Aggregate] ops:${ops.length}, accts:${accts.length}, cards:${cards.length}`);
-
-    // ---- Operations KPIs ----
-    let totalDeposits = 0, totalWithdrawals = 0;
-    let transfersOutCount = 0, transfersOutAmount = 0;
-    let transfersInCount = 0, transfersInAmount = 0;
-    let totalOpsAmount = 0, totalOpsCount = 0;
-
-    for (const row of ops) {
-        const name = getRowName(row);
-        if (!name) continue;
-
-        // Get numeric values from any column that looks numeric
-        const amount = getFirstNumeric(row);
-        const count = getSecondNumeric(row);
-
-        // Check if this is a total/summary row
-        const isTotalRow = /^(الإجمالي|Total|المجموع|الإجمالي الكلي|Grand Total)$/i.test(name);
-        if (isTotalRow) continue; // skip totals, we sum ourselves
-
-        if (isDepositRelated(name)) {
-            totalDeposits += amount;
-        } else if (isWithdrawalRelated(name)) {
-            totalWithdrawals += amount;
-        } else if (isTransferOut(name)) {
-            transfersOutCount += count;
-            transfersOutAmount += amount;
-        } else if (isTransferIn(name)) {
-            transfersInCount += count;
-            transfersInAmount += amount;
-        } else {
-            // General operation — add to running total
-            totalOpsAmount += amount;
-            totalOpsCount += count;
-        }
-    }
-
-    // If no deposit/withdrawal distinction, use overall total as deposits
-    if (totalDeposits === 0 && totalOpsAmount > 0) {
-        totalDeposits = totalOpsAmount;
-    }
-
-    // ---- Account KPIs ----
-    let newAccounts = 0, personalAccounts = 0, corporateAccounts = 0;
-    let investmentDeposits = 0, financingTotal = 0;
-
-    for (const row of accts) {
-        const name = getRowName(row);
-        if (!name) continue;
-        if (/^(الإجمالي|Total|المجموع|الإجمالي الكلي|Grand Total)$/i.test(name)) continue;
-
-        // Get values by exact column key matching
-        const keys = Object.keys(row).filter(k => !k.startsWith('_'));
-        let rowTotal = 0;
-
-        for (const key of keys) {
-            const val = toNumber(row[key]);
-            if (val === 0) continue;
-            if (key === keys[0]) continue; // skip name column
-
-            const lk = key.toLowerCase();
-            if (lk.includes('مرابحة') || lk.includes('murabaha') || lk.includes('تمويل')) {
-                financingTotal += val;
-            } else if (lk.includes('توفير') || lk.includes('savings')) {
-                personalAccounts += val;
-            } else if (lk.includes('جاري') || lk.includes('current')) {
-                personalAccounts += val;
-            } else if (lk.includes('استثمار') || lk.includes('investment')) {
-                investmentDeposits += val;
-            } else if (lk.includes('شركات') || lk.includes('corporate')) {
-                corporateAccounts += val;
-            } else if (lk.includes('شباب') || lk.includes('youth')) {
-                personalAccounts += val;
-            } else if (key === 'Total' || key === 'الإجمالي' || key === 'المجموع') {
-                rowTotal = val;
-            } else if (key === 'Grand Total' || key === 'الإجمالي الكلي') {
-                rowTotal = val;
-            }
-        }
-
-        // Use row total for new accounts count
-        if (rowTotal > 0) {
-            newAccounts += rowTotal;
-        }
-    }
-
-    // If newAccounts is 0 but we have individual counts, sum them
-    if (newAccounts === 0) {
-        newAccounts = personalAccounts + corporateAccounts + investmentDeposits + financingTotal;
-    }
-
-    // ---- Card KPIs ----
-    let cardActivity = 0;
-    const cardBreakdown = {};
-
-    for (const row of cards) {
-        const name = getRowName(row);
-        if (!name) continue;
-        if (/^(الإجمالي|Total|المجموع|الإجمالي الكلي|Grand Total)$/i.test(name)) continue;
-
-        const keys = Object.keys(row).filter(k => !k.startsWith('_'));
-        let rowTotal = 0;
-
-        for (const key of keys) {
-            const val = toNumber(row[key]);
-            if (val === 0) continue;
-            if (key === keys[0]) continue; // skip name column
-
-            // Skip total/summary columns and branch-name columns
-            const isTotalCol = /^(Total|الإجمالي|المجموع|Grand Total|الإجمالي الكلي)$/i.test(key.trim());
-            const isBranchCol = /مركز|فرع|رئيسي|مأرب|المجموع$/i.test(key.trim());
-
-            if (isTotalCol) {
-                rowTotal = Math.max(rowTotal, val);
-            } else if (!isBranchCol) {
-                // Real card type column
-                cardBreakdown[key] = (cardBreakdown[key] || 0) + val;
-            }
-        }
-        cardActivity += rowTotal;
-    }
-
-    const result = {
-        totalDeposits,
-        totalWithdrawals,
-        financingTotal,
-        newAccounts,
-        personalAccounts,
-        corporateAccounts,
-        investmentDeposits,
-        transfersOutCount,
-        transfersOutAmount,
-        transfersInCount,
-        transfersInAmount,
-        cardActivity,
-        cardBreakdown
+function createEmptyResult() {
+    return {
+        totalDeposits: 0, totalWithdrawals: 0, financingTotal: 0,
+        newAccounts: 0, savingsAccounts: 0, currentAccounts: 0, investmentDeposits: 0,
+        transfersOutCount: 0, transfersOutAmount: 0, transfersInCount: 0, transfersInAmount: 0,
+        cardActivity: 0, cardBreakdown: {}, 
+        atmOps: 0, digitalOps: 0, employeeOps: 0,
+        yerTotal: 0, sarTotal: 0, usdTotal: 0,
+        liquidityYER: 0, liquiditySAR: 0, liquidityUSD: 0,
+        employees: [], digitalChannels: [],
+        allOps: [], totalTxVolume: 0
     };
+}
 
-    console.log('[Aggregate] Result:', result);
-    return result;
+function aggregateData() {
+    console.log('[Aggregate] Parsing unified matrix for exact input reflection...');
+    if (!STATE.unifiedMatrix || STATE.unifiedMatrix.length === 0) return createEmptyResult();
+
+    const matrix = STATE.unifiedMatrix;
+    const res = createEmptyResult();
+
+    const valAt = (r, c) => {
+        if (!matrix[r] || matrix[r][c] === undefined) return 0;
+        let v = matrix[r][c];
+        if (typeof v === 'string') v = v.replace(/,/g, '').replace(/[^\d.\-]/g, '');
+        return parseFloat(v) || 0;
+    };
+    const strAt = (r, c) => (matrix[r] && matrix[r][c] !== undefined ? String(matrix[r][c]).trim() : '');
+
+    // 1. Operations & Currencies (Left Matrix: Cols 0-7)
+    for (let r = 2; r < matrix.length; r++) {
+        const opName = strAt(r, 0);
+        if (!opName) continue;
+        
+        // Flexible Grand Total Row Detection
+        if (/إجمالي|مجموع|total|sum/i.test(opName) && !/نسبة|نمو/i.test(opName)) {
+            res.allOps.push({ name: opName, count: valAt(r, 7), yer: valAt(r, 2), sar: valAt(r, 4), usd: valAt(r, 6), isTotal: true });
+            res.yerTotal = valAt(r, 2);
+            res.sarTotal = valAt(r, 4);
+            res.usdTotal = valAt(r, 6);
+            continue; 
+        }
+
+        const totalCount = valAt(r, 1) + valAt(r, 3) + valAt(r, 5); 
+        const yerAmt = valAt(r, 2); 
+        const sarAmt = valAt(r, 4);
+        const usdAmt = valAt(r, 6);
+
+        // Track every operation for the Summary Table and Breakdown Charts
+        res.allOps.push({ name: opName, count: totalCount, yer: yerAmt, sar: sarAmt, usd: usdAmt });
+        res.totalTxVolume += totalCount;
+
+        // Comprehensive Inflow/Outflow Categorization
+        if (/إيداع|قبض|وارد|شراء|deposit|receipt|inward|buy/i.test(opName)) {
+            res.totalDeposits += yerAmt;
+        } else if (/سحب|صرف|صادر|بيع|withdraw|payment|outward|sell/i.test(opName)) {
+            res.totalWithdrawals += yerAmt;
+        }
+
+        // Sector KPIs
+        if (/حول?ات?\s*صادر|outgoing/i.test(opName)) { 
+            res.transfersOutCount += totalCount; 
+            res.transfersOutAmount += yerAmt; 
+        } else if (/حول?ات?\s*وارد|incoming/i.test(opName)) { 
+            res.transfersInCount += totalCount; 
+            res.transfersInAmount += yerAmt; 
+        }
+
+        if (/صراف|atm|cdm/i.test(opName)) {
+            res.digitalChannels.push({ name: opName, count: totalCount, amount: yerAmt });
+            res.atmOps += totalCount;
+        } else if (/انترنت|تطبيق|mobile|internet/i.test(opName)) {
+            res.digitalChannels.push({ name: opName, count: totalCount, amount: yerAmt });
+            res.digitalOps += totalCount;
+        }
+    }
+
+    // 1.5 Treasury Liquidity (Exact Position: Row 20 in unified matrix)
+    // Headers: Col 0: "السيولة النقدية المتاحة بخزينة الفرع", Col 2: YER, Col 3: SAR, Col 5: USD
+    res.liquidityYER = valAt(20, 2);
+    res.liquiditySAR = valAt(20, 3);
+    res.liquidityUSD = valAt(20, 5);
+
+    // 2. Accounts Generation (Top-Right: Row 2, Cols 12-17)
+    // Mapping: 12:Murabaha, 13:Savings, 14:Current, 15:Investment, 16:Companies, 17:Guarantees
+    const accounts = [
+        { key: 'financingTotal', col: 12, label: 'تمويل مرابحة' },
+        { key: 'savingsAccounts', col: 13, label: 'حساب توفير' },
+        { key: 'currentAccounts', col: 14, label: 'حساب جاري' },
+        { key: 'investmentDeposits', col: 15, label: 'ودائع استثمار مطلقة' },
+        { key: 'companyAccounts', col: 16, label: 'شركات وكيانات اعتبارة' },
+        { key: 'guaranteeLetters', col: 17, label: 'خطابات الضمان' }
+    ];
+
+    accounts.forEach(acc => {
+        const val = valAt(2, acc.col);
+        res[acc.key] = val;
+        res.newAccounts += val;
+    });
+
+    // 3. Cards Monitoring (Middle-Right: Cols 11-13)
+    // Logic: Look for "طلب" and "تفعيل" labels in Col 11
+    for(let r = 4; r < 20; r++) {
+        const rowLabel = strAt(r, 11);
+        if (rowLabel === 'طلب') {
+            res.cardBreakdown['محلية (طلب)'] = valAt(r, 12); 
+            res.cardBreakdown['ماستر (طلب)'] = valAt(r, 13);
+        } else if (rowLabel === 'تفعيل') {
+            res.cardBreakdown['محلية (تفعيل)'] = valAt(r, 12); 
+            res.cardBreakdown['ماستر (تفعيل)'] = valAt(r, 13);
+        }
+    }
+    res.cardActivity = Object.values(res.cardBreakdown).reduce((a, b) => a + b, 0);
+
+    // 4. Employee Achievement (Bottom-Right: Cols 10-12)
+    // Logic: Find "الموظف" header, then pull everyone below it
+    let empHeaderIndex = -1;
+    for(let r = 5; r < matrix.length; r++) {
+        if (strAt(r, 10) === 'الموظف' || strAt(r, 10) === 'اسم الموظف') { empHeaderIndex = r; break; }
+    }
+    
+    if (empHeaderIndex !== -1) {
+        for(let r = empHeaderIndex + 1; r < matrix.length; r++) {
+            const name = strAt(r, 10);
+            if (!name || /الإجمالي|المجموع|Total|الكلية|نسبة|نمو/i.test(name)) continue;
+            const count = valAt(r, 11);
+            const amount = valAt(r, 12);
+            res.employees.push({ name, count, amount });
+            res.employeeOps += count;
+        }
+    }
+
+    console.log('[Aggregate] Logic synced with Excel 1:1. Results:', res);
+    return res;
 }
 
 /* ---- Helpers ---- */
@@ -381,12 +289,21 @@ function isTransferIn(name) {
    ============================================================ */
 
 function renderKPIs(data) {
+    animateValue('kpi-yer-total', data.yerTotal, true);
+    animateValue('kpi-sar-total', data.sarTotal, true);
+    animateValue('kpi-usd-total', data.usdTotal, true);
+
+    // New Liquidity KPIs
+    animateValue('kpi-liquidity-yer', data.liquidityYER, true);
+    animateValue('kpi-liquidity-sar', data.liquiditySAR, true);
+    animateValue('kpi-liquidity-usd', data.liquidityUSD, true);
+
     animateValue('kpi-total-deposits', data.totalDeposits, true);
     animateValue('kpi-total-withdrawals', data.totalWithdrawals, true);
     animateValue('kpi-total-financing', data.financingTotal, false);
     animateValue('kpi-new-accounts', data.newAccounts, false);
-    animateValue('kpi-personal-accounts', data.personalAccounts, false);
-    animateValue('kpi-corporate-accounts', data.corporateAccounts, false);
+    animateValue('kpi-savings-accounts', data.savingsAccounts, false);
+    animateValue('kpi-current-accounts', data.currentAccounts, false);
     animateValue('kpi-investment-accounts', data.investmentDeposits, false);
     animateValue('kpi-transfers-out', data.transfersOutCount, false);
     animateValue('kpi-transfers-in', data.transfersInCount, false);
@@ -445,49 +362,103 @@ function getChartColors() {
 }
 
 function renderCharts(data) {
-    renderDailyLineChart();
+    if (!data) return;
+    renderEmployeeAmountChart(data);
+    renderEmployeeCountChart(data);
+    renderDigitalChart(data);
     renderMonthlyBarChart();
     renderAccountsPieChart(data);
     renderCardsDonutChart(data);
+    renderOpsChannelsChart(data);
+    renderOpVolumeChart(data);
+    renderOpAmountChart(data);
 }
 
 function destroyChart(key) {
     if (STATE.charts[key]) { STATE.charts[key].destroy(); delete STATE.charts[key]; }
 }
 
-function renderDailyLineChart() {
-    destroyChart('daily');
-    const ctx = document.getElementById('dailyLineChart');
+function renderEmployeeAmountChart(data) {
+    destroyChart('employeeAmount');
+    const ctx = document.getElementById('employeeAmountChart');
     if (!ctx) return;
     const colors = getChartColors();
+    const users = [], amounts = [];
 
-    const users = [], amounts = [], counts = [];
-
-    for (const row of STATE.operationRows) {
-        const name = getRowName(row);
-        if (!name || /^(الإجمالي|Total|المجموع|الإجمالي الكلي|Grand Total)$/i.test(name)) continue;
-        users.push(name);
-        amounts.push(getFirstNumeric(row));
-        counts.push(getSecondNumeric(row));
-    }
+    (data.employees || []).forEach(emp => {
+        users.push(emp.name);
+        amounts.push(emp.amount);
+    });
 
     if (users.length === 0) {
-        // No operations data — show placeholder
-        STATE.charts.daily = new Chart(ctx, {
-            type: 'line',
-            data: { labels: ['لا توجد بيانات'], datasets: [{ label: 'المبلغ', data: [0], borderColor: colors.blue }] },
-            options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: colors.text } } } }
-        });
+        STATE.charts.employeeAmount = new Chart(ctx, { type: 'bar', data: { labels: ['لا توجد بيانات'], datasets: [{ label: 'المبلغ', data: [0], backgroundColor: colors.blue }] } });
         return;
     }
 
-    STATE.charts.daily = new Chart(ctx, {
-        type: 'line',
+    STATE.charts.employeeAmount = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: users, datasets: [{ type: 'bar', label: 'المبلغ (بالمعادل) | Amount', data: amounts, backgroundColor: colors.blue, borderRadius: 4 }] },
+        options: {
+            responsive: true, maintainAspectRatio: true,
+            plugins: { legend: { labels: { color: colors.text, font: { family: "'Cairo','Inter',sans-serif" } } } },
+            scales: { x: { ticks: { color: colors.text, font: { family: "'Cairo'" } }, grid: { display: false } }, y: { ticks: { color: colors.blue, callback: v => formatNumber(v) }, grid: { color: colors.grid } } }
+        }
+    });
+}
+
+function renderEmployeeCountChart(data) {
+    destroyChart('employeeCount');
+    const ctx = document.getElementById('employeeCountChart');
+    if (!ctx) return;
+    const colors = getChartColors();
+    const users = [], counts = [];
+
+    (data.employees || []).forEach(emp => {
+        users.push(emp.name);
+        counts.push(emp.count);
+    });
+
+    if (users.length === 0) {
+        STATE.charts.employeeCount = new Chart(ctx, { type: 'bar', data: { labels: ['لا توجد بيانات'], datasets: [{ label: 'العمليات', data: [0], backgroundColor: colors.green }] } });
+        return;
+    }
+
+    STATE.charts.employeeCount = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: users, datasets: [{ type: 'bar', label: 'عدد العمليات | Transactions', data: counts, backgroundColor: colors.green, borderRadius: 4 }] },
+        options: {
+            responsive: true, maintainAspectRatio: true,
+            plugins: { legend: { labels: { color: colors.text, font: { family: "'Cairo','Inter',sans-serif" } } } },
+            scales: { x: { ticks: { color: colors.text, font: { family: "'Cairo'" } }, grid: { display: false } }, y: { ticks: { color: colors.green }, grid: { color: colors.grid } } }
+        }
+    });
+}
+
+function renderDigitalChart(data) {
+    destroyChart('digital');
+    const ctx = document.getElementById('digitalChart');
+    if (!ctx) return;
+    const colors = getChartColors();
+    const users = [], amounts = [], counts = [];
+
+    (data.digitalChannels || []).forEach(op => {
+        users.push(op.name);
+        amounts.push(op.amount);
+        counts.push(op.count);
+    });
+
+    if (users.length === 0) {
+        STATE.charts.digital = new Chart(ctx, { type: 'bar', data: { labels: ['لا توجد بيانات'], datasets: [{ label: 'المبلغ', data: [0], backgroundColor: colors.purple }] } });
+        return;
+    }
+
+    STATE.charts.digital = new Chart(ctx, {
+        type: 'bar',
         data: {
             labels: users,
             datasets: [
-                { label: 'المبلغ (بالمعادل) | Amount', data: amounts, borderColor: colors.blue, backgroundColor: colors.blue + '22', fill: true, tension: 0.4, pointRadius: 5, pointHoverRadius: 8, yAxisID: 'y' },
-                { label: 'عدد العمليات | Count', data: counts, borderColor: colors.green, backgroundColor: colors.green + '22', fill: false, tension: 0.4, pointRadius: 5, pointHoverRadius: 8, yAxisID: 'y1' }
+                { type: 'bar', label: 'المبلغ (بالمعادل) | Amount', data: amounts, backgroundColor: colors.purple, borderRadius: 4, yAxisID: 'y' },
+                { type: 'line', label: 'عدد العمليات | Count', data: counts, borderColor: colors.amber, backgroundColor: colors.amber, fill: false, tension: 0.4, pointRadius: 5, yAxisID: 'y1' }
             ]
         },
         options: {
@@ -498,9 +469,9 @@ function renderDailyLineChart() {
                 tooltip: { rtl: true, callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}` } }
             },
             scales: {
-                x: { ticks: { color: colors.text, font: { family: "'Cairo'" }, maxRotation: 45 }, grid: { color: colors.grid } },
-                y: { position: 'right', ticks: { color: colors.blue, callback: v => formatNumber(v) }, grid: { color: colors.grid } },
-                y1: { position: 'left', ticks: { color: colors.green }, grid: { drawOnChartArea: false } }
+                x: { ticks: { color: colors.text, font: { family: "'Cairo'" }, maxRotation: 45 }, grid: { display: false } },
+                y: { position: 'right', ticks: { color: colors.purple, callback: v => formatNumber(v) }, grid: { color: colors.grid } },
+                y1: { position: 'left', ticks: { color: colors.amber }, grid: { drawOnChartArea: false } }
             }
         }
     });
@@ -511,40 +482,12 @@ function renderMonthlyBarChart() {
     const ctx = document.getElementById('monthlyColumnChart');
     if (!ctx) return;
     const colors = getChartColors();
-
-    const users = [], datasets = {};
-
-    for (const row of STATE.accountRows) {
-        const name = getRowName(row);
-        if (!name || /^(الإجمالي|Total|المجموع|الإجمالي الكلي|Grand Total)$/i.test(name)) continue;
-        users.push(name);
-
-        const keys = Object.keys(row).filter(k => !k.startsWith('_'));
-        for (const key of keys) {
-            if (key === keys[0]) continue; // skip name
-            if (/total|إجمالي|مجموع/i.test(key)) continue; // skip totals
-            const val = toNumber(row[key]);
-            if (!datasets[key]) datasets[key] = [];
-            datasets[key].push(val);
-        }
-    }
-
-    const colorArr = [colors.darkBlue, colors.blue, colors.green, colors.amber, colors.purple, colors.pink];
-    const dsArr = Object.entries(datasets).map(([label, data], i) => ({
-        label, data, backgroundColor: colorArr[i % colorArr.length], borderRadius: 4
-    }));
-
+    
+    // Monthly history is obsoleted by unified dashboard snapshot
     STATE.charts.monthly = new Chart(ctx, {
         type: 'bar',
-        data: { labels: users, datasets: dsArr },
-        options: {
-            responsive: true, maintainAspectRatio: true,
-            plugins: { legend: { labels: { color: colors.text, font: { family: "'Cairo','Inter',sans-serif", size: 11 } } } },
-            scales: {
-                x: { stacked: true, ticks: { color: colors.text, font: { family: "'Cairo'" }, maxRotation: 45 }, grid: { display: false } },
-                y: { stacked: true, ticks: { color: colors.text }, grid: { color: colors.grid } }
-            }
-        }
+        data: { labels: ['تطوير'], datasets: [{ label: 'غير مدعوم في هذا التقرير', data: [0], backgroundColor: colors.darkBlue }] },
+        options: { responsive: true, maintainAspectRatio: true }
     });
 }
 
@@ -555,10 +498,13 @@ function renderAccountsPieChart(data) {
     const colors = getChartColors();
 
     const labels = [], values = [];
-    if (data.personalAccounts > 0) { labels.push('أفراد (جاري+توفير)'); values.push(data.personalAccounts); }
-    if (data.corporateAccounts > 0) { labels.push('شركات'); values.push(data.corporateAccounts); }
-    if (data.investmentDeposits > 0) { labels.push('ودائع استثمارية'); values.push(data.investmentDeposits); }
+    if (data.savingsAccounts > 0) { labels.push('حساب توفير'); values.push(data.savingsAccounts); }
+    if (data.currentAccounts > 0) { labels.push('حساب جاري'); values.push(data.currentAccounts); }
+    if (data.investmentDeposits > 0) { labels.push('ودائع استثمار مطلقة'); values.push(data.investmentDeposits); }
     if (data.financingTotal > 0) { labels.push('تمويل مرابحة'); values.push(data.financingTotal); }
+    if (data.companyAccounts > 0) { labels.push('شركات وكيانات اعتبارة'); values.push(data.companyAccounts); }
+    if (data.guaranteeLetters > 0) { labels.push('خطابات الضمان'); values.push(data.guaranteeLetters); }
+    
     if (labels.length === 0 && data.newAccounts > 0) { labels.push('حسابات'); values.push(data.newAccounts); }
 
     STATE.charts.accounts = new Chart(ctx, {
@@ -595,6 +541,109 @@ function renderCardsDonutChart(data) {
             plugins: {
                 legend: { position: 'bottom', rtl: true, labels: { color: colors.text, font: { family: "'Cairo','Inter',sans-serif", size: 12 }, padding: 16 } },
                 tooltip: { rtl: true }
+            }
+        }
+    });
+}
+
+function renderOpsChannelsChart(data) {
+    destroyChart('opsChannels');
+    const ctx = document.getElementById('opsChannelsChart');
+    if (!ctx) return;
+    const colors = getChartColors();
+
+    const labels = [];
+    const values = [];
+    
+    if (data.employeeOps > 0) { labels.push('موظفي الفرع'); values.push(data.employeeOps); }
+    if (data.atmOps > 0) { labels.push('الصراف الآلي'); values.push(data.atmOps); }
+    if (data.digitalOps > 0) { labels.push('القنوات الرقمية'); values.push(data.digitalOps); }
+
+    STATE.charts.opsChannels = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{ 
+                data: values, 
+                backgroundColor: [colors.blue, colors.amber, colors.green, colors.pink], 
+                borderWidth: 2, 
+                borderColor: colors.bg, 
+                cutout: '65%' 
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: true,
+            plugins: {
+                legend: { position: 'bottom', rtl: true, labels: { color: colors.text, font: { family: "'Cairo','Inter',sans-serif", size: 12 }, padding: 16 } },
+                tooltip: { rtl: true }
+            }
+        }
+    });
+}
+
+function renderOpVolumeChart(data) {
+    destroyChart('opVolume');
+    const ctx = document.getElementById('opVolumeChart');
+    if (!ctx) return;
+    const colors = getChartColors();
+
+    const sortedOps = (data.allOps || [])
+        .filter(op => !op.isTotal && op.count > 0)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 12);
+
+    const labels = sortedOps.map(op => op.name);
+    const counts = sortedOps.map(op => op.count);
+
+    if (labels.length === 0) return;
+
+    STATE.charts.opVolume = new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'عدد العمليات | Count', data: counts, backgroundColor: colors.blue, borderRadius: 4 }] },
+        options: {
+            indexAxis: 'y',
+            responsive: true, maintainAspectRatio: true,
+            plugins: { 
+                legend: { display: false },
+                tooltip: { rtl: true }
+            },
+            scales: {
+                x: { ticks: { color: colors.text }, grid: { color: colors.grid } },
+                y: { ticks: { color: colors.text, font: { family: "'Cairo'" } }, grid: { display: false } }
+            }
+        }
+    });
+}
+
+function renderOpAmountChart(data) {
+    destroyChart('opAmount');
+    const ctx = document.getElementById('opAmountChart');
+    if (!ctx) return;
+    const colors = getChartColors();
+
+    const sortedOps = (data.allOps || [])
+        .filter(op => !op.isTotal && op.yer > 0)
+        .sort((a, b) => b.yer - a.yer)
+        .slice(0, 12);
+
+    const labels = sortedOps.map(op => op.name);
+    const amounts = sortedOps.map(op => op.yer);
+
+    if (labels.length === 0) return;
+
+    STATE.charts.opAmount = new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'المبلغ (بالمعادل) | Amount', data: amounts, backgroundColor: colors.teal, borderRadius: 4 }] },
+        options: {
+            indexAxis: 'y',
+            responsive: true, maintainAspectRatio: true,
+            plugins: { 
+                legend: { display: false },
+                tooltip: { rtl: true, callbacks: { label: ctx => `${ctx.parsed.x.toLocaleString()} YER` } }
+            },
+            scales: {
+                x: { ticks: { color: colors.text, callback: v => formatNumber(v) }, grid: { color: colors.grid } },
+                y: { ticks: { color: colors.text, font: { family: "'Cairo'" } }, grid: { display: false } }
             }
         }
     });
@@ -638,12 +687,11 @@ async function handleFiles(fileList) {
             const parsed = parseExcelBuffer(buffer, file.name);
             STATE.files.push({ fileName: file.name, ...parsed });
 
-            if (parsed.type === 'operations') STATE.operationRows.push(...parsed.rows);
-            else if (parsed.type === 'accounts') STATE.accountRows.push(...parsed.rows);
-            else if (parsed.type === 'cards') STATE.cardRows.push(...parsed.rows);
-            else STATE.operationRows.push(...parsed.rows);
+            if (parsed.type === 'unified') {
+                STATE.unifiedMatrix = parsed.matrix;
+            }
 
-            console.log(`[Upload] ${file.name} → ${parsed.type} (${parsed.rows.length} rows)`);
+            console.log(`[Upload] ${file.name} → ${parsed.type}`);
         } catch (err) {
             console.error(`Error reading ${file.name}:`, err);
         }
@@ -684,15 +732,10 @@ function renderFileChips() {
 
 function removeFile(fileName) {
     STATE.files = STATE.files.filter(f => f.fileName !== fileName);
-    STATE.operationRows = [];
-    STATE.accountRows = [];
-    STATE.cardRows = [];
-    for (const f of STATE.files) {
-        if (f.type === 'operations') STATE.operationRows.push(...f.rows);
-        else if (f.type === 'accounts') STATE.accountRows.push(...f.rows);
-        else if (f.type === 'cards') STATE.cardRows.push(...f.rows);
-        else STATE.operationRows.push(...f.rows);
-    }
+    // Find the latest unified file to set as matrix, or null
+    const latestUnified = [...STATE.files].reverse().find(f => f.type === 'unified');
+    STATE.unifiedMatrix = latestUnified ? latestUnified.matrix : null;
+    
     renderFileChips();
     refreshDashboard();
     if (STATE.files.length === 0) expandUploadZone();
@@ -879,9 +922,8 @@ function renderDataListModal() {
             <div>
                 <span class="list-date">${f.fileName}</span>
                 <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px;">
-                    ${typeLabels[f.type] || typeLabels.unknown} — ${f.rows.length} سجل
+                    📊 تقرير موحد — ${f.matrix ? f.matrix.length : 0} صف
                     ${f.meta.branch ? ' — ' + f.meta.branch : ''}
-                    ${f.meta.startDate ? ' — ' + f.meta.startDate.toLocaleDateString('ar-EG') : ''}
                 </div>
             </div>
             <button class="btn btn-secondary" style="padding:0.25rem 0.75rem;font-size:0.75rem;" onclick="removeFile('${f.fileName}');renderDataListModal();">حذف</button>
