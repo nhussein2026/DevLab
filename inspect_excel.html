@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Excel Inspector</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body { font-family: sans-serif; }
+        table { border-collapse: collapse; margin-top: 20px; }
+        td, th { border: 1px solid #ccc; padding: 5px; font-size: 12px; }
+        pre { background: #f0f0f0; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Excel Inspector</h1>
+    <div id="status">Reading branch.xls...</div>
+    <div id="output"></div>
+
+    <script>
+        async function inspect() {
+            try {
+                const response = await fetch('branch.xls');
+                const arrayBuffer = await response.arrayBuffer();
+                const data = new Uint8Array(arrayBuffer);
+                const workbook = XLSX.read(data, {type: 'array'});
+                
+                let html = '';
+                workbook.SheetNames.forEach(sheetName => {
+                    html += `<h2>Sheet: ${sheetName}</h2>`;
+                    const worksheet = workbook.Sheets[sheetName];
+                    const json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+                    
+                    html += '<table>';
+                    json.forEach((row, rowIndex) => {
+                        html += '<tr><td>' + rowIndex + '</td>';
+                        // Show up to 30 columns
+                        for(let i=0; i<Math.max(row.length, 20); i++) {
+                            html += `<td>${row[i] || ''}</td>`;
+                        }
+                        html += '</tr>';
+                    });
+                    html += '</table>';
+                });
+                document.getElementById('output').innerHTML = html;
+                document.getElementById('status').innerText = 'Done.';
+            } catch (e) {
+                document.getElementById('status').innerText = 'Error: ' + e.message;
+            }
+        }
+        inspect();
+    </script>
+</body>
+</html>

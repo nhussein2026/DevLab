@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="assets/js/tools/dashboard.js"></script>
+<script src="encoded.js"></script>
+</head>
+<body>
+<textarea id="output" style="width:100%; height:800px;"></textarea>
+<script>
+function base64ToArrayBuffer(base64) {
+    var binary_string = window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+window.onload = function() {
+    try {
+        const fileNames = ['4_5954106878907654179.xls', 'hg.xlsx', 'hgpshfhj.xlsx', 'البطائق.xlsx'];
+        for(const name of fileNames) {
+            const ab = base64ToArrayBuffer(b64[name]);
+            const parsed = parseExcelBuffer(ab, name);
+            STATE.files.push({ fileName: name, type: parsed.type, rowsCount: parsed.rows.length, meta: parsed.meta, headers: parsed.headers });
+            if (parsed.type === 'operations') STATE.operationRows.push(...parsed.rows);
+            else if (parsed.type === 'accounts') STATE.accountRows.push(...parsed.rows);
+            else if (parsed.type === 'cards') STATE.cardRows.push(...parsed.rows);
+            else STATE.operationRows.push(...parsed.rows);
+        }
+        const data = aggregateData();
+        document.getElementById('output').value = JSON.stringify({
+            STATE_FILES: STATE.files,
+            AGGREGATED: data
+        }, null, 2);
+    } catch(e) {
+        document.getElementById('output').value = e.toString() + "\n" + e.stack;
+    }
+}
+</script>
+</body>
+</html>
