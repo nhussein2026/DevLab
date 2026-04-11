@@ -101,7 +101,8 @@ function createEmptyResult() {
         yerTotal: 0, sarTotal: 0, usdTotal: 0,
         liquidityYER: 0, liquiditySAR: 0, liquidityUSD: 0,
         employees: [], digitalChannels: [],
-        allOps: [], totalTxVolume: 0
+        allOps: [], totalTxVolume: 0,
+        withdrawalRatio: 0, accountGrowth: 0
     };
 }
 
@@ -128,6 +129,17 @@ function aggregateData() {
 
     for (let r = 2; r < matrix.length; r++) {
         const opName = strAt(r, 0);
+        
+        // Capture Executive Metrics
+        if (/نسبة السحب من الإيداع/i.test(opName)) {
+            res.withdrawalRatio = valAt(r, 2) || valAt(r, 1);
+            continue;
+        }
+        if (/نمو الحسابات/i.test(opName)) {
+            res.accountGrowth = valAt(r, 2) || valAt(r, 1);
+            continue;
+        }
+
         if (!opName || headerLabelsExact.test(opName) || headerLabelsPartial.test(opName)) continue;
         
         // Flexible Grand Total Row Detection
@@ -298,6 +310,10 @@ function renderKPIs(data) {
     animateValue('kpi-sar-total', data.sarTotal, true);
     animateValue('kpi-usd-total', data.usdTotal, true);
 
+    // Executive Ratio KPIs
+    animatePercent('kpi-withdrawal-ratio', data.withdrawalRatio);
+    animatePercent('kpi-account-growth', data.accountGrowth);
+
     // New Liquidity KPIs
     animateValue('kpi-liquidity-yer', data.liquidityYER, true);
     animateValue('kpi-liquidity-sar', data.liquiditySAR, true);
@@ -333,6 +349,25 @@ function animateValue(id, endVal, isCurrency) {
         const ease = 1 - Math.pow(1 - progress, 3);
         const current = endVal * ease;
         el.textContent = isCurrency ? formatNumber(current) : formatInt(current);
+        if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
+function animatePercent(id, endVal) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const targetPct = endVal * 100;
+    const duration = 1200;
+    const start = performance.now();
+
+    function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = targetPct * ease;
+        el.textContent = current.toFixed(1) + '%';
         if (progress < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -468,21 +503,67 @@ function renderTopOpsDualChart(data) {
         data: {
             labels: ops,
             datasets: [
-                { type: 'bar', label: 'المبلغ المستحق (يمني) | Amount', data: amounts, backgroundColor: colors.purple, borderRadius: 4, yAxisID: 'y' },
-                { type: 'line', label: 'عدد العمليات | Count', data: counts, borderColor: colors.amber, backgroundColor: colors.amber, fill: false, tension: 0.4, pointRadius: 5, yAxisID: 'y1' }
+                { 
+                    type: 'bar', 
+                    label: 'عدد العمليات', 
+                    data: counts, 
+                    backgroundColor: colors.blue, 
+                    borderRadius: 6,
+                    barPercentage: 0.6,
+                    yAxisID: 'y' 
+                },
+                { 
+                    type: 'line', 
+                    label: 'المبلغ (يمني)', 
+                    data: amounts, 
+                    borderColor: colors.amber, 
+                    backgroundColor: 'rgba(245, 158, 11, 0.15)', 
+                    borderWidth: 3,
+                    fill: true, 
+                    tension: 0.4, 
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: colors.amber,
+                    pointBorderWidth: 2,
+                    yAxisID: 'y1' 
+                }
             ]
         },
         options: {
             responsive: true, maintainAspectRatio: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { labels: { color: colors.text, font: { family: "'Cairo','Inter',sans-serif" } } },
-                tooltip: { rtl: true, callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}` } }
+                legend: { 
+                    position: 'top',
+                    labels: { color: colors.text, font: { family: "'Cairo','Inter',sans-serif", size: 12 }, padding: 20, usePointStyle: true }
+                },
+                tooltip: { 
+                    rtl: true,
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    titleFont: { family: "'Cairo'", size: 14 },
+                    bodyFont: { family: "'Cairo'", size: 13 },
+                    padding: 12,
+                    callbacks: { label: ctx => `${ctx.dataset.label.split('|')[0].trim()}: ${ctx.parsed.y.toLocaleString()}` } 
+                }
             },
             scales: {
-                x: { ticks: { color: colors.text, font: { family: "'Cairo'" }, maxRotation: 45 }, grid: { display: false } },
-                y: { position: 'right', ticks: { color: colors.purple, callback: v => formatNumber(v) }, grid: { color: colors.grid } },
-                y1: { position: 'left', ticks: { color: colors.amber }, grid: { drawOnChartArea: false } }
+                x: { 
+                    ticks: { color: colors.text, font: { family: "'Cairo'" }, maxRotation: 45 }, 
+                    grid: { display: false } 
+                },
+                y: { 
+                    position: 'right', 
+                    title: { display: true, text: 'العدد', color: colors.blue, font: { family: "'Cairo'" } },
+                    ticks: { color: colors.blue, callback: v => formatNumber(v) }, 
+                    grid: { color: colors.grid, drawBorder: false } 
+                },
+                y1: { 
+                    position: 'left', 
+                    title: { display: true, text: 'المبلغ', color: colors.amber, font: { family: "'Cairo'" } },
+                    ticks: { color: colors.amber, callback: v => formatNumber(v) }, 
+                    grid: { drawOnChartArea: false, drawBorder: false } 
+                }
             }
         }
     });
@@ -517,19 +598,19 @@ function renderCurrencyBreakdownChart(data) {
             labels,
             datasets: [
                 {
-                    label: 'ريال يمني | YER',
+                    label: 'ريال يمني',
                     data: ops.map(op => op.yer),
                     backgroundColor: colors.blue,
                     borderRadius: 4
                 },
                 {
-                    label: 'ريال سعودي | SAR',
+                    label: 'ريال سعودي',
                     data: ops.map(op => op.sar),
                     backgroundColor: colors.green,
                     borderRadius: 4
                 },
                 {
-                    label: 'دولار | USD',
+                    label: 'دولار',
                     data: ops.map(op => op.usd),
                     backgroundColor: colors.amber,
                     borderRadius: 4
@@ -553,6 +634,7 @@ function renderCurrencyBreakdownChart(data) {
             },
             scales: {
                 x: {
+                    type: 'logarithmic',
                     stacked: false,
                     ticks: { color: colors.text, callback: v => formatNumber(v) },
                     grid: { color: colors.grid }
@@ -980,10 +1062,147 @@ function refreshDashboard() {
     renderKPIs(data);
     renderCharts(data);
     updateInsightsBar(data);
+    renderFindings(data);
+    renderSummaryTable(data);
 }
 
 /* ============================================================
-   9. THEME TOGGLE
+   9. SMART FINDINGS & SUMMARY TABLE
+   ============================================================ */
+
+function renderFindings(data) {
+    const section = document.getElementById('findings-section');
+    const container = document.getElementById('findings-container');
+    if (!section || !container) return;
+    
+    if (!data.allOps || data.allOps.length === 0) {
+        section.classList.add('hidden');
+        return;
+    }
+
+    section.classList.remove('hidden');
+    container.innerHTML = '';
+
+    const addFinding = (icon, title, desc, severity = 'info') => {
+        let colors = '';
+        if (severity === 'success') colors = 'finding-success';
+        else if (severity === 'alert') colors = 'finding-alert';
+        else if (severity === 'warning') colors = 'finding-warning';
+        else colors = 'finding-info';
+
+        const card = document.createElement('div');
+        card.className = `finding-card ${colors}`;
+        card.innerHTML = `
+            <div class="finding-icon">${icon}</div>
+            <div class="finding-content">
+                <h3 class="finding-title">${title}</h3>
+                <p class="finding-desc">${desc}</p>
+            </div>
+        `;
+        container.appendChild(card);
+    };
+
+    // 1. Top Employee
+    const topEmp = [...data.employees].sort((a, b) => b.amount - a.amount)[0];
+    if (topEmp) {
+        addFinding(
+            '<svg class="finding-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>',
+            'أفضل الموظفين أداءً | Top Performer',
+            `حقق الموظف <strong>${topEmp.name}</strong> أعلى إجمالي بمبلغ ${formatNumber(topEmp.amount)} يمني عبر ${topEmp.count} عملية.`,
+            'success'
+        );
+    }
+
+    // 2. Liquidity / Withdrawal Ratio Alert
+    const wRatio = data.withdrawalRatio;
+    if (wRatio > 0.8) {
+        addFinding(
+            '<svg class="finding-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>',
+            'تنبيه سيولة | Liquidity Alert',
+            `نسبة السحوبات مقارنة بالإيداعات مرتفعة (${(wRatio * 100).toFixed(1)}%). يجب مراقبة سيولة الخزينة.`,
+            'alert'
+        );
+    } else if (wRatio > 0) {
+        addFinding(
+            '<svg class="finding-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+            'استقرار السيولة | Stable Liquidity',
+            `نسبة السحوبات إلى الإيداعات مستقرة (${(wRatio * 100).toFixed(1)}%). وضع السيولة آمن.`,
+            'info'
+        );
+    }
+
+    // 3. Channels Overview
+    if (data.atmOps > 0 && data.digitalOps === 0) {
+        addFinding(
+            '<svg class="finding-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>',
+            'القنوات الرقمية | Digital Channels',
+            `هناك اعتماد على الصرافات الآلية (${data.atmOps} عملية) ولكن لا توجد عمليات مسجلة عبر تطبيق الموبايل/الإنترنت.`,
+            'warning'
+        );
+    }
+
+    // 4. Accounts Growth
+    if (data.accountGrowth > 0.5) {
+        addFinding(
+            '<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>',
+            'نمو ممتاز للحسابات | Excellent Account Growth',
+            `بلغ معدل نمو الحسابات ${(data.accountGrowth * 100).toFixed(1)}% مما يعكس نجاحاً في جذب عملاء جدد.`,
+            'success'
+        );
+    } else if (data.accountGrowth > 0) {
+        addFinding(
+            '<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>',
+            'نمو الحسابات | Account Growth',
+            `بلغ معدل نمو الحسابات ${(data.accountGrowth * 100).toFixed(1)}%.`,
+            'info'
+        );
+    }
+}
+
+function renderSummaryTable(data) {
+    const section = document.getElementById('summary-section');
+    const tbody = document.getElementById('summary-table-body');
+    if (!section || !tbody) return;
+
+    if (!data.allOps || data.allOps.length === 0) {
+        section.classList.add('hidden');
+        return;
+    }
+
+    section.classList.remove('hidden');
+    tbody.innerHTML = '';
+
+    // Calculate max potential for performance bar
+    const maxLocalAmt = Math.max(...data.allOps.filter(o => !o.isTotal).map(o => o.yer));
+
+    data.allOps.forEach(op => {
+        const tr = document.createElement('tr');
+        if (op.isTotal) {
+            tr.className = 'total-row';
+        }
+        
+        const perfPct = op.isTotal || maxLocalAmt === 0 ? 0 : Math.min((op.yer / maxLocalAmt) * 100, 100);
+        let perfCol = op.isTotal ? '-' : `
+            <div class="perf-bar-bg">
+                <div class="perf-bar-fill" style="width: ${perfPct}%;"></div>
+            </div>
+        `;
+
+        tr.innerHTML = `
+            <td>${op.name}</td>
+            <td>${formatInt(op.count)}</td>
+            <td dir="ltr" class="font-mono">${formatNumber(op.yer)}</td>
+            <td dir="ltr" class="font-mono">${formatNumber(op.sar)}</td>
+            <td dir="ltr" class="font-mono">${formatNumber(op.usd)}</td>
+            <td class="perf-col">${perfCol}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+/* ============================================================
+   10. THEME TOGGLE
    ============================================================ */
 
 function initTheme() {
