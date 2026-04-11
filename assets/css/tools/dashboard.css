@@ -2,33 +2,44 @@
    1. Design Tokens & CSS Variables
    ========================================= */
 :root {
-    /* Brand Colors */
-    --bank-light-blue: #3FA9F5;
-    --bank-dark-blue: #003A70;
-    --bank-green: #22C55E;
-    --bank-gray: #F6F6F6;
+    /* Brand Colors & Neon Accents */
+    --bank-light-blue: #0ea5e9;
+    --bank-dark-blue: #0369a1;
+    --bank-green: #10b981;
+    --bank-amber: #f59e0b;
+    --bank-purple: #8b5cf6;
 
-    /* Theme Colors (Light) */
-    --bg-main: #F6F6F6;
-    --bg-card: #FFFFFF;
-    --text-primary: #4B5563;
-    --text-secondary: #6B7280;
-    --text-title: #003A70;
-    --border-color: #D1D5DB;
-    --shadow-card: 0 4px 12px rgba(0, 58, 112, 0.08);
-    --btn-hover: #EFF6FF;
+    /* Theme Colors (Light) - Premium Frosted */
+    --bg-base: #f8fafc;
+    --bg-main: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    --bg-card: rgba(255, 255, 255, 0.7);
+    --card-border: rgba(255, 255, 255, 0.6);
+    --text-primary: #334155;
+    --text-secondary: #64748b;
+    --text-title: #0f172a;
+    --border-color: rgba(203, 213, 225, 0.5);
+    
+    /* Glassmorphism Constants */
+    --glass-blur: blur(16px);
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    --glow-shadow: 0 8px 32px rgba(14, 165, 233, 0.15);
+    --btn-hover: rgba(255, 255, 255, 0.9);
 }
 
 .dark {
-    /* Theme Colors (Dark) */
-    --bg-main: #0a192f;
-    --bg-card: #172a45;
-    --text-primary: #ccd6f6;
-    --text-secondary: #8892b0;
-    --text-title: #ffffff;
-    --border-color: #3e587b;
-    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.2);
-    --btn-hover: #0a192f;
+    /* Theme Colors (Dark) - Deep Neon Space */
+    --bg-base: #020617;
+    --bg-main: radial-gradient(circle at top left, #0f172a 0%, #020617 100%);
+    --bg-card: rgba(15, 23, 42, 0.4);
+    --card-border: rgba(255, 255, 255, 0.05);
+    --text-primary: #cbd5e1;
+    --text-secondary: #94a3b8;
+    --text-title: #f8fafc;
+    --border-color: rgba(51, 65, 85, 0.4);
+    
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    --glow-shadow: 0 8px 32px rgba(14, 165, 233, 0.25);
+    --btn-hover: rgba(30, 41, 59, 0.8);
 }
 
 /* =========================================
@@ -41,10 +52,12 @@
 }
 
 body {
-    background-color: var(--bg-main);
+    background: var(--bg-main);
+    background-attachment: fixed; /* Ensures gradient stays beautiful on scroll */
     color: var(--text-primary);
     font-family: 'Cairo', 'Inter', sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background 0.4s ease, color 0.4s ease;
+    min-height: 100vh;
 }
 
 .hidden {
@@ -532,10 +545,13 @@ body {
 
 .kpi-card {
     background-color: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--card-border);
     border-radius: 0.75rem;
     box-shadow: var(--shadow-card);
     padding: 1.25rem;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -543,7 +559,9 @@ body {
 }
 
 .kpi-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: var(--glow-shadow);
+    border-color: rgba(14, 165, 233, 0.3);
 }
 
 .kpi-header {
@@ -599,11 +617,13 @@ body {
 }
 
 .kpi-value {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     color: var(--text-title);
     margin-top: 0.5rem;
     font-family: 'Inter', sans-serif;
+    text-shadow: 0 4px 16px rgba(0,0,0,0.05);
 }
 
 .text-light-blue {
@@ -991,12 +1011,22 @@ body {
 }
 
 .finding-card {
+    background-color: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid;
+    border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-card);
     display: flex;
     align-items: flex-start;
     gap: 1rem;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.finding-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--glow-shadow);
 }
 
 .finding-icon {
@@ -1081,10 +1111,28 @@ body {
 
 .table-card {
     background-color: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
     box-shadow: var(--shadow-card);
     overflow: hidden;
     margin-top: 1rem;
+}
+
+/* Also apply to chart cards since they were unstyled containers */
+.chart-card {
+    background-color: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--card-border);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-card);
+    padding: 1rem;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.chart-card:hover {
+    box-shadow: var(--glow-shadow);
 }
 
 .table-responsive {

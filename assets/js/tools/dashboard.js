@@ -391,13 +391,13 @@ function formatInt(n) {
 function getChartColors() {
     const isDark = document.documentElement.classList.contains('dark');
     return {
-        blue: '#3FA9F5', darkBlue: isDark ? '#5BB8F7' : '#003A70',
-        green: '#22C55E', red: '#EF4444', amber: '#F59E0B',
-        purple: '#8B5CF6', pink: '#EC4899', teal: '#14B8A6',
-        text: isDark ? '#ccd6f6' : '#4B5563',
-        grid: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-        bg: isDark ? '#172a45' : '#FFFFFF',
-        palette: ['#3FA9F5', '#003A70', '#22C55E', '#F59E0B', '#8B5CF6', '#EC4899', '#14B8A6', '#EF4444', '#6366F1', '#0EA5E9']
+        blue: '#0ea5e9', darkBlue: isDark ? '#38bdf8' : '#0369a1',
+        green: '#10b981', red: '#f43f5e', amber: '#f59e0b',
+        purple: '#8b5cf6', pink: '#ec4899', teal: '#14b8a6',
+        text: isDark ? '#f8fafc' : '#334155',
+        grid: isDark ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)',
+        bg: isDark ? 'rgba(15, 23, 42, 0.4)' : 'rgba(255, 255, 255, 0.7)',
+        palette: ['#0ea5e9', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899', '#14b8a6', '#6366f1', '#f43f5e', '#3b82f6', '#84cc16']
     };
 }
 
