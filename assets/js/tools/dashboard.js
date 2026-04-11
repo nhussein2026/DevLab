@@ -9,7 +9,7 @@
 const STATE = {
     files: [],
     unifiedMatrix: null,
-    filters: { period: 'Monthly', currency: 'ALL', accountType: 'ALL' },
+    lastUpdated: null,
     charts: {}
 };
 
@@ -121,9 +121,14 @@ function aggregateData() {
     const strAt = (r, c) => (matrix[r] && matrix[r][c] !== undefined ? String(matrix[r][c]).trim() : '');
 
     // 1. Operations & Currencies (Left Matrix: Cols 0-7)
+    // Header/label keywords to skip — these describe columns, not operations
+    // Exact matches for single-word headers + partial matches for descriptive/calculated rows
+    const headerLabelsExact = /^(المبلغ|العملة|عدد|البيان|النوع|الوصف|الرقم|م|#|ر\.م|التاريخ|ملاحظات|الموظف|اسم الموظف|رقم|العملية)$/i;
+    const headerLabelsPartial = /^(نسبة|نمو|السيولة النقدية)/i;
+
     for (let r = 2; r < matrix.length; r++) {
         const opName = strAt(r, 0);
-        if (!opName) continue;
+        if (!opName || headerLabelsExact.test(opName) || headerLabelsPartial.test(opName)) continue;
         
         // Flexible Grand Total Row Detection
         if (/إجمالي|مجموع|total|sum/i.test(opName) && !/نسبة|نمو/i.test(opName)) {
@@ -365,8 +370,8 @@ function renderCharts(data) {
     if (!data) return;
     renderEmployeeAmountChart(data);
     renderEmployeeCountChart(data);
-    renderDigitalChart(data);
-    renderMonthlyBarChart();
+    renderTopOpsDualChart(data);
+    renderCurrencyBreakdownChart(data);
     renderAccountsPieChart(data);
     renderCardsDonutChart(data);
     renderOpsChannelsChart(data);
@@ -434,30 +439,36 @@ function renderEmployeeCountChart(data) {
     });
 }
 
-function renderDigitalChart(data) {
-    destroyChart('digital');
-    const ctx = document.getElementById('digitalChart');
+function renderTopOpsDualChart(data) {
+    destroyChart('topOpsDual');
+    const ctx = document.getElementById('topOpsDualChart');
     if (!ctx) return;
     const colors = getChartColors();
-    const users = [], amounts = [], counts = [];
+    const ops = [], amounts = [], counts = [];
 
-    (data.digitalChannels || []).forEach(op => {
-        users.push(op.name);
-        amounts.push(op.amount);
+    // Get top 5 operations by count
+    const topOps = (data.allOps || [])
+        .filter(op => !op.isTotal)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5);
+
+    topOps.forEach(op => {
+        ops.push(op.name);
+        amounts.push(op.yer); // Use YER as the primary amount metric
         counts.push(op.count);
     });
 
-    if (users.length === 0) {
-        STATE.charts.digital = new Chart(ctx, { type: 'bar', data: { labels: ['لا توجد بيانات'], datasets: [{ label: 'المبلغ', data: [0], backgroundColor: colors.purple }] } });
+    if (ops.length === 0) {
+        STATE.charts.topOpsDual = new Chart(ctx, { type: 'bar', data: { labels: ['لا توجد بيانات'], datasets: [{ label: 'المبلغ', data: [0], backgroundColor: colors.purple }] } });
         return;
     }
 
-    STATE.charts.digital = new Chart(ctx, {
+    STATE.charts.topOpsDual = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: users,
+            labels: ops,
             datasets: [
-                { type: 'bar', label: 'المبلغ (بالمعادل) | Amount', data: amounts, backgroundColor: colors.purple, borderRadius: 4, yAxisID: 'y' },
+                { type: 'bar', label: 'المبلغ المستحق (يمني) | Amount', data: amounts, backgroundColor: colors.purple, borderRadius: 4, yAxisID: 'y' },
                 { type: 'line', label: 'عدد العمليات | Count', data: counts, borderColor: colors.amber, backgroundColor: colors.amber, fill: false, tension: 0.4, pointRadius: 5, yAxisID: 'y1' }
             ]
         },
@@ -477,17 +488,82 @@ function renderDigitalChart(data) {
     });
 }
 
-function renderMonthlyBarChart() {
-    destroyChart('monthly');
-    const ctx = document.getElementById('monthlyColumnChart');
+function renderCurrencyBreakdownChart(data) {
+    destroyChart('currencyBreakdown');
+    const ctx = document.getElementById('currencyBreakdownChart');
     if (!ctx) return;
     const colors = getChartColors();
-    
-    // Monthly history is obsoleted by unified dashboard snapshot
-    STATE.charts.monthly = new Chart(ctx, {
+
+    // Get operations that have amounts in at least one currency
+    const ops = (data.allOps || [])
+        .filter(op => !op.isTotal && (op.yer > 0 || op.sar > 0 || op.usd > 0))
+        .sort((a, b) => (b.yer + b.sar + b.usd) - (a.yer + a.sar + a.usd))
+        .slice(0, 10);
+
+    const labels = ops.map(op => op.name);
+
+    if (labels.length === 0) {
+        STATE.charts.currencyBreakdown = new Chart(ctx, {
+            type: 'bar',
+            data: { labels: ['لا توجد بيانات'], datasets: [{ label: '-', data: [0], backgroundColor: colors.blue }] },
+            options: { responsive: true, maintainAspectRatio: true }
+        });
+        return;
+    }
+
+    STATE.charts.currencyBreakdown = new Chart(ctx, {
         type: 'bar',
-        data: { labels: ['تطوير'], datasets: [{ label: 'غير مدعوم في هذا التقرير', data: [0], backgroundColor: colors.darkBlue }] },
-        options: { responsive: true, maintainAspectRatio: true }
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'ريال يمني | YER',
+                    data: ops.map(op => op.yer),
+                    backgroundColor: colors.blue,
+                    borderRadius: 4
+                },
+                {
+                    label: 'ريال سعودي | SAR',
+                    data: ops.map(op => op.sar),
+                    backgroundColor: colors.green,
+                    borderRadius: 4
+                },
+                {
+                    label: 'دولار | USD',
+                    data: ops.map(op => op.usd),
+                    backgroundColor: colors.amber,
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    rtl: true,
+                    labels: { color: colors.text, font: { family: "'Cairo','Inter',sans-serif", size: 12 }, padding: 16 }
+                },
+                tooltip: {
+                    rtl: true,
+                    callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.x.toLocaleString()}` }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { color: colors.text, callback: v => formatNumber(v) },
+                    grid: { color: colors.grid }
+                },
+                y: {
+                    stacked: false,
+                    ticks: { color: colors.text, font: { family: "'Cairo'" } },
+                    grid: { display: false }
+                }
+            }
+        }
     });
 }
 
@@ -751,25 +827,147 @@ function expandUploadZone() {
 }
 
 /* ============================================================
-   7. FILTER SLICERS
+   7. QUICK INSIGHTS BAR
    ============================================================ */
 
-function initSlicers() {
-    initSlicerGroup('date-slicer', val => { STATE.filters.period = val; refreshDashboard(); });
-    initSlicerGroup('currency-slicer', val => { STATE.filters.currency = val; refreshDashboard(); });
-    initSlicerGroup('account-type-slicer', val => { STATE.filters.accountType = val; refreshDashboard(); });
+function updateInsightsBar(data) {
+    // Status chip
+    const statusEl = document.getElementById('insight-status-value');
+    const statusChip = document.getElementById('insight-status');
+    if (statusEl && statusChip) {
+        if (STATE.files.length > 0) {
+            statusEl.textContent = 'بيانات نشطة ✓';
+            statusChip.classList.add('active-data');
+        } else {
+            statusEl.textContent = 'في انتظار البيانات';
+            statusChip.classList.remove('active-data');
+        }
+    }
+
+    // Last Updated chip
+    const timeEl = document.getElementById('insight-time-value');
+    if (timeEl) {
+        if (STATE.lastUpdated) {
+            const d = STATE.lastUpdated;
+            const pad = n => String(n).padStart(2, '0');
+            timeEl.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())} — ${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+        } else {
+            timeEl.textContent = '—';
+        }
+    }
+
+    // Source File chip
+    const sourceEl = document.getElementById('insight-source-value');
+    if (sourceEl) {
+        if (STATE.files.length > 0) {
+            const names = STATE.files.map(f => f.fileName).join('، ');
+            sourceEl.textContent = names.length > 60 ? names.substring(0, 57) + '...' : names;
+            sourceEl.title = names;
+        } else {
+            sourceEl.textContent = 'لم يتم رفع ملف';
+            sourceEl.title = '';
+        }
+    }
+
+    // Stats pills
+    const opsEl = document.getElementById('stat-ops-count');
+    const empEl = document.getElementById('stat-emp-count');
+    const filesEl = document.getElementById('stat-file-count');
+    if (opsEl) opsEl.textContent = data ? formatInt(data.totalTxVolume || 0) : '0';
+    if (empEl) empEl.textContent = data ? (data.employees || []).length : '0';
+    if (filesEl) filesEl.textContent = STATE.files.length;
 }
 
-function initSlicerGroup(groupId, onChange) {
-    const group = document.getElementById(groupId);
-    if (!group) return;
-    group.querySelectorAll('.slicer-btn').forEach(btn => {
+/* ============================================================
+   7b. KPI SEARCH & SECTION NAVIGATION
+   ============================================================ */
+
+function initKPISearch() {
+    const input = document.getElementById('kpi-search-input');
+    const clearBtn = document.getElementById('kpi-search-clear');
+    if (!input || !clearBtn) return;
+
+    input.addEventListener('input', () => {
+        const query = input.value.trim().toLowerCase();
+        clearBtn.classList.toggle('hidden', query.length === 0);
+        filterKPICards(query);
+    });
+
+    clearBtn.addEventListener('click', () => {
+        input.value = '';
+        clearBtn.classList.add('hidden');
+        filterKPICards('');
+        input.focus();
+    });
+
+    // Section navigation
+    const navBtns = document.querySelectorAll('.scroll-nav-btn');
+    navBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            group.querySelectorAll('.slicer-btn').forEach(b => b.classList.remove('active'));
+            navBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            onChange(btn.dataset.value);
+            const section = btn.dataset.section;
+            handleSectionNav(section);
         });
     });
+}
+
+function filterKPICards(query) {
+    const cards = document.querySelectorAll('.kpi-card');
+    cards.forEach(card => {
+        if (!query) {
+            card.classList.remove('search-hidden', 'search-highlight');
+            return;
+        }
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+            card.classList.remove('search-hidden');
+            card.classList.add('search-highlight');
+        } else {
+            card.classList.add('search-hidden');
+            card.classList.remove('search-highlight');
+        }
+    });
+}
+
+function handleSectionNav(section) {
+    // Reset search
+    const input = document.getElementById('kpi-search-input');
+    const clearBtn = document.getElementById('kpi-search-clear');
+    if (input) input.value = '';
+    if (clearBtn) clearBtn.classList.add('hidden');
+    filterKPICards('');
+
+    // Scroll to section
+    let target = null;
+    switch (section) {
+        case 'currencies':
+            target = document.getElementById('kpi-yer-total');
+            break;
+        case 'accounts':
+            target = document.getElementById('kpi-new-accounts');
+            break;
+        case 'transfers':
+            target = document.getElementById('kpi-transfers-out');
+            break;
+        case 'charts':
+            target = document.querySelector('.charts-grid');
+            break;
+        case 'all':
+        default:
+            target = document.getElementById('kpi-grid');
+            break;
+    }
+
+    if (target) {
+        const card = target.closest('.kpi-card') || target;
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Brief highlight pulse
+        if (card.classList.contains('kpi-card')) {
+            card.classList.add('search-highlight');
+            setTimeout(() => card.classList.remove('search-highlight'), 1500);
+        }
+    }
 }
 
 /* ============================================================
@@ -777,9 +975,11 @@ function initSlicerGroup(groupId, onChange) {
    ============================================================ */
 
 function refreshDashboard() {
+    STATE.lastUpdated = new Date();
     const data = aggregateData();
     renderKPIs(data);
     renderCharts(data);
+    updateInsightsBar(data);
 }
 
 /* ============================================================
@@ -955,9 +1155,10 @@ function hideLoading() {
 document.addEventListener('DOMContentLoaded', () => {
     hideLoading();
     initUploadZone();
-    initSlicers();
+    initKPISearch();
     initTheme();
     initPDFExport();
     initLogoCustomizer();
     initModals();
+    updateInsightsBar(null);
 });
