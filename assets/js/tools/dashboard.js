@@ -94,10 +94,18 @@ function parseArabicDate(str) {
 function createEmptyResult() {
     return {
         totalDeposits: 0, totalWithdrawals: 0, financingTotal: 0,
-        newAccounts: 0, savingsAccounts: 0, currentAccounts: 0, investmentDeposits: 0,
-        transfersOutCount: 0, transfersOutAmount: 0, transfersInCount: 0, transfersInAmount: 0,
+        depositsYER: 0, depositsSAR: 0, depositsUSD: 0,
+        withdrawalsYER: 0, withdrawalsSAR: 0, withdrawalsUSD: 0,
+        atmWithdrawalsYER: 0, atmWithdrawalsSAR: 0, atmWithdrawalsUSD: 0,
+        savingsAccounts: 0, currentAccounts: 0, investmentDeposits: 0,
+        companyAccounts: 0, guaranteeLetters: 0,
+        transfersOutCount: 0, transfersOutYER: 0, transfersOutSAR: 0, transfersOutUSD: 0,
+        transfersInCount: 0, transfersInYER: 0, transfersInSAR: 0, transfersInUSD: 0,
         cardActivity: 0, cardBreakdown: {}, 
         atmOps: 0, digitalOps: 0, employeeOps: 0,
+        // Digital Operations Breakdown
+        internetBankingCount: 0, internetBankingYER: 0, internetBankingSAR: 0, internetBankingUSD: 0,
+        mobileBankingCount: 0, mobileBankingYER: 0, mobileBankingSAR: 0, mobileBankingUSD: 0,
         yerTotal: 0, sarTotal: 0, usdTotal: 0,
         liquidityYER: 0, liquiditySAR: 0, liquidityUSD: 0,
         employees: [], digitalChannels: [],
@@ -129,13 +137,14 @@ function aggregateData() {
 
     for (let r = 2; r < matrix.length; r++) {
         const opName = strAt(r, 0);
+        const col1Label = strAt(r, 1);
         
-        // Capture Executive Metrics
-        if (/نسبة السحب من الإيداع/i.test(opName)) {
+        // Capture Executive Metrics (labels may be in Col 0 or Col 1)
+        if (/نسبة السحب من الإيداع/i.test(opName) || /نسبة السحب من الإيداع/i.test(col1Label)) {
             res.withdrawalRatio = valAt(r, 2) || valAt(r, 1);
             continue;
         }
-        if (/نمو الحسابات/i.test(opName)) {
+        if (/نمو الحسابات/i.test(opName) || /نمو الحسابات/i.test(col1Label)) {
             res.accountGrowth = valAt(r, 2) || valAt(r, 1);
             continue;
         }
@@ -160,36 +169,69 @@ function aggregateData() {
         res.allOps.push({ name: opName, count: totalCount, yer: yerAmt, sar: sarAmt, usd: usdAmt });
         res.totalTxVolume += totalCount;
 
-        // Comprehensive Inflow/Outflow Categorization
-        if (/إيداع|قبض|وارد|شراء|deposit|receipt|inward|buy/i.test(opName)) {
-            res.totalDeposits += yerAmt;
-        } else if (/سحب|صرف|صادر|بيع|withdraw|payment|outward|sell/i.test(opName)) {
-            res.totalWithdrawals += yerAmt;
+        // Explicit Matching for Main Deposits and Withdrawals (Cells C4/E4/G4 and C3/E3/G3)
+        // This avoids artificially inflating the totals by accidentally mixing in ATM uses or transfers
+        const opNameClean = opName.trim();
+        // Updated regex to account for optional "الـ" prefix on "إيداع"
+        if (/^(ال)?[اإأ]يداع الى الحساب$/i.test(opNameClean)) {
+            res.depositsYER += yerAmt;
+            res.depositsSAR += sarAmt;
+            res.depositsUSD += usdAmt;
+        } else if (/^السحب من الحساب$/i.test(opNameClean)) {
+            res.withdrawalsYER += yerAmt;
+            res.withdrawalsSAR += sarAmt;
+            res.withdrawalsUSD += usdAmt;
+        } else if (/^السحب من الصراف الالي$/i.test(opNameClean) || /^السحب من الصراف الألي$/i.test(opNameClean)) {
+            res.atmWithdrawalsYER += yerAmt;
+            res.atmWithdrawalsSAR += sarAmt;
+            res.atmWithdrawalsUSD += usdAmt;
         }
 
         // Sector KPIs
         if (/حول?ات?\s*صادر|outgoing/i.test(opName)) { 
             res.transfersOutCount += totalCount; 
-            res.transfersOutAmount += yerAmt; 
+            res.transfersOutYER += yerAmt; 
+            res.transfersOutSAR += sarAmt; 
+            res.transfersOutUSD += usdAmt; 
         } else if (/حول?ات?\s*وارد|incoming/i.test(opName)) { 
             res.transfersInCount += totalCount; 
-            res.transfersInAmount += yerAmt; 
+            res.transfersInYER += yerAmt; 
+            res.transfersInSAR += sarAmt; 
+            res.transfersInUSD += usdAmt; 
         }
 
         if (/صراف|atm|cdm/i.test(opName)) {
             res.digitalChannels.push({ name: opName, count: totalCount, amount: yerAmt });
             res.atmOps += totalCount;
-        } else if (/انترنت|تطبيق|mobile|internet/i.test(opName)) {
+        } else if (/انترنت|internet/i.test(opName)) {
             res.digitalChannels.push({ name: opName, count: totalCount, amount: yerAmt });
             res.digitalOps += totalCount;
+            res.internetBankingCount += totalCount;
+            res.internetBankingYER += yerAmt;
+            res.internetBankingSAR += sarAmt;
+            res.internetBankingUSD += usdAmt;
+        } else if (/موبايل|تطبيق|mobile/i.test(opName)) {
+            res.digitalChannels.push({ name: opName, count: totalCount, amount: yerAmt });
+            res.digitalOps += totalCount;
+            res.mobileBankingCount += totalCount;
+            res.mobileBankingYER += yerAmt;
+            res.mobileBankingSAR += sarAmt;
+            res.mobileBankingUSD += usdAmt;
         }
     }
 
-    // 1.5 Treasury Liquidity (Exact Position: Row 20 in unified matrix)
-    // Headers: Col 0: "السيولة النقدية المتاحة بخزينة الفرع", Col 2: YER, Col 3: SAR, Col 5: USD
-    res.liquidityYER = valAt(20, 2);
-    res.liquiditySAR = valAt(20, 3);
-    res.liquidityUSD = valAt(20, 5);
+    // 1.5 Treasury Liquidity (Dynamic: search for header row, values in the next row)
+    // Header label: "السيولة النقدية المتاحة بخزينة الفرع" in Col 0, values in next row
+    for (let r = 0; r < matrix.length; r++) {
+        if (/السيولة النقدية/i.test(strAt(r, 0))) {
+            // Values are in the next row (r+1): Col 2 = YER, Col 3 = SAR, Col 5 = USD
+            res.liquidityYER = valAt(r + 1, 2);
+            res.liquiditySAR = valAt(r + 1, 3);
+            res.liquidityUSD = valAt(r + 1, 5);
+            console.log(`[Aggregate] Liquidity found at row ${r+1}: YER=${res.liquidityYER}, SAR=${res.liquiditySAR}, USD=${res.liquidityUSD}`);
+            break;
+        }
+    }
 
     // 2. Accounts Generation (Top-Right: Row 2, Cols 12-17)
     // Mapping: 12:Murabaha, 13:Savings, 14:Current, 15:Investment, 16:Companies, 17:Guarantees
@@ -319,21 +361,47 @@ function renderKPIs(data) {
     animateValue('kpi-liquidity-sar', data.liquiditySAR, true);
     animateValue('kpi-liquidity-usd', data.liquidityUSD, true);
 
-    animateValue('kpi-total-deposits', data.totalDeposits, true);
-    animateValue('kpi-total-withdrawals', data.totalWithdrawals, true);
+    animateValue('kpi-total-deposits-yer', data.depositsYER, true);
+    animateValue('kpi-total-deposits-sar', data.depositsSAR, true);
+    animateValue('kpi-total-deposits-usd', data.depositsUSD, true);
+
+    animateValue('kpi-total-withdrawals-yer', data.withdrawalsYER, true);
+    animateValue('kpi-total-withdrawals-sar', data.withdrawalsSAR, true);
+    animateValue('kpi-total-withdrawals-usd', data.withdrawalsUSD, true);
+
+    animateValue('kpi-atm-withdrawals-yer', data.atmWithdrawalsYER, true);
+    animateValue('kpi-atm-withdrawals-sar', data.atmWithdrawalsSAR, true);
+    animateValue('kpi-atm-withdrawals-usd', data.atmWithdrawalsUSD, true);
+
     animateValue('kpi-total-financing', data.financingTotal, false);
-    animateValue('kpi-new-accounts', data.newAccounts, false);
+    animateValue('kpi-total-operations', data.totalTxVolume, false);
     animateValue('kpi-savings-accounts', data.savingsAccounts, false);
     animateValue('kpi-current-accounts', data.currentAccounts, false);
     animateValue('kpi-investment-accounts', data.investmentDeposits, false);
+    animateValue('kpi-company-accounts', data.companyAccounts, false);
+    animateValue('kpi-guarantee-letters', data.guaranteeLetters, false);
     animateValue('kpi-transfers-out', data.transfersOutCount, false);
+    animateValue('kpi-transfers-out-yer', data.transfersOutYER, true);
+    animateValue('kpi-transfers-out-sar', data.transfersOutSAR, true);
+    animateValue('kpi-transfers-out-usd', data.transfersOutUSD, true);
+
     animateValue('kpi-transfers-in', data.transfersInCount, false);
+    animateValue('kpi-transfers-in-yer', data.transfersInYER, true);
+    animateValue('kpi-transfers-in-sar', data.transfersInSAR, true);
+    animateValue('kpi-transfers-in-usd', data.transfersInUSD, true);
+
     animateValue('kpi-credit-cards', data.cardActivity, false);
 
-    const outAmtEl = document.getElementById('kpi-transfers-out-amount');
-    if (outAmtEl) outAmtEl.textContent = data.transfersOutAmount ? formatNumber(data.transfersOutAmount) : '';
-    const inAmtEl = document.getElementById('kpi-transfers-in-amount');
-    if (inAmtEl) inAmtEl.textContent = data.transfersInAmount ? formatNumber(data.transfersInAmount) : '';
+    // Digital Operations Breakdown
+    animateValue('kpi-internet-banking-count', data.internetBankingCount, false);
+    animateValue('kpi-internet-banking-yer', data.internetBankingYER, true);
+    animateValue('kpi-internet-banking-sar', data.internetBankingSAR, true);
+    animateValue('kpi-internet-banking-usd', data.internetBankingUSD, true);
+
+    animateValue('kpi-mobile-banking-count', data.mobileBankingCount, false);
+    animateValue('kpi-mobile-banking-yer', data.mobileBankingYER, true);
+    animateValue('kpi-mobile-banking-sar', data.mobileBankingSAR, true);
+    animateValue('kpi-mobile-banking-usd', data.mobileBankingUSD, true);
 }
 
 function animateValue(id, endVal, isCurrency) {
