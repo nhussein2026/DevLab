@@ -1301,10 +1301,130 @@ function initPDFExport() {
         btn.title = 'جاري التصدير...';
         try {
             const container = document.getElementById('dashboard-container');
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            // Resolve the actual background color for the PDF
+            const bodyBg = isDark ? '#020617' : '#f1f5f9';
+
             const canvas = await html2canvas(container, {
-                scale: 2, useCORS: true,
-                backgroundColor: getComputedStyle(document.body).backgroundColor
+                scale: 2,
+                useCORS: true,
+                backgroundColor: bodyBg,
+                logging: false,
+                // The onclone callback runs on a CLONED copy of the DOM
+                // We use it to resolve all CSS variables into concrete values
+                // so html2canvas can render them correctly
+                onclone: (clonedDoc) => {
+                    const clonedRoot = clonedDoc.documentElement;
+                    const clonedBody = clonedDoc.body;
+                    
+                    // Preserve dark class on cloned document
+                    if (isDark) {
+                        clonedRoot.classList.add('dark');
+                    }
+                    
+                    // Set solid background on body (gradients don't render well)
+                    clonedBody.style.background = bodyBg;
+                    clonedBody.style.backgroundColor = bodyBg;
+                    
+                    // Get all elements in the cloned DOM and resolve their computed styles
+                    const allElements = clonedDoc.querySelectorAll('*');
+                    
+                    allElements.forEach(el => {
+                        const computed = getComputedStyle(el);
+                        const bgColor = computed.backgroundColor;
+                        const color = computed.color;
+                        const borderColor = computed.borderColor;
+                        const borderTopColor = computed.borderTopColor;
+                        const borderRightColor = computed.borderRightColor;
+                        const borderBottomColor = computed.borderBottomColor;
+                        const borderLeftColor = computed.borderLeftColor;
+                        
+                        // Resolve semi-transparent backgrounds to solid colors
+                        // html2canvas struggles with rgba on dark backgrounds
+                        if (bgColor && bgColor !== 'transparent' && bgColor !== 'rgba(0, 0, 0, 0)') {
+                            const solidBg = resolveRGBA(bgColor, bodyBg);
+                            el.style.backgroundColor = solidBg;
+                        }
+                        
+                        // Ensure text colors are resolved
+                        if (color) {
+                            el.style.color = color;
+                        }
+                        
+                        // Resolve border colors
+                        if (borderTopColor) el.style.borderTopColor = borderTopColor;
+                        if (borderRightColor) el.style.borderRightColor = borderRightColor;
+                        if (borderBottomColor) el.style.borderBottomColor = borderBottomColor;
+                        if (borderLeftColor) el.style.borderLeftColor = borderLeftColor;
+                        
+                        // Remove backdrop-filter (html2canvas can't render it)
+                        el.style.backdropFilter = 'none';
+                        el.style.webkitBackdropFilter = 'none';
+                        
+                        // Remove transitions/animations (not needed for static capture)
+                        el.style.transition = 'none';
+                        el.style.animation = 'none';
+                        
+                        // Resolve background gradients on specific elements
+                        const bg = computed.background;
+                        if (bg && bg.includes('gradient')) {
+                            // For cards in dark mode, use solid dark background
+                            if (el.classList.contains('kpi-card') || 
+                                el.classList.contains('chart-card') ||
+                                el.classList.contains('insight-chip') ||
+                                el.classList.contains('insights-bar') ||
+                                el.classList.contains('table-card')) {
+                                el.style.background = isDark ? '#0f172a' : '#ffffff';
+                                el.style.backgroundColor = isDark ? '#0f172a' : '#ffffff';
+                            }
+                        }
+                    });
+                    
+                    // Force KPI cards to have solid backgrounds
+                    clonedDoc.querySelectorAll('.kpi-card, .chart-card, .insight-chip, .insights-bar, .modal-content, .table-card').forEach(el => {
+                        if (isDark) {
+                            el.style.backgroundColor = '#0f172a';
+                            el.style.background = '#0f172a';
+                        } else {
+                            el.style.backgroundColor = '#ffffff';
+                            el.style.background = '#ffffff';
+                        }
+                        el.style.backdropFilter = 'none';
+                        el.style.webkitBackdropFilter = 'none';
+                    });
+                    
+                    // Fix chart headers
+                    clonedDoc.querySelectorAll('.chart-header').forEach(el => {
+                        el.style.background = 'linear-gradient(90deg, #0369a1, #004A8D)';
+                    });
+
+                    // Fix section titles
+                    clonedDoc.querySelectorAll('.section-title').forEach(el => {
+                        el.style.color = isDark ? '#f8fafc' : '#0f172a';
+                    });
+
+                    // Fix finding cards
+                    clonedDoc.querySelectorAll('.finding-card').forEach(el => {
+                        el.style.backgroundColor = isDark ? '#0f172a' : '#ffffff';
+                        el.style.backdropFilter = 'none';
+                    });
+                    
+                    // Fix summary table
+                    clonedDoc.querySelectorAll('.summary-table th').forEach(el => {
+                        el.style.backgroundColor = isDark ? '#1e293b' : '#f1f5f9';
+                        el.style.color = isDark ? '#f8fafc' : '#0f172a';
+                    });
+                    clonedDoc.querySelectorAll('.summary-table td').forEach(el => {
+                        el.style.color = isDark ? '#cbd5e1' : '#334155';
+                        el.style.borderColor = isDark ? '#334155' : '#e2e8f0';
+                    });
+                    clonedDoc.querySelectorAll('.total-row td').forEach(el => {
+                        el.style.backgroundColor = isDark ? '#1e293b' : '#f8fafc';
+                    });
+                }
             });
+
             const { jsPDF } = window.jspdf;
             const imgData = canvas.toDataURL('image/png');
             const pdfW = canvas.width * 0.264583;
@@ -1319,6 +1439,40 @@ function initPDFExport() {
         btn.disabled = false;
         btn.title = 'حفظ PDF';
     });
+}
+
+/**
+ * Blends an RGBA color against a solid background color.
+ * html2canvas can't properly composite semi-transparent colors on dark backgrounds,
+ * so we pre-compute the result as a solid RGB color.
+ */
+function resolveRGBA(rgbaStr, bgColorStr) {
+    // Parse rgba(r, g, b, a) or rgb(r, g, b)
+    const rgba = rgbaStr.match(/[\d.]+/g);
+    if (!rgba || rgba.length < 3) return rgbaStr;
+    
+    const r = parseInt(rgba[0]);
+    const g = parseInt(rgba[1]);
+    const b = parseInt(rgba[2]);
+    const a = rgba.length >= 4 ? parseFloat(rgba[3]) : 1;
+    
+    if (a >= 0.99) return rgbaStr; // Already opaque, no blending needed
+    
+    // Parse background color
+    let bgR = 255, bgG = 255, bgB = 255;
+    if (bgColorStr.startsWith('#')) {
+        const hex = bgColorStr.replace('#', '');
+        bgR = parseInt(hex.substring(0, 2), 16);
+        bgG = parseInt(hex.substring(2, 4), 16);
+        bgB = parseInt(hex.substring(4, 6), 16);
+    }
+    
+    // Alpha composite: result = fg * alpha + bg * (1 - alpha)
+    const outR = Math.round(r * a + bgR * (1 - a));
+    const outG = Math.round(g * a + bgG * (1 - a));
+    const outB = Math.round(b * a + bgB * (1 - a));
+    
+    return `rgb(${outR}, ${outG}, ${outB})`;
 }
 
 /* ============================================================
