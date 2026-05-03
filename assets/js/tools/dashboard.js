@@ -1306,11 +1306,25 @@ function initPDFExport() {
             // Resolve the actual background color for the PDF
             const bodyBg = isDark ? '#020617' : '#f1f5f9';
 
+            // Temporarily expand the container to ensure all content is visible
+            const origMaxHeight = container.style.maxHeight;
+            const origOverflow = container.style.overflow;
+            container.style.maxHeight = 'none';
+            container.style.overflow = 'visible';
+
+            // Ensure all scrollable areas within are fully visible
+            container.querySelectorAll('.table-responsive').forEach(el => {
+                el.style.overflow = 'visible';
+                el.style.maxHeight = 'none';
+            });
+
             const canvas = await html2canvas(container, {
                 scale: 2,
                 useCORS: true,
                 backgroundColor: bodyBg,
                 logging: false,
+                windowWidth: container.scrollWidth,
+                windowHeight: container.scrollHeight,
                 // The onclone callback runs on a CLONED copy of the DOM
                 // We use it to resolve all CSS variables into concrete values
                 // so html2canvas can render them correctly
@@ -1326,6 +1340,28 @@ function initPDFExport() {
                     // Set solid background on body (gradients don't render well)
                     clonedBody.style.background = bodyBg;
                     clonedBody.style.backgroundColor = bodyBg;
+
+                    // Expand the cloned container fully
+                    const clonedContainer = clonedDoc.getElementById('dashboard-container');
+                    if (clonedContainer) {
+                        clonedContainer.style.maxHeight = 'none';
+                        clonedContainer.style.overflow = 'visible';
+                        clonedContainer.style.height = 'auto';
+                    }
+
+                    // Ensure hidden sections are shown for PDF capture
+                    clonedDoc.querySelectorAll('.hidden').forEach(el => {
+                        // Don't show modals, only show data sections
+                        if (el.classList.contains('modal-overlay')) return;
+                        if (el.id === 'loading-indicator') return;
+                        if (el.id === 'kpi-search-clear') return;
+                    });
+
+                    // Expand all scrollable areas
+                    clonedDoc.querySelectorAll('.table-responsive').forEach(el => {
+                        el.style.overflow = 'visible';
+                        el.style.maxHeight = 'none';
+                    });
                     
                     // Get all elements in the cloned DOM and resolve their computed styles
                     const allElements = clonedDoc.querySelectorAll('*');
@@ -1334,7 +1370,6 @@ function initPDFExport() {
                         const computed = getComputedStyle(el);
                         const bgColor = computed.backgroundColor;
                         const color = computed.color;
-                        const borderColor = computed.borderColor;
                         const borderTopColor = computed.borderTopColor;
                         const borderRightColor = computed.borderRightColor;
                         const borderBottomColor = computed.borderBottomColor;
@@ -1425,12 +1460,81 @@ function initPDFExport() {
                 }
             });
 
+            // Restore original styles
+            container.style.maxHeight = origMaxHeight;
+            container.style.overflow = origOverflow;
+            container.querySelectorAll('.table-responsive').forEach(el => {
+                el.style.overflow = '';
+                el.style.maxHeight = '';
+            });
+
+            // Generate multi-page A4 PDF
             const { jsPDF } = window.jspdf;
-            const imgData = canvas.toDataURL('image/png');
-            const pdfW = canvas.width * 0.264583;
-            const pdfH = canvas.height * 0.264583;
-            const pdf = new jsPDF({ orientation: pdfW > pdfH ? 'landscape' : 'portrait', unit: 'mm', format: [pdfW, pdfH] });
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfW, pdfH);
+            
+            // A4 dimensions in mm
+            const a4W = 210;
+            const a4H = 297;
+            const margin = 10;
+            const contentW = a4W - (margin * 2);
+            const contentH = a4H - (margin * 2);
+            
+            // Calculate the scale to fit canvas width into A4 content width
+            const imgWidthMM = canvas.width * 0.264583;  // px to mm at 96dpi
+            const scaleFactor = contentW / imgWidthMM;
+            const scaledHeightMM = canvas.height * 0.264583 * scaleFactor;
+            
+            // How many pages do we need?
+            const totalPages = Math.ceil(scaledHeightMM / contentH);
+            
+            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            
+            for (let page = 0; page < totalPages; page++) {
+                if (page > 0) pdf.addPage();
+                
+                // Calculate the source slice from the canvas
+                const sliceTopPx = (page * contentH / scaleFactor) / 0.264583;
+                const sliceHeightPx = Math.min(
+                    (contentH / scaleFactor) / 0.264583,
+                    canvas.height - sliceTopPx
+                );
+                
+                if (sliceHeightPx <= 0) break;
+                
+                // Create a temporary canvas for this page slice
+                const pageCanvas = document.createElement('canvas');
+                pageCanvas.width = canvas.width;
+                pageCanvas.height = Math.ceil(sliceHeightPx);
+                const ctx = pageCanvas.getContext('2d');
+                
+                // Fill background
+                const bgHex = isDark ? '#020617' : '#f1f5f9';
+                ctx.fillStyle = bgHex;
+                ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+                
+                // Draw the slice from the full canvas
+                ctx.drawImage(
+                    canvas,
+                    0, Math.floor(sliceTopPx),                    // source x, y
+                    canvas.width, Math.ceil(sliceHeightPx),       // source w, h
+                    0, 0,                                          // dest x, y
+                    canvas.width, Math.ceil(sliceHeightPx)        // dest w, h
+                );
+                
+                const pageImgData = pageCanvas.toDataURL('image/png');
+                const drawH = Math.min(contentH, sliceHeightPx * 0.264583 * scaleFactor);
+                
+                pdf.addImage(pageImgData, 'PNG', margin, margin, contentW, drawH);
+                
+                // Add page number footer
+                pdf.setFontSize(8);
+                pdf.setTextColor(150, 150, 150);
+                pdf.text(
+                    `Page ${page + 1} / ${totalPages}  •  Branch Productivity Dashboard`,
+                    a4W / 2, a4H - 5,
+                    { align: 'center' }
+                );
+            }
+            
             pdf.save('branch-dashboard.pdf');
         } catch (err) {
             console.error('PDF export error:', err);
